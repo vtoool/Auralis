@@ -37,6 +37,13 @@ const ThemePicker: React.FC = () => {
       >
         {t('theme.vibrant')}
       </button>
+      <button
+        onClick={() => setThemeName('ember')}
+        className={`w-full text-left block px-4 py-2 text-sm transition-colors duration-200 ${themeName === 'ember' ? 'bg-primary-light font-semibold text-primary' : 'text-text-primary'} hover:bg-border-color`}
+        role="menuitem"
+      >
+        {t('theme.ember')}
+      </button>
     </Dropdown>
   );
 };

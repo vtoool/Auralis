@@ -10,6 +10,7 @@ export const translations = {
     theme: {
       serene: "Serene",
       vibrant: "Vibrant",
+      ember: "Ember",
       select: "Select Theme",
     },
     hero: {
@@ -67,6 +68,7 @@ export const translations = {
     theme: {
       serene: "Seren",
       vibrant: "Vibrant",
+      ember: "Jăratec",
       select: "Selectează Tema",
     },
     hero: {
@@ -124,6 +126,7 @@ export const translations = {
     theme: {
       serene: "Безмятежность",
       vibrant: "Яркость",
+      ember: "Эмбер",
       select: "Выберите Тему",
     },
     hero: {

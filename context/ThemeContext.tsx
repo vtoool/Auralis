@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type ThemeVariant = 'light' | 'dark';
-type ThemeName = 'serene' | 'vibrant';
+type ThemeName = 'serene' | 'vibrant' | 'ember';
 
 interface ThemeContextType {
   themeName: ThemeName;
@@ -36,7 +36,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const html = document.documentElement;
 
     // Remove old theme names to avoid conflicts
-    html.classList.remove('theme-serene', 'theme-vibrant');
+    html.classList.remove('theme-serene', 'theme-vibrant', 'theme-ember');
     // Add current theme name
     html.classList.add(`theme-${themeName}`);
 
