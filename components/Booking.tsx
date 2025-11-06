@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { TimeSlot } from '../types';
 import AnimatedSection from './AnimatedSection';
+import { supabase } from '../src/services/supabaseClient';
 
 const generateTimeSlots = (startHour: number, endHour: number): TimeSlot[] => {
   const slots: TimeSlot[] = [];
@@ -55,23 +56,36 @@ const Booking: React.FC = () => {
     setSelectedTime(null);
   }
 
-  const handleBooking = (e: React.FormEvent) => {
+  const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !selectedTime) {
       setAlert({ type: 'error', message: t('booking.formAlert') });
       return;
     }
-    // TODO: Send data to Supabase backend
-    const successMessage = t('booking.successAlert', {
-      name,
-      date: selectedDate.toLocaleDateString(locale),
-      time: selectedTime,
-      email,
-    });
-    setAlert({ type: 'success', message: successMessage });
-    setName('');
-    setEmail('');
-    setSelectedTime(null);
+    
+    const { error } = await supabase
+      .from('appointments')
+      .insert([{ 
+        name, 
+        email, 
+        date: selectedDate.toISOString().split('T')[0], // Format to YYYY-MM-DD
+        time: selectedTime 
+      }]);
+
+    if (error) {
+      setAlert({ type: 'error', message: `Booking failed: ${error.message}` });
+    } else {
+      const successMessage = t('booking.successAlert', {
+        name,
+        date: selectedDate.toLocaleDateString(locale),
+        time: selectedTime,
+        email,
+      });
+      setAlert({ type: 'success', message: successMessage });
+      setName('');
+      setEmail('');
+      setSelectedTime(null);
+    }
   };
 
   const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
