@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="light theme-serene">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auralis - Spiritual Wellness Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script type="importmap">
+  {
+    "imports": {
+      "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+      "react/": "https://aistudiocdn.com/react@^19.2.0/",
+      "react": "https://aistudiocdn.com/react@^19.2.0"
+    }
+  }
+  </script>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            serif: ['Lora', 'serif'],
+          },
+          colors: {
+            'background': 'rgb(var(--color-background) / <alpha-value>)',
+            'card-background': 'rgb(var(--color-card-background) / <alpha-value>)',
+            'primary': 'rgb(var(--color-primary) / <alpha-value>)',
+            'primary-light': 'rgb(var(--color-primary-light) / <alpha-value>)',
+            'primary-foreground': 'rgb(var(--color-primary-foreground) / <alpha-value>)',
+            'accent': 'rgb(var(--color-accent) / <alpha-value>)',
+            'accent-foreground': 'rgb(var(--color-accent-foreground) / <alpha-value>)',
+            'text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
+            'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
+            'border-color': 'rgb(var(--color-border-color) / <alpha-value>)',
+          },
+          boxShadow: {
+            'elegant': '0 10px 15px -3px rgb(var(--color-shadow-primary) / 0.07), 0 4px 6px -4px rgb(var(--color-shadow-primary) / 0.06)',
+            'elegant-lg': '0 20px 25px -5px rgb(var(--color-shadow-primary) / 0.08), 0 8px 10px -6px rgb(var(--color-shadow-primary) / 0.07)',
+          },
+          keyframes: {
+            'subtle-glow': {
+                '0%, 100%': { boxShadow: '0 0 10px 0px rgb(var(--color-accent) / 0)' },
+                '50%': { boxShadow: '0 0 20px 5px rgb(var(--color-accent) / 0.3)' },
+            },
+            'bounce': {
+              '0%, 100%': {
+                transform: 'translateY(-15%)',
+                animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+              },
+              '50%': {
+                transform: 'translateY(0)',
+                animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+              }
+            }
+          },
+          animation: {
+            'subtle-glow': 'subtle-glow 4s ease-in-out infinite',
+            'bounce': 'bounce 1.5s infinite',
+          }
+        },
+      },
+    }
+  </script>
+
+  <style>
+    /* Serene theme variables (Light) */
+    .theme-serene {
+      --color-background: 255 255 255;
+      --color-card-background: 255 255 255;
+      --color-primary: 95 62 138; /* A deep purple */
+      --color-primary-light: 243 237 249; /* Light purple tint */
+      --color-primary-foreground: 255 255 255;
+      --color-accent: 216 180 254; /* A soft lavender */
+      --color-accent-foreground: 49 24 78;
+      --color-text-primary: 31 41 55;
+      --color-text-secondary: 75 85 99;
+      --color-border-color: 229 231 235;
+      --color-shadow-primary: 95 62 138;
+    }
+
+    /* Serene theme variables (Dark) */
+    .dark.theme-serene {
+      --color-background: 24 24 27; /* Zinc 900 */
+      --color-card-background: 39 39 42; /* Zinc 800 */
+      --color-primary: 192 132 252; /* Purple 400 */
+      --color-primary-light: 40 33 49;
+      --color-primary-foreground: 17 24 39;
+      --color-accent: 125 76 179;
+      --color-accent-foreground: 243 237 249;
+      --color-text-primary: 243 244 246;
+      --color-text-secondary: 156 163 175;
+      --color-border-color: 63 63 70; /* Zinc 700 */
+      --color-shadow-primary: 192 132 252;
+    }
+
+    /* Vibrant theme variables (Light) */
+    .theme-vibrant {
+        --color-background: 249 250 251; /* Gray 50 */
+        --color-card-background: 255 255 255;
+        --color-primary: 67 56 202; /* Indigo 700 */
+        --color-primary-light: 238 242 255; /* Indigo 100 */
+        --color-primary-foreground: 255 255 255;
+        --color-accent: 245 158 11; /* Amber 500 */
+        --color-accent-foreground: 255 255 255;
+        --color-text-primary: 17 24 39;
+        --color-text-secondary: 55 65 81;
+        --color-border-color: 224 231 255; /* Indigo 200 */
+        --color-shadow-primary: 67 56 202;
+    }
+
+    /* Vibrant theme variables (Dark) */
+    .dark.theme-vibrant {
+        --color-background: 30 41 59; /* Slate 800 */
+        --color-card-background: 51 65 85; /* Slate 700 */
+        --color-primary: 165 180 252; /* Indigo 300 */
+        --color-primary-light: 40 52 74;
+        --color-primary-foreground: 30 41 59;
+        --color-accent: 251 191 36; /* Amber 400 */
+        --color-accent-foreground: 30 41 59;
+        --color-text-primary: 226 232 240; /* Slate 200 */
+        --color-text-secondary: 148 163 184; /* Slate 400 */
+        --color-border-color: 71 85 105; /* Slate 600 */
+        --color-shadow-primary: 165 180 252;
+    }
+    
+    body {
+      background-image:
+        radial-gradient(circle at 1px 1px, rgb(var(--color-border-color) / 0.2) 1px, transparent 0);
+      background-size: 2rem 2rem;
+    }
+
+    /* Custom scrollbar for better aesthetics */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgb(var(--color-background));
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(var(--color-border-color));
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: rgb(var(--color-primary) / 0.5);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+  </style>
+
+</head>
+<body class="bg-background">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
