@@ -18,15 +18,11 @@ function App() {
           <Header />
           <main>
             <Hero />
-            <AnimatedSection>
-              <Courses />
-            </AnimatedSection>
+            <Courses />
             <AnimatedSection>
               <Testimonials />
             </AnimatedSection>
-            <AnimatedSection>
-              <Booking />
-            </AnimatedSection>
+            <Booking />
             <AnimatedSection>
               <Contact />
             </AnimatedSection>

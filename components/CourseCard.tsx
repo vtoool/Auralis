@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Course } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -16,7 +15,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   };
 
   return (
-    <div className="bg-card-background rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row group transition-all duration-300 hover:shadow-2xl hover:scale-105">
+    <div className="bg-card-background rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row group transition-all duration-300 hover:shadow-2xl hover:scale-105 h-full">
       <div className="md:w-1/3">
         <img
           src={course.imageUrl}

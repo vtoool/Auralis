@@ -25,15 +25,36 @@ const Header: React.FC = () => {
     { href: '#contact', label: t('header.contact') },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetId = e.currentTarget.getAttribute('href')?.substring(1);
+    if (targetId) {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const headerOffset = targetId === 'hero' ? 0 : 80; // 80px for h-20 header
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMenuOpen ? 'bg-background shadow-md' : 'bg-transparent'
+        isScrolled || isMenuOpen
+          ? 'bg-background/100 shadow-md'
+          : 'bg-background/80 backdrop-blur-sm'
       }`}
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-20">
-          <a href="#hero" aria-label="Auralis homepage">
+          <a href="#hero" aria-label="Auralis homepage" onClick={handleNavClick}>
             <Logo />
           </a>
 
@@ -42,6 +63,7 @@ const Header: React.FC = () => {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={handleNavClick}
                 className="text-text-primary font-medium hover:text-primary transition-colors duration-300"
               >
                 {link.label}
@@ -53,6 +75,7 @@ const Header: React.FC = () => {
             <div className="hidden md:block">
                <a
                 href="#booking"
+                onClick={handleNavClick}
                 className="px-5 py-2 text-sm font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-sm"
               >
                 {t('header.getStarted')}
@@ -96,14 +119,20 @@ const Header: React.FC = () => {
                 key={link.href}
                 href={link.href}
                 className="text-text-primary font-medium hover:text-primary transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  handleNavClick(e);
+                  setIsMenuOpen(false);
+                }}
               >
                 {link.label}
               </a>
             ))}
              <a
                 href="#booking"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  handleNavClick(e);
+                  setIsMenuOpen(false);
+                }}
                 className="px-6 py-3 text-md font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-md"
               >
                 {t('header.getStarted')}

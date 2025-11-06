@@ -6,6 +6,24 @@ const Footer: React.FC = () => {
     const { t } = useLanguage();
     const currentYear = new Date().getFullYear();
 
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        const targetId = e.currentTarget.getAttribute('href')?.substring(1);
+        if (targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const headerOffset = 80; // Corresponds to h-20 in Tailwind
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    };
+
     return (
         <footer className="bg-primary-light border-t border-border-color">
             <div className="container mx-auto px-6 py-12">
@@ -18,9 +36,9 @@ const Footer: React.FC = () => {
                     <div>
                         <h4 className="font-semibold text-primary mb-4">Links</h4>
                         <ul className="space-y-2">
-                            <li><a href="#courses" className="text-text-secondary hover:text-primary">{t('footer.courses')}</a></li>
+                            <li><a href="#courses" onClick={handleNavClick} className="text-text-secondary hover:text-primary">{t('footer.courses')}</a></li>
                             <li><a href="#about" className="text-text-secondary hover:text-primary">{t('footer.about')}</a></li>
-                            <li><a href="#contact" className="text-text-secondary hover:text-primary">{t('footer.contact')}</a></li>
+                            <li><a href="#contact" onClick={handleNavClick} className="text-text-secondary hover:text-primary">{t('footer.contact')}</a></li>
                         </ul>
                     </div>
 

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
 
-const AnimatedSection: React.FC<{ children: ReactNode; className?: string }> = ({ children, className }) => {
+const AnimatedSection: React.FC<{ children: ReactNode; className?: string; delay?: number }> = ({ children, className, delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +37,7 @@ const AnimatedSection: React.FC<{ children: ReactNode; className?: string }> = (
       className={`${className || ''} transition-all duration-1000 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

@@ -3,11 +3,13 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import Dropdown from './Dropdown';
 
-const PaletteIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M17.293 3.293a1 1 0 011.414 0l.001.001a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.243-1.243l1-3a1 1 0 01.242-.39l9-9zM19 10a1 1 0 00-1-1h-4a1 1 0 100 2h4a1 1 0 001-1z" />
+const SwatchesIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8.5 2H19a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2z"/>
+        <path d="M4.5 2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8.5"/>
     </svg>
 );
+
 
 const ThemePicker: React.FC = () => {
   const { themeName, setThemeName } = useTheme();
@@ -15,7 +17,7 @@ const ThemePicker: React.FC = () => {
 
   const trigger = (
     <button className="p-2 rounded-full text-primary hover:bg-primary/10 dark:text-accent dark:hover:bg-accent/10 transition-colors duration-300" aria-label={t('theme.select')}>
-      <PaletteIcon />
+      <SwatchesIcon />
     </button>
   );
 

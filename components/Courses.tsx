@@ -2,6 +2,30 @@ import React from 'react';
 import type { Course } from '../types';
 import CourseCard from './CourseCard';
 import { useLanguage } from '../context/LanguageContext';
+import AnimatedSection from './AnimatedSection';
+
+const useMediaQuery = (query: string): boolean => {
+    const [matches, setMatches] = React.useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.matchMedia(query).matches;
+        }
+        return false;
+    });
+
+    React.useEffect(() => {
+        const media = window.matchMedia(query);
+        const listener = (event: MediaQueryListEvent) => setMatches(event.matches);
+        
+        if (media.matches !== matches) {
+          setMatches(media.matches);
+        }
+
+        media.addEventListener('change', listener);
+        return () => media.removeEventListener('change', listener);
+    }, [query, matches]);
+
+    return matches;
+};
 
 const mockCourses: Course[] = [
   {
@@ -44,6 +68,7 @@ const mockCourses: Course[] = [
 
 const Courses: React.FC = () => {
   const { t } = useLanguage();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   // TODO: Replace mockCourses with data fetched from your Supabase backend.
   // Example:
   // const [courses, setCourses] = useState<Course[]>([]);
@@ -58,14 +83,21 @@ const Courses: React.FC = () => {
   return (
     <section id="courses" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-serif font-bold text-primary">{t('courses.title')}</h2>
-          <p className="text-lg text-text-secondary mt-2 max-w-2xl mx-auto">{t('courses.subtitle')}</p>
-        </div>
+        <AnimatedSection>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-serif font-bold text-primary">{t('courses.title')}</h2>
+            <p className="text-lg text-text-secondary mt-2 max-w-2xl mx-auto">{t('courses.subtitle')}</p>
+          </div>
+        </AnimatedSection>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-4xl mx-auto">
-          {mockCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
-          ))}
+          {mockCourses.map((course, index) => {
+            const delay = isDesktop ? Math.floor(index / 2) * 200 : index * 150;
+            return (
+              <AnimatedSection key={course.id} delay={delay}>
+                <CourseCard course={course} />
+              </AnimatedSection>
+            );
+          })}
         </div>
       </div>
     </section>
