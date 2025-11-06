@@ -9,7 +9,6 @@ import Footer from './components/Footer';
 import AnimatedSection from './components/AnimatedSection';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
-import BackendGuide from './components/BackendGuide';
 
 function App() {
   return (
@@ -24,9 +23,6 @@ function App() {
               <Testimonials />
             </AnimatedSection>
             <Booking />
-            <AnimatedSection>
-                <BackendGuide />
-            </AnimatedSection>
             <AnimatedSection>
               <Contact />
             </AnimatedSection>
