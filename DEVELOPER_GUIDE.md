@@ -98,105 +98,110 @@ Resend is a modern email API for developers. We'll use it to send booking confir
 
 We'll write a serverless function to handle the logic of sending emails.
 
-### Step 1: Install Supabase CLI
+### Step 1: Using the Supabase CLI
 
-Follow the official guide to [install the Supabase CLI](https://supabase.com/docs/guides/cli) on your machine.
+You can run the Supabase CLI without a global installation by prefixing every command with `npx`. This is the recommended approach for this development environment. Alternatively, you can follow the official guide to [install the Supabase CLI](https://supabase.com/docs/guides/cli) globally. This guide will assume you are using `npx`.
 
 ### Step 2: Initialize Supabase Project
 
 In your project's root directory, log in and link your project:
 ```bash
-supabase login
-supabase link --project-ref YOUR_PROJECT_ID
+npx supabase login
+npx supabase link --project-ref YOUR_PROJECT_ID
 ```
 (Find `YOUR_PROJECT_ID` in your Supabase project's URL: `https://app.supabase.com/project/YOUR_PROJECT_ID`).
 
 ### Step 3: Create the Edge Function
 
-1.  Create a new function:
-    ```bash
-    supabase functions new send-booking-emails
-    ```
-    This creates a folder `supabase/functions/send-booking-emails`.
+#### Prerequisite: Install Deno
 
-2.  Replace the contents of `supabase/functions/send-booking-emails/index.ts` with the following code:
-    ```typescript
-    import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+Supabase Edge Functions run on the Deno runtime. The first time you run a functions command (like the one below), the Supabase CLI will ask for permission to install Deno. **You must press `Y` and Enter to continue.** Deno is required.
 
-    // NOTE: In a real project, you should use a proper email templating library
-    // to build more robust and beautiful emails.
+#### 1. Create the function:
+```bash
+npx supabase functions new send-booking-emails
+```
+This creates a folder `supabase/functions/send-booking-emails`.
 
-    const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-    const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL') // Your email address
-    const FROM_EMAIL = 'Auralis Wellness <hello@your-verified-domain.com>' // Use your verified domain
+#### 2. Add function code:
+Replace the contents of `supabase/functions/send-booking-emails/index.ts` with the following code:
+```typescript
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
-    serve(async (req) => {
-      // This function is designed to be triggered by a Supabase Webhook.
-      // The webhook payload has a 'record' property containing the new appointment.
-      const { record } = await req.json();
+// NOTE: In a real project, you should use a proper email templating library
+// to build more robust and beautiful emails.
 
-      try {
-        // 1. Email to the Customer
-        const customerResponse = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: FROM_EMAIL,
-            to: record.email,
-            subject: 'Your Appointment is Confirmed!',
-            html: `<h1>Hi ${record.name},</h1><p>Your session with Alice is confirmed for <strong>${record.date}</strong> at <strong>${record.time}</strong>.</p><p>We look forward to seeing you!</p>`,
-          }),
-        });
-        const customerData = await customerResponse.json();
-        if (!customerResponse.ok) throw new Error(customerData.message);
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL') // Your email address
+const FROM_EMAIL = 'Auralis Wellness <hello@your-verified-domain.com>' // Use your verified domain
 
-        // 2. Notification Email to the Owner
-        const ownerResponse = await fetch('https://api.resend.com/emails', {
-           method: 'POST',
-           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${RESEND_API_KEY}`,
-           },
-           body: JSON.stringify({
-            from: FROM_EMAIL,
-            to: OWNER_EMAIL,
-            subject: `New Appointment with ${record.name}`,
-            html: `<p>A new appointment has been booked:</p><ul><li><strong>Name:</strong> ${record.name}</li><li><strong>Email:</strong> ${record.email}</li><li><strong>Date:</strong> ${record.date}</li><li><strong>Time:</strong> ${record.time}</li></ul>`,
-           })
-        });
-        const ownerData = await ownerResponse.json();
-        if (!ownerResponse.ok) throw new Error(ownerData.message);
+serve(async (req) => {
+  // This function is designed to be triggered by a Supabase Webhook.
+  // The webhook payload has a 'record' property containing the new appointment.
+  const { record } = await req.json();
 
-
-        return new Response(JSON.stringify({ message: "Emails sent successfully" }), {
-          headers: { 'Content-Type': 'application/json' },
-          status: 200,
-        });
-
-      } catch (error) {
-        console.error('Error sending email:', error);
-        return new Response(JSON.stringify({ error: error.message }), {
-          headers: { 'Content-Type': 'application/json' },
-          status: 500,
-        });
-      }
+  try {
+    // 1. Email to the Customer
+    const customerResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: record.email,
+        subject: 'Your Appointment is Confirmed!',
+        html: `<h1>Hi ${record.name},</h1><p>Your session with Alice is confirmed for <strong>${record.date}</strong> at <strong>${record.time}</strong>.</p><p>We look forward to seeing you!</p>`,
+      }),
     });
-    ```
+    const customerData = await customerResponse.json();
+    if (!customerResponse.ok) throw new Error(customerData.message);
+
+    // 2. Notification Email to the Owner
+    const ownerResponse = await fetch('https://api.resend.com/emails', {
+       method: 'POST',
+       headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+       },
+       body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: OWNER_EMAIL,
+        subject: `New Appointment with ${record.name}`,
+        html: `<p>A new appointment has been booked:</p><ul><li><strong>Name:</strong> ${record.name}</li><li><strong>Email:</strong> ${record.email}</li><li><strong>Date:</strong> ${record.date}</li><li><strong>Time:</strong> ${record.time}</li></ul>`,
+       })
+    });
+    const ownerData = await ownerResponse.json();
+    if (!ownerResponse.ok) throw new Error(ownerData.message);
+
+
+    return new Response(JSON.stringify({ message: "Emails sent successfully" }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 200,
+    });
+
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 500,
+    });
+  }
+});
+```
 
 ### Step 4: Set Secrets and Deploy
 
 1.  Set your Resend API key and your own email address as secrets for the function.
     ```bash
-    supabase secrets set RESEND_API_KEY="re_YourResendApiKey"
-    supabase secrets set OWNER_EMAIL="your.email@example.com"
+    npx supabase secrets set RESEND_API_KEY="re_YourResendApiKey"
+    npx supabase secrets set OWNER_EMAIL="your.email@example.com"
     ```
 
 2.  Deploy the function to Supabase.
     ```bash
-    supabase functions deploy send-booking-emails --no-verify-jwt
+    npx supabase functions deploy send-booking-emails --no-verify-jwt
     ```
     The `--no-verify-jwt` flag is important because this function will be called by a webhook, not an authenticated user.
 
