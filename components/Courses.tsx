@@ -34,6 +34,7 @@ const Courses: React.FC = () => {
   const { t } = useLanguage();
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [courses, setCourses] = useState<Course[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<number | null>(null);
@@ -42,13 +43,18 @@ const Courses: React.FC = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const { data, error } = await supabase
+      const { data, error: dbError } = await supabase
         .from('courses')
         .select('*')
         .order('id', { ascending: true });
 
-      if (error) {
-        console.error('Error fetching courses:', error);
+      if (dbError) {
+        console.error('Error fetching courses:', dbError.message);
+        if (dbError.message.includes("does not exist") || dbError.message.includes("schema cache")) {
+            setError('Database setup may be incomplete. Course data could not be loaded. Please see DEVELOPER_GUIDE.md.');
+        } else {
+            setError(`Failed to load courses: ${dbError.message}`);
+        }
       } else if (data) {
         setCourses(data as Course[]);
       }
@@ -104,16 +110,23 @@ const Courses: React.FC = () => {
             <p className="text-lg text-text-secondary mt-2 max-w-2xl mx-auto">{t('courses.subtitle')}</p>
           </div>
         </AnimatedSection>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-4xl mx-auto">
-          {courses.map((course, index) => {
-            const delay = isDesktop ? Math.floor(index / 2) * 200 : index * 150;
-            return (
-              <AnimatedSection key={course.id} delay={delay}>
-                <CourseCard course={course} />
-              </AnimatedSection>
-            );
-          })}
-        </div>
+        {error ? (
+          <div className="text-center text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-300 p-4 rounded-lg max-w-4xl mx-auto">
+            <p className="font-bold">Could not load course information.</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-4xl mx-auto">
+            {courses.map((course, index) => {
+              const delay = isDesktop ? Math.floor(index / 2) * 200 : index * 150;
+              return (
+                <AnimatedSection key={course.id} delay={delay}>
+                  <CourseCard course={course} />
+                </AnimatedSection>
+              );
+            })}
+          </div>
+        )}
       </div>
       <InquiryModal
         isOpen={isModalOpen}

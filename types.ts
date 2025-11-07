@@ -7,6 +7,8 @@ export interface Course {
   price: number;
   imageUrl: string;
   duration: string;
+  paddle_product_id?: string;
+  file_url?: string;
 }
 
 export interface Testimonial {
@@ -20,4 +22,12 @@ export interface Testimonial {
 export interface TimeSlot {
   time: string;
   available: boolean;
+}
+
+export interface Unavailability {
+    id: number;
+    unavailable_date: string; // YYYY-MM-DD
+    start_time: string | null; // HH:MM:SS
+    end_time: string | null; // HH:MM:SS
+    reason: string | null;
 }

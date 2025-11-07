@@ -1,7 +1,7 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { TimeSlot } from '../types';
+import { TimeSlot, Unavailability } from '../types';
 import AnimatedSection from './AnimatedSection';
 import { supabase } from '../src/services/supabaseClient';
 
@@ -12,36 +12,74 @@ const Booking: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [unavailabilities, setUnavailabilities] = useState<Unavailability[]>([]);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  
+  useEffect(() => {
+    const fetchUnavailabilities = async () => {
+        const { data, error } = await supabase.from('unavailabilities').select('*');
+        if (data) {
+            setUnavailabilities(data);
+        }
+        if (error) {
+            console.error("Error fetching unavailabilities:", error.message);
+            if (error.message.includes("does not exist") || error.message.includes("schema cache")) {
+                setAlert({ type: 'error', message: 'Database setup may be incomplete. Please check the DEVELOPER_GUIDE.md for instructions.' });
+            } else {
+                setAlert({ type: 'error', message: `Could not load schedule: ${error.message}` });
+            }
+        }
+    };
+    fetchUnavailabilities();
+  }, []);
 
   const timeSlots = useMemo(() => {
     const dayOfWeek = selectedDate.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
     const startHour = 9;
-    // Fri & Sat until 9 PM (21:00), other days until 4 PM (16:00)
     const endHour = (dayOfWeek === 5 || dayOfWeek === 6) ? 21 : 16; 
 
-    // A simple seeded random function to make availability consistent for a given day
+    const todaysUnavailabilities = unavailabilities.filter(u => u.unavailable_date === selectedDate.toISOString().split('T')[0]);
+    const isFullDayBlocked = todaysUnavailabilities.some(u => u.start_time === null);
+    if (isFullDayBlocked) return [];
+
+    const timeToMinutes = (timeStr: string): number => {
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        return hours * 60 + minutes;
+    };
+    
+    const blockedRanges = todaysUnavailabilities
+        .filter(u => u.start_time && u.end_time)
+        .map(u => ({
+            start: timeToMinutes(u.start_time!),
+            end: timeToMinutes(u.end_time!),
+        }));
+
+    const slots: TimeSlot[] = [];
+    const dateSeed = new Date(selectedDate).setHours(0,0,0,0);
     const seededRandom = (seed: number) => {
       const x = Math.sin(seed) * 10000;
       return x - Math.floor(x);
     };
 
-    const slots: TimeSlot[] = [];
-    // Use the date's timestamp as the base seed to ensure consistent "randomness"
-    const dateSeed = new Date(selectedDate).setHours(0,0,0,0);
+    for (let hour = startHour; hour < endHour; hour++) {
+      for (const minute of [0, 30]) {
+        const slotTime = `${hour}:${minute === 0 ? '00' : '30'}`;
+        const slotTimeInMinutes = timeToMinutes(slotTime);
+        
+        const isBlockedByOwner = blockedRanges.some(range => slotTimeInMinutes >= range.start && slotTimeInMinutes < range.end);
+        
+        const seed = dateSeed + hour + (minute / 60);
+        const isRandomlyUnavailable = seededRandom(seed) <= 0.3;
 
-    for (let i = startHour; i < endHour; i++) {
-      // Create a unique seed for each slot based on the date and hour
-      const seed1 = dateSeed + i;
-      const seed2 = dateSeed + i + 0.5;
-      
-      // Roughly 30% of slots will be unavailable
-      slots.push({ time: `${i}:00`, available: seededRandom(seed1) > 0.3 });
-      slots.push({ time: `${i}:30`, available: seededRandom(seed2) > 0.3 });
+        slots.push({
+          time: slotTime,
+          available: !isBlockedByOwner && !isRandomlyUnavailable,
+        });
+      }
     }
-    return slots;
-  }, [selectedDate]);
+    return slots.filter(slot => timeToMinutes(slot.time) < endHour * 60);
+  }, [selectedDate, unavailabilities]);
 
   const daysInMonth = useMemo(() => {
     const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
@@ -176,7 +214,10 @@ const Booking: React.FC = () => {
                       {slot.time}
                     </button>
                   ))}
-                  {!timeSlots.some(s => s.available) && (
+                  {timeSlots.length > 0 && !timeSlots.some(s => s.available) && (
+                     <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
+                  )}
+                   {timeSlots.length === 0 && (
                      <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
                   )}
                 </div>

@@ -13,4 +13,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Supabase URL and Anon Key must be provided.");
 }
 
+// NOTE TO DEVELOPER:
+// If you see an error like "Could not find table '...' in the schema cache",
+// it usually means one of two things:
+// 1. You have not run the database setup script from DEVELOPER_GUIDE.md.
+// 2. You have just run the script and need to do a hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
+//    of the application in your browser to clear the old schema cache.
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)

@@ -4,6 +4,7 @@ import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemePicker from './ThemePicker';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 
 // Helper hook to check for screen size changes
 const useMediaQuery = (query: string): boolean => {
@@ -36,6 +37,12 @@ const Header: React.FC = () => {
   const lastScrollY = useRef(0);
   const { t } = useLanguage();
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const { session, signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    window.location.hash = '/';
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -126,7 +133,7 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-20">
-          <a href="#hero" aria-label="Auralis homepage" onClick={handleNavClick}>
+          <a href="#" aria-label="Auralis homepage">
             <Logo />
           </a>
 
@@ -145,13 +152,24 @@ const Header: React.FC = () => {
 
           <div className="flex items-center space-x-2">
             <div className="hidden md:block">
-               <a
-                href="#booking"
-                onClick={handleNavClick}
-                className="px-5 py-2 text-sm font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-sm"
-              >
-                {t('header.getStarted')}
-              </a>
+               {session ? (
+                  <div className="flex items-center space-x-4">
+                    <a href="#/admin" className="px-5 py-2 text-sm font-semibold rounded-full bg-accent text-accent-foreground hover:bg-accent/90">
+                      Dashboard
+                    </a>
+                    <button onClick={handleLogout} className="text-sm font-medium text-text-secondary hover:text-primary">
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <a
+                    href="#booking"
+                    onClick={handleNavClick}
+                    className="px-5 py-2 text-sm font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-sm"
+                  >
+                    {t('header.getStarted')}
+                  </a>
+               )}
             </div>
             <ThemePicker />
             <ThemeToggle />
@@ -199,16 +217,27 @@ const Header: React.FC = () => {
                 {link.label}
               </a>
             ))}
-             <a
-                href="#booking"
-                onClick={(e) => {
-                  handleNavClick(e);
-                  setIsMenuOpen(false);
-                }}
-                className="px-6 py-3 text-md font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-md"
-              >
-                {t('header.getStarted')}
-              </a>
+            {session ? (
+                <div className="flex flex-col items-center space-y-4 pt-4">
+                    <a href="#/admin" className="px-6 py-3 text-md font-semibold rounded-full bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => setIsMenuOpen(false)}>
+                        Dashboard
+                    </a>
+                    <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="text-text-secondary hover:text-primary">
+                        Logout
+                    </button>
+                </div>
+            ) : (
+                <a
+                    href="#booking"
+                    onClick={(e) => {
+                        handleNavClick(e);
+                        setIsMenuOpen(false);
+                    }}
+                    className="px-6 py-3 text-md font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-md"
+                >
+                    {t('header.getStarted')}
+                </a>
+            )}
           </nav>
         </div>
       </div>

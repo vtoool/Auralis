@@ -15,6 +15,8 @@ This guide provides instructions on how to set up the backend, integrate payment
 
 ## 1. Backend Setup with Supabase
 
+> **MANDATORY FIRST STEP:** This section is required for the application to function. The app will fail with a "table not found" or "schema cache" error if the database script in Step 2 is not run successfully in your Supabase project.
+
 Supabase is an open-source Firebase alternative providing a PostgreSQL database, authentication, file storage, and serverless functions.
 
 ### Step 1: Create a Supabase Project
@@ -25,6 +27,8 @@ Supabase is an open-source Firebase alternative providing a PostgreSQL database,
 ### Step 2: Run the Database Setup Script
 
 Navigate to the **SQL Editor** in your Supabase dashboard. Click "+ New query" and paste the entire script below. This will create your `courses`, `appointments`, and `unavailabilities` tables and add sample course data.
+
+**CRITICAL:** After pasting the script, click **"Run"**. You must see a "Success. No rows returned" message. If you see any errors (other than "relation ... already exists"), the tables were not created correctly, and the application will fail.
 
 ```sql
 -- 1. Create the 'courses' table
@@ -81,6 +85,18 @@ ALTER TABLE public.unavailabilities DISABLE ROW LEVEL SECURITY;
 ### Step 3: Connect Frontend to Supabase
 
 In `src/services/supabaseClient.ts`, ensure your Supabase URL and `anon` key are correctly configured. For production, these should be stored as environment variables.
+
+### Troubleshooting Common Errors
+> **ATTENTION: READ THIS IF YOU SEE AN ERROR**
+> 
+> **Error Message:** `Could not find the table 'public.unavailabilities' in the schema cache` (or any other table name)
+> 
+> This is the most common setup error. It means the application cannot find the database tables it needs because the setup script was not run.
+> 
+> **Solution Steps:**
+> 1.  **Run the Script:** Go back to **Step 2** and run the full database setup script in your Supabase SQL Editor. Make sure it completes with a "Success" message.
+> 2.  **Verify Tables:** In your Supabase dashboard, go to the **Table Editor**. You **must** see `courses`, `appointments`, and `unavailabilities` listed. If they are not there, the script did not run correctly.
+> 3.  **Hard Refresh:** After confirming the tables exist, return to the application and perform a **hard refresh** in your browser (press `Ctrl+Shift+R` or `Cmd+Shift+R`). This clears the old database schema from your browser's cache and is a required final step.
 
 ---
 
@@ -158,28 +174,36 @@ Now, every time a new row is inserted into `appointments`, this webhook will aut
 
 ## 5. Owner Dashboard & Management
 
-This section requires building new frontend components, which is beyond the scope of this guide, but here is the backend setup required.
+The application includes a complete admin dashboard for managing the platform.
 
-### Step 1: Set up Authentication
+### Step 1: Create an Admin User
 
-1.  Go to **Authentication > Providers** in Supabase and enable the **Email** provider.
-2.  You will build a login page in your React app (e.g., at a `/login` route) that uses `supabase.auth.signInWithPassword()`.
-3.  The admin dashboard pages (e.g., `/admin/*`) should be protected routes that check if a user is logged in using `supabase.auth.getSession()`.
+1.  Go to **Authentication > Providers** in your Supabase dashboard and ensure the **Email** provider is enabled.
+2.  Navigate to **Authentication > Users**.
+3.  Click **Add user** and create a user with an email and a strong password. This will be your admin account.
 
-### Step 2: Set up File Storage for Courses
+### Step 2: Access the Admin Dashboard
 
-1.  Go to **Storage** in your Supabase dashboard and click **Create a new bucket**.
-2.  **Bucket name:** `courses`
-3.  Make the bucket **public** for easy access to the files.
-4.  **Security Policies:** For production, you should write RLS policies to restrict uploads. For example, create a policy that only allows an authenticated user with a specific role (e.g., 'admin') to upload files to this bucket.
+1.  In the running application, navigate to the `/#/login` route in your browser.
+2.  Use the credentials you created in the previous step to log in.
+3.  Upon successful login, you will be redirected to the admin dashboard at `/#/admin`.
 
-On your admin dashboard, you'll create a form that uses the Supabase client library to upload files: `supabase.storage.from('courses').upload(...)`. After a successful upload, you save the file's public URL to the `file_url` column in your `courses` table.
+### Step 3: Manage Course Files
 
-### Step 3: Manage Availability
+The "Course Management" tab on the dashboard lists all courses from your database.
+- If a course is missing its video/audio file, you can use the **Upload File** button.
+- This uploads the file to your Supabase `courses` storage bucket and automatically links the public URL to the course in your database.
+- The feature is implemented in `src/components/CourseManagement.tsx`.
 
-The `unavailabilities` table is already created. Your admin dashboard will have a calendar interface. When you block a date/time, the frontend will simply `insert` a row into this table.
+### Step 4: Manage Availability
 
-The public-facing `Booking.tsx` component must be updated to fetch from this table *before* rendering the time slots. Any slots that overlap with records in `unavailabilities` should be marked as `available: false`.
+The "Availability" tab allows you to block out times when you are not available for appointments.
+- Use the calendar to select a date.
+- You can choose to block the entire day or specify a start and end time.
+- These unavailabilities are saved to the `unavailabilities` table.
+- The public-facing booking calendar in `src/components/Booking.tsx` automatically fetches this data and disables the corresponding time slots, preventing clients from booking them.
+- The admin interface for this is located in `src/components/AvailabilityManagement.tsx`.
+
 
 ---
 
