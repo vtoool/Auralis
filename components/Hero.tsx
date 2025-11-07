@@ -1,9 +1,27 @@
-
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+
+const themeBackgrounds = {
+  serene: 'https://images.unsplash.com/photo-1623172959921-630212f71058?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332',
+  vibrant: 'https://plus.unsplash.com/premium_photo-1676815865390-8e3a9336f64b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332',
+  ember: 'https://plus.unsplash.com/premium_photo-1680098056984-0c397d284e74?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687',
+};
+
+const BackgroundImage: React.FC<{ src: string; active: boolean }> = ({ src, active }) => (
+  <div
+    className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
+      active ? 'opacity-100' : 'opacity-0'
+    }`}
+    style={{ backgroundImage: `url('${src}')` }}
+    aria-hidden="true"
+  />
+);
+
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
+  const { themeName } = useTheme();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -25,15 +43,18 @@ const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center" 
-        style={{ backgroundImage: "url('https://picsum.photos/seed/auralis-harmony/1920/1080')" }}
-        aria-hidden="true"
-      ></div>
+      {/* Background Images with transitions */}
+      {Object.entries(themeBackgrounds).map(([theme, src]) => (
+        <BackgroundImage key={theme} src={src} active={themeName === theme} />
+      ))}
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-black/20 to-black/40" aria-hidden="true"></div>
+      {/* Conditional overlay for vibrant theme to improve contrast */}
+      {themeName === 'vibrant' && (
+        <div className="absolute inset-0 bg-black/30" aria-hidden="true"></div>
+      )}
+
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-black/30" aria-hidden="true"></div>
 
       <div className="container mx-auto px-6 text-center relative z-10">
         <h1 className="text-5xl md:text-7xl font-serif font-extrabold text-white mb-4 leading-tight drop-shadow-lg">
@@ -61,7 +82,7 @@ const Hero: React.FC = () => {
       </div>
       <div className="absolute bottom-8 left-0 right-0 flex justify-center animate-bounce">
          <a href="#courses" aria-label="Scroll down to courses" onClick={handleNavClick}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-white opacity-70"><path d="M12 5v14m-7-7l7 7 7-7" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-white opacity-70"><path d="M12 5v14m-7-7l7 7 7-7" /></svg>
          </a>
       </div>
     </section>

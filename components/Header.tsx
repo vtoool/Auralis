@@ -5,18 +5,80 @@ import LanguageSwitcher from './LanguageSwitcher';
 import ThemePicker from './ThemePicker';
 import { useLanguage } from '../context/LanguageContext';
 
+// Helper hook to check for screen size changes
+const useMediaQuery = (query: string): boolean => {
+    const [matches, setMatches] = React.useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.matchMedia(query).matches;
+        }
+        return false;
+    });
+
+    React.useEffect(() => {
+        const media = window.matchMedia(query);
+        const listener = (event: MediaQueryListEvent) => setMatches(event.matches);
+        
+        if (media.matches !== matches) {
+          setMatches(media.matches);
+        }
+
+        media.addEventListener('change', listener);
+        return () => media.removeEventListener('change', listener);
+    }, [query, matches]);
+
+    return matches;
+};
+
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { t } = useLanguage();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      // Controls the background/shadow effect
+      setIsScrolled(currentScrollY > 10);
+
+      if (isDesktop) {
+        // Scrolled past the hero section (which is 100vh)
+        if (currentScrollY > window.innerHeight) {
+          // Scrolling down
+          if (currentScrollY > lastScrollY) {
+            setIsVisible(false);
+          } else { // Scrolling up
+            setIsVisible(true);
+          }
+        } else {
+          // Always visible within the hero section
+          setIsVisible(true);
+        }
+        setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY);
+      } else {
+        // On mobile, the header is always visible (standard sticky behavior)
+        setIsVisible(true);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // On desktop, show the header if the mouse is near the top of the viewport
+      if (isDesktop && e.clientY < 80) { // 80px is approx header height
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [lastScrollY, isDesktop]);
 
   const navLinks = [
     { href: '#courses', label: t('header.courses') },
@@ -47,6 +109,8 @@ const Header: React.FC = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isDesktop && !isVisible ? '-translate-y-full' : 'translate-y-0'
+      } ${
         isScrolled || isMenuOpen
           ? 'bg-background/100 shadow-md'
           : 'bg-background/80 backdrop-blur-sm'
@@ -95,7 +159,7 @@ const Header: React.FC = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"

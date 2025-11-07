@@ -14,8 +14,8 @@ export const translations = {
       select: "Select Theme",
     },
     hero: {
-      title: "Unlock Your Inner Harmony",
-      subtitle: "Journey with us through transformative video courses and guided meditations, meticulously designed to elevate your mind, body, and spirit.",
+      title: "Your Guide to Inner Harmony",
+      subtitle: "I'm Alice, and I'm here to guide you on a transformative journey. Let's elevate your mind, body, and spirit together through my curated courses and meditations.",
       exploreCourses: "Explore Courses",
       bookSession: "Book a Session",
     },
@@ -72,8 +72,8 @@ export const translations = {
       select: "Selectează Tema",
     },
     hero: {
-      title: "Deblocați-vă Armonia Interioară",
-      subtitle: "Descoperiți cursuri video transformatoare și meditații ghidate concepute pentru a vă înălța mintea, corpul și spiritul.",
+      title: "Ghidul Tău Către Armonia Interioară",
+      subtitle: "Sunt Alice și sunt aici pentru a te ghida într-o călătorie transformatoare. Haideți să vă înălțăm împreună mintea, corpul și spiritul prin cursurile și meditațiile mele.",
       exploreCourses: "Explorează Cursuri",
       bookSession: "Programează o Sesiune",
     },
@@ -130,8 +130,8 @@ export const translations = {
       select: "Выберите Тему",
     },
     hero: {
-      title: "Откройте Свою Внутреннюю Гармонию",
-      subtitle: "Откройте для себя преобразующие видеокурсы и управляемые медитации, предназначенные для возвышения вашего ума, тела и духа.",
+      title: "Ваш Проводник к Внутренней Гармонии",
+      subtitle: "Я Алиса, и я здесь, чтобы провести вас через преобразующее путешествие. Давайте вместе возвысим ваш разум, тело и дух с помощью моих тщательно подобранных курсов и медитаций.",
       exploreCourses: "Исследовать Курсы",
       bookSession: "Записаться на Сеанс",
     },
