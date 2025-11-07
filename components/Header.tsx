@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -33,35 +33,42 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
   const { t } = useLanguage();
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const headerHeight = 80; // from h-20 class
       
       // Controls the background/shadow effect
       setIsScrolled(currentScrollY > 10);
 
+      const scrollingDown = currentScrollY > lastScrollY.current;
+
       if (isDesktop) {
-        // Scrolled past the hero section (which is 100vh)
+        // Desktop logic: hide when scrolling down past the hero
         if (currentScrollY > window.innerHeight) {
-          // Scrolling down
-          if (currentScrollY > lastScrollY) {
-            setIsVisible(false);
-          } else { // Scrolling up
-            setIsVisible(true);
-          }
+            setIsVisible(!scrollingDown);
         } else {
           // Always visible within the hero section
           setIsVisible(true);
         }
-        setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY);
       } else {
-        // On mobile, the header is always visible (standard sticky behavior)
-        setIsVisible(true);
+        // Mobile logic: hide when scrolling down, show when scrolling up
+        if (isMenuOpen) {
+          setIsVisible(true);
+        } else if (scrollingDown && currentScrollY > headerHeight) {
+          // Scrolling down and past the header
+          setIsVisible(false);
+        } else {
+          // Scrolling up or at the top
+          setIsVisible(true);
+        }
       }
+
+      lastScrollY.current = currentScrollY <= 0 ? 0 : currentScrollY;
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -78,7 +85,7 @@ const Header: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [lastScrollY, isDesktop]);
+  }, [isDesktop, isMenuOpen]);
 
   const navLinks = [
     { href: '#courses', label: t('header.courses') },
@@ -109,7 +116,7 @@ const Header: React.FC = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isDesktop && !isVisible ? '-translate-y-full' : 'translate-y-0'
+        !isVisible ? '-translate-y-full' : 'translate-y-0'
       } ${
         isScrolled || isMenuOpen
           ? 'bg-background/100 shadow-md'

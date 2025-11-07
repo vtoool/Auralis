@@ -49,6 +49,14 @@ export const translations = {
       thankYou: "Thank You!",
       messageSent: "Your message has been sent. We'll be in touch with you shortly.",
     },
+    inquiryModal: {
+      title: "Interested? Let's Connect!",
+      subtitle: "Leave your details and we'll get in touch to discuss your journey.",
+      phonePlaceholder: "Phone Number (Optional)",
+      servicePlaceholder: "Select a Service (Optional)",
+      serviceGeneral: "General Inquiry",
+      submit: "Submit Inquiry",
+    },
     footer: {
       tagline: "Your path to inner peace and spiritual growth begins here.",
       courses: "Courses",
@@ -107,6 +115,14 @@ export const translations = {
       thankYou: "Mulțumim!",
       messageSent: "Mesajul tău a fost trimis. Vom reveni în curând.",
     },
+    inquiryModal: {
+      title: "Sunteți interesat? Haideți să ne conectăm!",
+      subtitle: "Lăsați-vă datele și vă vom contacta pentru a discuta despre călătoria dvs.",
+      phonePlaceholder: "Număr de telefon (Opțional)",
+      servicePlaceholder: "Selectați un serviciu (Opțional)",
+      serviceGeneral: "Întrebare Generală",
+      submit: "Trimite Solicitarea",
+    },
     footer: {
       tagline: "Calea ta către pacea interioară și creșterea spirituală.",
       courses: "Cursuri",
@@ -160,6 +176,14 @@ export const translations = {
       sendMessage: "Отправить Сообщение",
       thankYou: "Спасибо!",
       messageSent: "Ваше сообщение отправлено. Мы скоро свяжемся с вами.",
+    },
+    inquiryModal: {
+      title: "Заинтересовались? Давайте свяжемся!",
+      subtitle: "Оставьте свои данные, и мы свяжемся с вами, чтобы обсудить ваш путь.",
+      phonePlaceholder: "Номер телефона (необязательно)",
+      servicePlaceholder: "Выберите услугу (необязательно)",
+      serviceGeneral: "Общий вопрос",
+      submit: "Отправить запрос",
     },
     footer: {
       tagline: "Ваш путь к внутреннему миру и духовному росту.",

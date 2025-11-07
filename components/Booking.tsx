@@ -5,17 +5,6 @@ import { TimeSlot } from '../types';
 import AnimatedSection from './AnimatedSection';
 import { supabase } from '../src/services/supabaseClient';
 
-const generateTimeSlots = (startHour: number, endHour: number): TimeSlot[] => {
-  const slots: TimeSlot[] = [];
-  for (let i = startHour; i < endHour; i++) {
-    slots.push({ time: `${i}:00`, available: Math.random() > 0.4 });
-    slots.push({ time: `${i}:30`, available: Math.random() > 0.4 });
-  }
-  return slots;
-};
-
-const mockTimeSlots: TimeSlot[] = generateTimeSlots(9, 17);
-
 const Booking: React.FC = () => {
   const { t, locale } = useLanguage();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -25,6 +14,34 @@ const Booking: React.FC = () => {
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  const timeSlots = useMemo(() => {
+    const dayOfWeek = selectedDate.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+    const startHour = 9;
+    // Fri & Sat until 9 PM (21:00), other days until 4 PM (16:00)
+    const endHour = (dayOfWeek === 5 || dayOfWeek === 6) ? 21 : 16; 
+
+    // A simple seeded random function to make availability consistent for a given day
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    };
+
+    const slots: TimeSlot[] = [];
+    // Use the date's timestamp as the base seed to ensure consistent "randomness"
+    const dateSeed = new Date(selectedDate).setHours(0,0,0,0);
+
+    for (let i = startHour; i < endHour; i++) {
+      // Create a unique seed for each slot based on the date and hour
+      const seed1 = dateSeed + i;
+      const seed2 = dateSeed + i + 0.5;
+      
+      // Roughly 30% of slots will be unavailable
+      slots.push({ time: `${i}:00`, available: seededRandom(seed1) > 0.3 });
+      slots.push({ time: `${i}:30`, available: seededRandom(seed2) > 0.3 });
+    }
+    return slots;
+  }, [selectedDate]);
 
   const daysInMonth = useMemo(() => {
     const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
@@ -143,19 +160,25 @@ const Booking: React.FC = () => {
                   {selectedDate.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' })}
                 </h3>
                 <div className="grid grid-cols-3 gap-2 mb-6 max-h-48 overflow-y-auto pr-2">
-                  {mockTimeSlots.filter(s => s.available).length > 0 ? mockTimeSlots.map(slot => (
-                    slot.available ? (
-                      <button
-                        key={slot.time}
-                        onClick={() => setSelectedTime(slot.time)}
-                        className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
-                          selectedTime === slot.time ? 'bg-primary text-primary-foreground border-primary' : 'bg-transparent border-border-color hover:bg-primary-light'
-                        }`}
-                      >
-                        {slot.time}
-                      </button>
-                    ) : null
-                  )) : <p className="col-span-3 text-text-secondary">{t('booking.noTimes')}</p>}
+                  {timeSlots.map(slot => (
+                    <button
+                      key={slot.time}
+                      onClick={() => slot.available && setSelectedTime(slot.time)}
+                      disabled={!slot.available}
+                      className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
+                        slot.available
+                          ? (selectedTime === slot.time
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-transparent border-border-color hover:bg-primary-light')
+                          : 'bg-border-color/10 text-text-secondary/50 border-border-color/20 cursor-not-allowed line-through'
+                      }`}
+                    >
+                      {slot.time}
+                    </button>
+                  ))}
+                  {!timeSlots.some(s => s.available) && (
+                     <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
+                  )}
                 </div>
 
                 <form onSubmit={handleBooking} className="space-y-4">
