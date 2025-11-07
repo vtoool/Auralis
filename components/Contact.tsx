@@ -1,15 +1,26 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // Auto-resize the textarea based on its content
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto'; // Reset height to recalculate
+      textarea.style.height = `${textarea.scrollHeight}px`; // Set to content height
+    }
+  }, [formData.message]);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,14 +79,15 @@ const Contact: React.FC = () => {
             <div>
               <label htmlFor="message" className="sr-only">{t('contact.message')}</label>
               <textarea
+                ref={textareaRef}
                 name="message"
                 id="message"
                 value={formData.message}
                 onChange={handleChange}
                 placeholder={t('contact.message')}
-                rows={6}
+                rows={4}
                 required
-                className="w-full p-4 rounded-md bg-card-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary transition"
+                className="w-full p-4 rounded-md bg-card-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary transition resize-none overflow-hidden"
               ></textarea>
             </div>
             <div>

@@ -37,6 +37,8 @@ const Courses: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<number | null>(null);
+  const hasModalBeenTriggeredRef = useRef(false);
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -59,14 +61,14 @@ const Courses: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          if (hasModalBeenTriggeredRef.current) {
+            return;
+          }
           // User has scrolled to the courses section
           // Set a timer to open the modal after a few seconds
           timerRef.current = window.setTimeout(() => {
-            const hasSeenModal = sessionStorage.getItem('hasSeenInquiryModal');
-            if (!hasSeenModal) {
-              setIsModalOpen(true);
-              sessionStorage.setItem('hasSeenInquiryModal', 'true');
-            }
+            setIsModalOpen(true);
+            hasModalBeenTriggeredRef.current = true;
           }, 4000); // 4-second delay
         } else {
           // User has scrolled away, clear the timer

@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
 
       {/* Conditional overlay for vibrant theme to improve contrast */}
       {themeName === 'vibrant' && (
-        <div className="absolute inset-0 bg-black/30" aria-hidden="true"></div>
+        <div className="absolute inset-0 bg-[rgb(15,76,76)]/30" aria-hidden="true"></div>
       )}
 
       {/* Gradient Overlay */}

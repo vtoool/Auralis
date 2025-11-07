@@ -89,6 +89,7 @@ const Header: React.FC = () => {
 
   const navLinks = [
     { href: '#courses', label: t('header.courses') },
+    { href: '#about', label: t('header.about') },
     { href: '#testimonials', label: t('header.stories') },
     { href: '#booking', label: t('header.appointments') },
     { href: '#contact', label: t('header.contact') },

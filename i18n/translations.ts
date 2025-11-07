@@ -2,6 +2,7 @@ export const translations = {
   en: {
     header: {
       courses: "Courses",
+      about: "About",
       stories: "Stories",
       appointments: "Appointments",
       contact: "Contact",
@@ -23,6 +24,12 @@ export const translations = {
       title: "Our Transformative Offerings",
       subtitle: "Each path is crafted with intention, guiding you towards balance, clarity, and profound self-discovery. Begin your journey today.",
       buyNow: "Buy Now",
+    },
+    about: {
+      title: "Meet Alice, Your Guide",
+      subtitle: "A passionate advocate for mindfulness and spiritual well-being, dedicated to helping you find your inner light.",
+      paragraph1: "My own journey into spiritual wellness began from a place of seeking calm in a chaotic world. I discovered that true harmony isn't about escaping life's challenges, but about cultivating a deep, unshakable peace within. This realization transformed my life, and I felt a profound calling to share these practices with others.",
+      paragraph2: "Auralis was born from this calling. It's more than just a platform; it's a sanctuary I've created to share the tools and wisdom that have guided me. My approach combines ancient meditative traditions with modern mindfulness techniques, making them accessible and practical for today's world. I'm here to walk alongside you, offering guidance and support as you unlock your own potential for a more conscious, joyful, and fulfilling life.",
     },
     testimonials: {
       title: "Hear Their Stories",
@@ -68,6 +75,7 @@ export const translations = {
   ro: {
     header: {
       courses: "Cursuri",
+      about: "Despre",
       stories: "Povești",
       appointments: "Programări",
       contact: "Contact",
@@ -89,6 +97,12 @@ export const translations = {
       title: "Ofertele Noastre Transformatoare",
       subtitle: "Începeți călătoria de auto-descoperire astăzi.",
       buyNow: "Cumpără Acum",
+    },
+    about: {
+      title: "Faceți cunoștință cu Alice, ghidul dumneavoastră",
+      subtitle: "O susținătoare pasionată a mindfulness-ului și a bunăstării spirituale, dedicată să vă ajute să vă găsiți lumina interioară.",
+      paragraph1: "Propria mea călătorie în wellness-ul spiritual a început dintr-un loc de căutare a calmului într-o lume haotică. Am descoperit că adevărata armonie nu înseamnă să scapi de provocările vieții, ci să cultivi o pace interioară profundă și de nezdruncinat. Această realizare mi-a transformat viața și am simțit o chemare profundă de a împărtăși aceste practici cu ceilalți.",
+      paragraph2: "Auralis s-a născut din această chemare. Este mai mult decât o platformă; este un sanctuar pe care l-am creat pentru a împărtăși instrumentele și înțelepciunea care m-au ghidat. Abordarea mea combină tradițiile meditative antice cu tehnicile moderne de mindfulness, făcându-le accesibile și practice pentru lumea de astăzi. Sunt aici pentru a merge alături de tine, oferind îndrumare și sprijin pe măsură ce îți deblochezi propriul potențial pentru o viață mai conștientă, plină de bucurie și împlinire.",
     },
     testimonials: {
       title: "Cuvinte Din Comunitatea Noastră",
@@ -134,6 +148,7 @@ export const translations = {
   ru: {
     header: {
       courses: "Курсы",
+      about: "О нас",
       stories: "Истории",
       appointments: "Записи",
       contact: "Контакт",
@@ -155,6 +170,12 @@ export const translations = {
       title: "Наши Преобразующие Предложения",
       subtitle: "Начните свой путь самопознания сегодня.",
       buyNow: "Купить Сейчас",
+    },
+    about: {
+      title: "Познакомьтесь с Алисой, вашим проводником",
+      subtitle: "Страстный сторонник осознанности и духовного благополучия, посвятивший себя помощи вам в поиске вашего внутреннего света.",
+      paragraph1: "Мой собственный путь в духовное благополучие начался с поиска спокойствия в хаотичном мире. Я обнаружила, что истинная гармония — это не бегство от жизненных трудностей, а культивирование глубокого, непоколебимого мира внутри. Это осознание преобразило мою жизнь, и я почувствовала глубокое призвание поделиться этими практиками с другими.",
+      paragraph2: "Auralis родился из этого призвания. Это больше, чем просто платформа; это святилище, которое я создала, чтобы делиться инструментами и мудростью, которые вели меня. Мой подход сочетает в себе древние медитативные традиции с современными техниками осознанности, делая их доступными и практичными для современного мира. Я здесь, чтобы идти рядом с вами, предлагая руководство и поддержку, пока вы раскрываете свой собственный потенциал для более осознанной, радостной и полноценной жизни.",
     },
     booking: {
       title: "Записаться на Личный Сеанс",
