@@ -13,23 +13,24 @@ const Booking: React.FC = () => {
   const [email, setEmail] = useState('');
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [unavailabilities, setUnavailabilities] = useState<Unavailability[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [setupError, setSetupError] = useState<string | null>(null);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   
   useEffect(() => {
     const fetchUnavailabilities = async () => {
+        setLoading(true);
         const { data, error } = await supabase.from('unavailabilities').select('*');
-        if (data) {
-            setUnavailabilities(data);
-        }
         if (error) {
             console.error("Error fetching unavailabilities:", error.message);
-            if (error.message.includes("does not exist") || error.message.includes("schema cache")) {
-                setAlert({ type: 'error', message: 'Database setup may be incomplete. Please check the DEVELOPER_GUIDE.md for instructions.' });
-            } else {
-                setAlert({ type: 'error', message: `Could not load schedule: ${error.message}` });
-            }
+            setSetupError(`Could not load schedule. Please follow DEVELOPER_GUIDE.md to set up the backend.`);
+        } else if (data) {
+            setUnavailabilities(data);
+            setSetupError(null);
         }
+        setLoading(false);
     };
     fetchUnavailabilities();
   }, []);
@@ -145,6 +146,112 @@ const Booking: React.FC = () => {
 
   const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  const renderContent = () => {
+    if (loading) {
+      return <div className="text-center text-text-secondary p-8 bg-card-background rounded-xl shadow-lg">Loading schedule...</div>;
+    }
+
+    if (setupError) {
+       return (
+          <div className="text-center text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-4 rounded-lg">
+              <h3 className="font-bold">Error Loading Booking System</h3>
+              <p className="text-sm">{setupError}</p>
+          </div>
+       );
+    }
+    
+    return (
+        <div className="bg-card-background rounded-xl shadow-lg p-8 grid md:grid-cols-2 gap-8">
+          {/* Calendar */}
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <button onClick={() => changeMonth(-1)} className="p-2 rounded-full hover:bg-border-color" aria-label="Previous month">&larr;</button>
+              <h3 className="text-lg font-semibold text-primary">
+                {selectedDate.toLocaleString(locale, { month: 'long', year: 'numeric' })}
+              </h3>
+              <button onClick={() => changeMonth(1)} className="p-2 rounded-full hover:bg-border-color" aria-label="Next month">&rarr;</button>
+            </div>
+            <div className="grid grid-cols-7 gap-2 text-center">
+              {dayLabels.map(day => <div key={day} className="font-bold text-text-secondary text-sm">{day}</div>)}
+              {Array(firstDayOfMonth).fill(null).map((_, i) => <div key={`empty-${i}`} />)}
+              {daysInMonth.map(day => {
+                const isToday = day.toDateString() === new Date().toDateString();
+                const isSelected = day.toDateString() === selectedDate.toDateString();
+                const isPast = day < today;
+                return (
+                  <button
+                    key={day.toString()}
+                    onClick={() => handleDayClick(day)}
+                    disabled={isPast}
+                    className={`p-2 rounded-full transition-colors duration-200 text-sm ${
+                      isPast ? 'text-text-secondary/50 cursor-not-allowed' :
+                      isSelected ? 'bg-primary text-primary-foreground font-bold' :
+                      isToday ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-light'
+                    }`}
+                  >
+                    {day.getDate()}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Time Slots & Form */}
+          <div>
+            <h3 className="text-lg font-semibold text-primary mb-4">
+              {selectedDate.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' })}
+            </h3>
+            <div className="grid grid-cols-3 gap-2 mb-6 max-h-48 overflow-y-auto pr-2">
+              {timeSlots.map(slot => (
+                <button
+                  key={slot.time}
+                  onClick={() => slot.available && setSelectedTime(slot.time)}
+                  disabled={!slot.available}
+                  className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
+                    slot.available
+                      ? (selectedTime === slot.time
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-transparent border-border-color hover:bg-primary-light')
+                      : 'bg-border-color/10 text-text-secondary/50 border-border-color/20 cursor-not-allowed line-through'
+                  }`}
+                >
+                  {slot.time}
+                </button>
+              ))}
+              {timeSlots.length > 0 && !timeSlots.some(s => s.available) && (
+                 <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
+              )}
+               {timeSlots.length === 0 && (
+                 <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
+              )}
+            </div>
+
+            <form onSubmit={handleBooking} className="space-y-4">
+              <input
+                type="text"
+                placeholder={t('booking.yourName')}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
+                required
+              />
+              <input
+                type="email"
+                placeholder={t('booking.yourEmail')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
+                required
+              />
+              <button type="submit" className="w-full p-3 font-semibold rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
+                {t('booking.confirmBooking')}
+              </button>
+            </form>
+          </div>
+        </div>
+    );
+  };
+
   return (
     <section id="booking" className="py-20 bg-primary-light">
       <div className="container mx-auto px-6">
@@ -157,95 +264,7 @@ const Booking: React.FC = () => {
         
         <AnimatedSection delay={200}>
           <div className="max-w-4xl mx-auto">
-            <div className="bg-card-background rounded-xl shadow-lg p-8 grid md:grid-cols-2 gap-8">
-              {/* Calendar */}
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <button onClick={() => changeMonth(-1)} className="p-2 rounded-full hover:bg-border-color" aria-label="Previous month">&larr;</button>
-                  <h3 className="text-lg font-semibold text-primary">
-                    {selectedDate.toLocaleString(locale, { month: 'long', year: 'numeric' })}
-                  </h3>
-                  <button onClick={() => changeMonth(1)} className="p-2 rounded-full hover:bg-border-color" aria-label="Next month">&rarr;</button>
-                </div>
-                <div className="grid grid-cols-7 gap-2 text-center">
-                  {dayLabels.map(day => <div key={day} className="font-bold text-text-secondary text-sm">{day}</div>)}
-                  {Array(firstDayOfMonth).fill(null).map((_, i) => <div key={`empty-${i}`} />)}
-                  {daysInMonth.map(day => {
-                    const isToday = day.toDateString() === new Date().toDateString();
-                    const isSelected = day.toDateString() === selectedDate.toDateString();
-                    const isPast = day < today;
-                    return (
-                      <button
-                        key={day.toString()}
-                        onClick={() => handleDayClick(day)}
-                        disabled={isPast}
-                        className={`p-2 rounded-full transition-colors duration-200 text-sm ${
-                          isPast ? 'text-text-secondary/50 cursor-not-allowed' :
-                          isSelected ? 'bg-primary text-primary-foreground font-bold' :
-                          isToday ? 'bg-accent text-accent-foreground' : 'hover:bg-primary-light'
-                        }`}
-                      >
-                        {day.getDate()}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Time Slots & Form */}
-              <div>
-                <h3 className="text-lg font-semibold text-primary mb-4">
-                  {selectedDate.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' })}
-                </h3>
-                <div className="grid grid-cols-3 gap-2 mb-6 max-h-48 overflow-y-auto pr-2">
-                  {timeSlots.map(slot => (
-                    <button
-                      key={slot.time}
-                      onClick={() => slot.available && setSelectedTime(slot.time)}
-                      disabled={!slot.available}
-                      className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
-                        slot.available
-                          ? (selectedTime === slot.time
-                            ? 'bg-primary text-primary-foreground border-primary'
-                            : 'bg-transparent border-border-color hover:bg-primary-light')
-                          : 'bg-border-color/10 text-text-secondary/50 border-border-color/20 cursor-not-allowed line-through'
-                      }`}
-                    >
-                      {slot.time}
-                    </button>
-                  ))}
-                  {timeSlots.length > 0 && !timeSlots.some(s => s.available) && (
-                     <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
-                  )}
-                   {timeSlots.length === 0 && (
-                     <p className="col-span-3 text-center text-text-secondary py-4">{t('booking.noTimes')}</p>
-                  )}
-                </div>
-
-                <form onSubmit={handleBooking} className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder={t('booking.yourName')}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
-                    required
-                  />
-                  <input
-                    type="email"
-                    placeholder={t('booking.yourEmail')}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
-                    required
-                  />
-                  <button type="submit" className="w-full p-3 font-semibold rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
-                    {t('booking.confirmBooking')}
-                  </button>
-                </form>
-              </div>
-            </div>
-
+            {renderContent()}
             {alert && (
                 <div className={`mt-6 p-4 rounded-md text-center ${alert.type === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'}`}>
                     {alert.message}

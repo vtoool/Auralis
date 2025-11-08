@@ -9,19 +9,22 @@ const AvailabilityManagement: React.FC = () => {
     const [startTime, setStartTime] = useState('09:00');
     const [endTime, setEndTime] = useState('17:00');
     const [reason, setReason] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [formLoading, setFormLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+    const [setupError, setSetupError] = useState<string | null>(null);
 
     const fetchUnavailabilities = useCallback(async () => {
+        setPageLoading(true);
         const { data, error } = await supabase.from('unavailabilities').select('*');
-        if (data) setUnavailabilities(data);
         if (error) {
-            if (error.message.includes("does not exist") || error.message.includes("schema cache")) {
-                setFeedback({ type: 'error', message: 'Database setup error: The "unavailabilities" table was not found. Please run the setup script in DEVELOPER_GUIDE.md and do a hard refresh.' });
-            } else {
-                setFeedback({ type: 'error', message: error.message });
-            }
+            console.error("Availability Management Error:", error.message);
+            setSetupError(`Failed to load schedule. Please follow setup instructions in DEVELOPER_GUIDE.md. Error: ${error.message}`);
+        } else if (data) {
+            setUnavailabilities(data);
+            setSetupError(null);
         }
+        setPageLoading(false);
     }, []);
 
     useEffect(() => {
@@ -50,7 +53,7 @@ const AvailabilityManagement: React.FC = () => {
     
     const handleAddUnavailability = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
+        setFormLoading(true);
         setFeedback(null);
         
         const { error } = await supabase.from('unavailabilities').insert([{
@@ -67,7 +70,7 @@ const AvailabilityManagement: React.FC = () => {
             setReason('');
             fetchUnavailabilities();
         }
-        setLoading(false);
+        setFormLoading(false);
     };
     
     const handleDeleteUnavailability = async (id: number) => {
@@ -86,6 +89,19 @@ const AvailabilityManagement: React.FC = () => {
         new Date(u.unavailable_date + 'T00:00:00').getMonth() === selectedDate.getMonth() &&
         new Date(u.unavailable_date + 'T00:00:00').getFullYear() === selectedDate.getFullYear()
     );
+
+    if (pageLoading) {
+        return <div>Loading availability...</div>
+    }
+
+    if (setupError) {
+        return (
+            <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-4 rounded-lg">
+                <p className="font-bold text-red-800 dark:text-red-200">An Error Occurred</p>
+                <p className="text-sm text-red-700 dark:text-red-300">{setupError}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-card-background p-6 rounded-lg shadow-elegant-lg grid md:grid-cols-2 gap-8 animate-fade-in">
@@ -133,8 +149,8 @@ const AvailabilityManagement: React.FC = () => {
                         </div>
                     )}
                     <input type="text" value={reason} onChange={e => setReason(e.target.value)} placeholder="Reason (optional)" className="w-full p-2 rounded-md bg-background border border-border-color" />
-                    <button type="submit" disabled={loading} className="w-full p-2 font-semibold rounded-md bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-50 transition-colors">
-                        {loading ? 'Blocking...' : 'Add Unavailability'}
+                    <button type="submit" disabled={formLoading} className="w-full p-2 font-semibold rounded-md bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-50 transition-colors">
+                        {formLoading ? 'Blocking...' : 'Add Unavailability'}
                     </button>
                 </form>
             </div>
@@ -147,7 +163,7 @@ const AvailabilityManagement: React.FC = () => {
                             <div>
                                 <p className="font-semibold">{new Date(u.unavailable_date + 'T00:00:00').toLocaleDateString()}</p>
                                 <p className="text-sm text-text-secondary">
-                                    {u.start_time ? `${u.start_time} - ${u.end_time}` : 'All Day'}
+                                    {u.start_time ? `${u.start_time.slice(0, 5)} - ${u.end_time?.slice(0, 5)}` : 'All Day'}
                                     {u.reason && ` (${u.reason})`}
                                 </p>
                             </div>

@@ -11,9 +11,14 @@ const CourseManagement: React.FC = () => {
 
     const fetchCourses = useCallback(async () => {
         setLoading(true);
-        const { data, error } = await supabase.from('courses').select('*').order('id');
-        if (data) setCourses(data as Course[]);
-        if (error) setError(error.message);
+        const { data, error: dbError } = await supabase.from('courses').select('*').order('id');
+        if (dbError) {
+             console.error("Course Management Error:", dbError.message);
+             setError(`Failed to load courses. Please follow the setup instructions in DEVELOPER_GUIDE.md. Error: ${dbError.message}`);
+        } else if (data) {
+            setCourses(data as Course[]);
+            setError(null);
+        }
         setLoading(false);
     }, []);
 
@@ -68,12 +73,21 @@ const CourseManagement: React.FC = () => {
     };
 
     if (loading) return <div>Loading courses...</div>;
+    
+    if (error) {
+        return (
+            <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-4 rounded-lg">
+                <p className="font-bold text-red-800 dark:text-red-200">An Error Occurred</p>
+                <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-card-background p-6 rounded-lg shadow-elegant-lg animate-fade-in">
             <h2 className="text-xl font-semibold text-primary mb-4">Manage Course Files</h2>
-            {error && <p className="text-red-500 mb-4 p-3 bg-red-100 rounded-md">{error}</p>}
             {success && <p className="text-green-600 mb-4 p-3 bg-green-100 rounded-md">{success}</p>}
+            {error && <p className="text-red-600 mb-4 p-3 bg-red-100 rounded-md">{error}</p>}
             <div className="space-y-4">
                 {courses.map(course => (
                     <div key={course.id} className="flex flex-wrap gap-4 items-center justify-between p-4 border border-border-color rounded-lg">
