@@ -67,14 +67,14 @@ const Hero: React.FC = () => {
           <a
             href="#courses"
             onClick={handleNavClick}
-            className="px-8 py-4 text-lg font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-lg transform hover:scale-105"
+            className="px-8 py-4 text-lg font-semibold rounded-full bg-accent text-accent-foreground border border-accent-foreground/20 shadow-[0_2px_4px_rgba(0,0,0,0.1),_inset_0_1px_1px_rgba(255,255,255,0.5)] transform transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_10px_rgba(0,0,0,0.2),_inset_0_1px_1px_rgba(255,255,255,0.5)] hover:brightness-105 active:translate-y-px active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] active:brightness-95 focus:outline-none focus:ring-4 focus:ring-accent/50"
           >
             {t('hero.exploreCourses')}
           </a>
           <a
             href="#booking"
             onClick={handleNavClick}
-            className="px-8 py-4 text-lg font-semibold rounded-full bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300 shadow-lg transform hover:scale-105"
+            className="px-8 py-4 text-lg font-semibold rounded-full bg-primary-light text-primary border border-primary/20 shadow-[0_2px_4px_rgba(0,0,0,0.08),_inset_0_1px_1px_rgba(255,255,255,0.9)] transform transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_5px_10px_rgba(0,0,0,0.15),_inset_0_1px_1px_rgba(255,255,255,0.9)] hover:brightness-105 active:translate-y-px active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] active:brightness-95 focus:outline-none focus:ring-4 focus:ring-primary/50"
           >
             {t('hero.bookSession')}
           </a>

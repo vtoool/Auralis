@@ -12,6 +12,10 @@ Auralis is a stylish and elegant spiritual wellness platform. The goal is to cre
 -   **Theming & Internationalization:** Multiple color themes and language support (English, Romanian, Russian).
 -   **Backend:** Supabase for database, authentication, and storage.
 
+## Current Tasks & To-Do
+
+-   **[PENDING USER INPUT] Integrate Official Logo:** Awaiting the user to provide the base64 encoded version of their official logo (preferably in SVG format). Once received, I will replace the current placeholder logo component (`components/Logo.tsx`) across the application (Header, Footer, etc.) to ensure brand consistency.
+
 ---
 
 ## Development Log & Key Decisions
