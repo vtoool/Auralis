@@ -96,23 +96,53 @@ For the course file uploads in the admin dashboard to work, you must create a st
     *   Click **"Create bucket"**.
 
 2.  **Add Security Policies for Uploads:**
-    *   By default, storage buckets are protected from uploads. We need to add a rule to allow your admin user (any logged-in user) to upload files.
+    *   By default, storage buckets are protected from uploads. We need to add rules (called Policies) to allow your admin user (any logged-in user) to upload files.
     *   Go back to the **SQL Editor**.
-    *   Click **"+ New query"** and paste and run the following script. This allows any logged-in user to upload, view, update, and delete files in the `courses` bucket.
+    *   Click **"+ New query"** and paste and run the following script. This script is safe to run multiple times; it will clean up old policies and apply the new, correct ones.
+
+    > **Troubleshooting Tip:** If you see the error `Upload failed: new row violates row-level security policy`, it means this script was not run successfully. Running this script is the solution.
 
     ```sql
-    -- This script makes policy creation idempotent. It first removes the old policy
-    -- if it exists, then creates the new one. This prevents errors on re-running.
+    -- This script is idempotent and can be run multiple times.
+    -- It removes old policies before creating the new, more specific ones.
+
+    -- Drop the old single policy if it exists from a previous version of this guide
     DROP POLICY IF EXISTS "Authenticated users can manage course files" ON storage.objects;
 
-    -- This policy allows any authenticated user to perform all actions (upload, download, update, delete)
-    -- on any file within the 'courses' bucket. This resolves the RLS error on upload.
-    CREATE POLICY "Authenticated users can manage course files"
-    ON storage.objects FOR ALL
+    -- Drop the new policies if they exist, to ensure a clean slate on re-run
+    DROP POLICY IF EXISTS "Authenticated users can view course files" ON storage.objects;
+    DROP POLICY IF EXISTS "Authenticated users can upload course files" ON storage.objects;
+    DROP POLICY IF EXISTS "Authenticated users can update course files" ON storage.objects;
+    DROP POLICY IF EXISTS "Authenticated users can delete course files" ON storage.objects;
+
+    -- Create new, specific policies for clarity and correctness:
+
+    -- 1. Policy to allow authenticated users to VIEW/DOWNLOAD files.
+    CREATE POLICY "Authenticated users can view course files"
+    ON storage.objects FOR SELECT
+    TO authenticated
+    USING ( bucket_id = 'courses' );
+
+    -- 2. Policy to allow authenticated users to UPLOAD files.
+    -- This policy is the specific fix for the "violates row-level security" error on upload.
+    CREATE POLICY "Authenticated users can upload course files"
+    ON storage.objects FOR INSERT
+    TO authenticated
+    WITH CHECK ( bucket_id = 'courses' );
+
+    -- 3. Policy to allow authenticated users to UPDATE files (e.g., move/rename).
+    CREATE POLICY "Authenticated users can update course files"
+    ON storage.objects FOR UPDATE
+    TO authenticated
+    USING ( bucket_id = 'courses' );
+
+    -- 4. Policy to allow authenticated users to DELETE files.
+    CREATE POLICY "Authenticated users can delete course files"
+    ON storage.objects FOR DELETE
     TO authenticated
     USING ( bucket_id = 'courses' );
     ```
-    *   Click **"Run"**. You should see another success message.
+    *   Click **"Run"**. You must see a "Success. No rows returned" message. Once this is done, your file uploads will work.
 
 ### Step 3: Connect Frontend to Supabase
 
