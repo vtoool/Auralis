@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { TimeSlot, Unavailability } from '../types';
@@ -40,7 +41,12 @@ const Booking: React.FC = () => {
     const startHour = 9;
     const endHour = (dayOfWeek === 5 || dayOfWeek === 6) ? 21 : 16; 
 
-    const todaysUnavailabilities = unavailabilities.filter(u => u.unavailable_date === selectedDate.toISOString().split('T')[0]);
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const todaysUnavailabilities = unavailabilities.filter(u => u.unavailable_date === formattedDate);
     const isFullDayBlocked = todaysUnavailabilities.some(u => u.start_time === null);
     if (isFullDayBlocked) return [];
 
@@ -118,13 +124,18 @@ const Booking: React.FC = () => {
       setAlert({ type: 'error', message: t('booking.formAlert') });
       return;
     }
+
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
     
     const { error } = await supabase
       .from('appointments')
       .insert([{ 
         name, 
         email, 
-        date: selectedDate.toISOString().split('T')[0], // Format to YYYY-MM-DD
+        date: formattedDate,
         time: selectedTime 
       }]);
 

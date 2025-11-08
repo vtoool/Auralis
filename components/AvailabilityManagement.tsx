@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
 import type { Unavailability } from '../types';
@@ -56,9 +57,14 @@ const AvailabilityManagement: React.FC = () => {
         e.preventDefault();
         setFormLoading(true);
         setFeedback(null);
+
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(selectedDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
         
         const { error } = await supabase.from('unavailabilities').insert([{
-            unavailable_date: selectedDate.toISOString().split('T')[0],
+            unavailable_date: formattedDate,
             start_time: isFullDay ? null : startTime,
             end_time: isFullDay ? null : endTime,
             reason: reason || null,
