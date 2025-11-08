@@ -25,7 +25,7 @@ const Booking: React.FC = () => {
         const { data, error } = await supabase.from('unavailabilities').select('*');
         if (error) {
             console.error("Error fetching unavailabilities:", error.message);
-            setSetupError(`Could not load schedule. Please follow DEVELOPER_GUIDE.md to set up the backend.`);
+            setSetupError(`Could not load schedule. Please try again later.`);
         } else if (data) {
             setUnavailabilities(data);
             setSetupError(null);
@@ -154,7 +154,7 @@ const Booking: React.FC = () => {
     if (setupError) {
        return (
           <div className="text-center text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-4 rounded-lg">
-              <h3 className="font-bold">Error Loading Booking System</h3>
+              <h3 className="font-bold">An Error Occurred</h3>
               <p className="text-sm">{setupError}</p>
           </div>
        );

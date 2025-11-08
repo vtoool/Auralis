@@ -51,7 +51,7 @@ const Courses: React.FC = () => {
 
       if (dbError) {
         console.error('Error fetching courses:', dbError.message);
-        setError(`Failed to load courses. Please ensure the backend is set up correctly by following the DEVELOPER_GUIDE.md.`);
+        setError(`Failed to load courses. Please try again later.`);
       } else if (data) {
         setCourses(data as Course[]);
         setError(null);
@@ -110,7 +110,7 @@ const Courses: React.FC = () => {
     if (error) {
        return (
           <div className="text-center text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/20 p-4 rounded-lg max-w-4xl mx-auto">
-              <h3 className="font-bold">Error Loading Content</h3>
+              <h3 className="font-bold">An Error Occurred</h3>
               <p className="text-sm">{error}</p>
           </div>
        );

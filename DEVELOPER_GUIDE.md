@@ -146,28 +146,34 @@ For the course file uploads in the admin dashboard to work, you must create a st
 
 ### Step 3: Connect Frontend to Supabase
 
-You **MUST** connect the frontend application to your new Supabase project.
+Your Supabase credentials are required to connect the application to the database. They are located in the `src/services/supabaseClient.ts` file.
 
 1.  Open the file `src/services/supabaseClient.ts`.
-2.  In your Supabase project dashboard, go to **Settings > API**.
-3.  You will find your **Project URL** and your `anon` **public key**.
-4.  Copy these two values and paste them into the `supabaseUrl` and `supabaseAnonKey` constants in `src/services/supabaseClient.ts`, replacing the placeholder values.
+2.  You will find your credentials already set up for you. If you ever need to change them, this is the file to edit.
 
-**This step is mandatory. If you do not replace the placeholder credentials, the app will not connect to YOUR database.**
+    ```typescript
+    // src/services/supabaseClient.ts
 
+    const supabaseUrl = "https://qzlxlxowkwtxpdxfdrql.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOi...JbJ2Tk"; // Your key
+    ```
+
+> **Security Warning:** Hardcoding keys in your frontend code is convenient for initial setup but is not recommended for production. Anyone who can view your website's source code can see these keys. For deployment, you should switch to using **Environment Variables** as described by your hosting provider (e.g., Vercel, Netlify). This involves removing the hardcoded keys and loading them from a secure store, for example: `const supabaseUrl = process.env.VITE_SUPABASE_URL;`
 
 ### Troubleshooting Common Errors
 > **ATTENTION: READ THIS IF YOU SEE AN ERROR**
 > 
-> **Error Message:** `Could not find the table 'public.unavailabilities' in the schema cache` (or any other table name)
+> **Common Error Messages:**
+> - `Could not find the table 'public.unavailabilities' in the schema cache`
+> - `Could not find the 'file_url' column of 'courses' in the schema cache`
 > 
-> This is the most common setup error. It means the application cannot find the database tables it needs.
+> These are the most common setup errors. They mean the application cannot connect to your database or the database schema is out of sync.
 > 
 > **Solution Steps:**
-> 1.  **Check Credentials:** Make sure you have correctly replaced the placeholder URL and Key in `src/services/supabaseClient.ts` as described in **Step 3**.
-> 2.  **Run the Script:** Go back to **Step 2** and run the full database setup script in your Supabase SQL Editor. Make sure it completes with a "Success" message.
-> 3.  **Verify Tables:** In your Supabase dashboard, go to the **Table Editor**. You **must** see `courses`, `appointments`, and `unavailabilities` listed. If they are not there, the script did not run correctly.
-> 4.  **Hard Refresh:** After confirming the tables exist, return to the application and perform a **hard refresh** in your browser (press `Ctrl+Shift+R` or `Cmd+Shift+R`). This clears the old database schema from your browser's cache and is a required final step.
+> 1.  **Check Credentials:** Make sure the `supabaseUrl` and `supabaseAnonKey` in `src/services/supabaseClient.ts` are correct and match the values in your Supabase project's API settings.
+> 2.  **Run the Script:** Go back to **Step 2** and ensure the full database setup script ran successfully in your Supabase SQL Editor. This is the most common cause of "table not found" or "column not found" errors.
+> 3.  **Verify Tables & Columns:** In your Supabase dashboard, go to the **Table Editor**. You **must** see `courses`, `appointments`, and `unavailabilities` listed. Click on `courses` and verify that the `file_url` column exists. If they are not there, the script did not run correctly.
+> 4.  **Hard Refresh:** After confirming the tables and columns exist in Supabase, perform a **hard refresh** in your browser (press `Ctrl+Shift+R` on Windows/Linux or `Cmd+Shift+R` on Mac). This clears the old database schema from your browser's cache and is often the final step needed to fix schema-related errors.
 
 ---
 
@@ -300,7 +306,7 @@ Deploying your frontend is straightforward with a service like Vercel or Netlify
 
 1.  Push your project to a Git provider (GitHub, GitLab).
 2.  Import the project into Vercel/Netlify.
-3.  **Configure Environment Variables:** In the deployment platform's settings, you **must** add your Supabase credentials so the frontend can connect to it. They must be prefixed with `VITE_` (if using Vite, the default for this project).
+3.  **Configure Environment Variables:** In the deployment platform's settings, you **must** add your Supabase credentials so the frontend can connect to it. These are the same variables from your `.env` file.
     *   `VITE_SUPABASE_URL`: Your Supabase Project URL.
     *   `VITE_SUPABASE_ANON_KEY`: Your Supabase `anon` public key.
 4.  Deploy. Your site will be live in minutes!

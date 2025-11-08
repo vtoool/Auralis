@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
 import type { Course } from '../types';
@@ -14,7 +15,7 @@ const CourseManagement: React.FC = () => {
         const { data, error: dbError } = await supabase.from('courses').select('*').order('id');
         if (dbError) {
              console.error("Course Management Error:", dbError.message);
-             setError(`Failed to load courses. Please follow the setup instructions in DEVELOPER_GUIDE.md. Error: ${dbError.message}`);
+             setError(`Failed to load courses: ${dbError.message}`);
         } else if (data) {
             setCourses(data as Course[]);
             setError(null);

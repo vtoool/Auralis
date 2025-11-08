@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
 import type { Unavailability } from '../types';
@@ -19,7 +20,7 @@ const AvailabilityManagement: React.FC = () => {
         const { data, error } = await supabase.from('unavailabilities').select('*');
         if (error) {
             console.error("Availability Management Error:", error.message);
-            setSetupError(`Failed to load schedule. Please follow setup instructions in DEVELOPER_GUIDE.md. Error: ${error.message}`);
+            setSetupError(`Failed to load schedule: ${error.message}`);
         } else if (data) {
             setUnavailabilities(data);
             setSetupError(null);
