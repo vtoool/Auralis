@@ -65,7 +65,11 @@ const CourseManagement: React.FC = () => {
             .eq('id', courseId);
             
         if (updateError) {
-            setError(`Failed to update course: ${updateError.message}`);
+            if (updateError.message.includes('schema cache')) {
+                setError(`Failed to update course: Could not find the 'file_url' column. This is usually due to a stale database schema. Please try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) of this page. If the issue persists, please re-run the database setup script from the DEVELOPER_GUIDE.md.`);
+            } else {
+                setError(`Failed to update course: ${updateError.message}`);
+            }
         } else {
             setSuccess('File uploaded and linked successfully!');
             await fetchCourses();
@@ -75,20 +79,16 @@ const CourseManagement: React.FC = () => {
 
     if (loading) return <div>Loading courses...</div>;
     
-    if (error) {
-        return (
-            <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-4 rounded-lg">
-                <p className="font-bold text-red-800 dark:text-red-200">An Error Occurred</p>
-                <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
-            </div>
-        );
-    }
-
     return (
         <div className="bg-card-background p-6 rounded-lg shadow-elegant-lg animate-fade-in">
             <h2 className="text-xl font-semibold text-primary mb-4">Manage Course Files</h2>
-            {success && <p className="text-green-600 mb-4 p-3 bg-green-100 rounded-md">{success}</p>}
-            {error && <p className="text-red-600 mb-4 p-3 bg-red-100 rounded-md">{error}</p>}
+            {success && <p className="text-green-600 mb-4 p-3 bg-green-100 dark:bg-green-900/20 rounded-md">{success}</p>}
+            {error && (
+                <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 p-4 rounded-lg my-4">
+                    <p className="font-bold text-red-800 dark:text-red-200">An Error Occurred</p>
+                    <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+                </div>
+            )}
             <div className="space-y-4">
                 {courses.map(course => (
                     <div key={course.id} className="flex flex-wrap gap-4 items-center justify-between p-4 border border-border-color rounded-lg">
