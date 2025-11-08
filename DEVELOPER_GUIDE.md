@@ -166,15 +166,25 @@ Your Supabase credentials are required to connect the application to the databas
 > **Common Error Message:**
 > > `Could not find the 'file_url' column of 'courses' in the schema cache`
 > 
-> This is one of the most common setup errors. It means your application's frontend has an outdated "memory" of your database structure, even if you've recently updated it.
+> This is one of the most common setup errors. It means your application is trying to access a column that doesn't exist in your database, or that your browser has an outdated "memory" of your database structure.
 > 
 > **Solution Steps:**
-> 1.  **Run the Script:** First, ensure you have successfully run the full database setup script from **Step 2** in your Supabase SQL Editor. This script creates the `courses` table and the essential `file_url` column.
-> 2.  **Hard Refresh:** After the script is successful, you **must** perform a **hard refresh** of the application in your browser.
+> 
+> 1.  **Surgical Fix (Recommended First Step):** If you have already set up your tables and data but are specifically missing the `file_url` column, you can add it without re-running the entire setup. Go to the **SQL Editor** in Supabase and run this single command:
+>     ```sql
+>     -- Adds only the missing 'file_url' column to your existing 'courses' table.
+>     ALTER TABLE public.courses
+>     ADD COLUMN IF NOT EXISTS file_url TEXT;
+>     ```
+>     This is the safest way to fix the issue without affecting your existing data.
+> 
+> 2.  **Full Script (If Step 1 doesn't work or other tables are missing):** Ensure you have successfully run the full database setup script from **Step 2** in your Supabase SQL Editor. This script creates all necessary tables, including the `courses` table and the essential `file_url` column. The script is designed to be safe to run multiple times.
+> 
+> 3.  **Hard Refresh (After running a SQL command):** After running either of the SQL commands above, you **must** perform a **hard refresh** of the application in your browser.
 >     -   Windows/Linux: `Ctrl+Shift+R`
 >     -   Mac: `Cmd+Shift+R`
 > 
->     A hard refresh forces the browser to clear its local cache and fetch the latest database schema from Supabase, which will resolve the error. If you encounter errors about other missing tables (like `unavailabilities` or `appointments`), the solution is the same: run the script and then hard refresh.
+>     A hard refresh forces the browser to clear its local cache and fetch the latest database schema from Supabase, which will resolve the error. If you encounter errors about other missing tables (like `unavailabilities` or `appointments`), the solution is the same: run the full script and then hard refresh.
 
 ---
 
