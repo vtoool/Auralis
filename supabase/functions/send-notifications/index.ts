@@ -1,10 +1,11 @@
 // supabase/functions/send-notifications/index.ts
 
-// Fix: Add a triple-slash directive to reference Supabase's function types, which includes Deno's global types.
-/// <reference types="https://esm.sh/@supabase/functions-js@2" />
+// Fix: Use a more specific and stable URL for Supabase function types to resolve Deno globals.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
-import { Resend } from 'resend';
+// Fix: Use a Deno-compatible URL import for the 'resend' library.
+import { Resend } from 'https://esm.sh/resend@3.2.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
