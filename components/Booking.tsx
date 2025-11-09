@@ -63,11 +63,6 @@ const Booking: React.FC = () => {
         }));
 
     const slots: TimeSlot[] = [];
-    const dateSeed = new Date(selectedDate).setHours(0,0,0,0);
-    const seededRandom = (seed: number) => {
-      const x = Math.sin(seed) * 10000;
-      return x - Math.floor(x);
-    };
 
     for (let hour = startHour; hour < endHour; hour++) {
       for (const minute of [0, 30]) {
@@ -75,13 +70,10 @@ const Booking: React.FC = () => {
         const slotTimeInMinutes = timeToMinutes(slotTime);
         
         const isBlockedByOwner = blockedRanges.some(range => slotTimeInMinutes >= range.start && slotTimeInMinutes < range.end);
-        
-        const seed = dateSeed + hour + (minute / 60);
-        const isRandomlyUnavailable = seededRandom(seed) <= 0.3;
 
         slots.push({
           time: slotTime,
-          available: !isBlockedByOwner && !isRandomlyUnavailable,
+          available: !isBlockedByOwner,
         });
       }
     }
