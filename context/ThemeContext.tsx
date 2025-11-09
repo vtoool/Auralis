@@ -13,7 +13,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [themeName, setThemeName] = useState<ThemeName>('serene');
+  const [themeName, setThemeName] = useState<ThemeName>('ember');
   const [themeVariant, setThemeVariant] = useState<ThemeVariant>('light');
 
   useEffect(() => {
