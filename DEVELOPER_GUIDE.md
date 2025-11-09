@@ -26,7 +26,7 @@ Supabase is an open-source Firebase alternative providing a PostgreSQL database,
 
 ### Step 2: Run the Database Setup Script
 
-Navigate to the **SQL Editor** in your Supabase dashboard. Click "+ New query" and paste the entire script below. This will create your `courses`, `appointments`, `unavailabilities`, and `contacts` tables, and add sample course data.
+Navigate to the **SQL Editor** in your Supabase dashboard. Click "+ New query" and paste the entire script below. This will create your `courses`, `appointments`, `unavailabilities`, and `contacts` tables, add sample course data, and set up a database function for rescheduling.
 
 **CRITICAL:** After pasting the script, click **"Run"**. You must see a "Success. No rows returned" message. This script is "idempotent," meaning you can safely run it multiple times without causing errors.
 
@@ -94,6 +94,47 @@ CREATE TABLE IF NOT EXISTS public.contacts (
 );
 
 ALTER TABLE public.contacts DISABLE ROW LEVEL SECURITY;
+
+-- 6. Create the server-side function to handle rescheduling appointments atomically
+CREATE OR REPLACE FUNCTION reschedule_appointment(
+    p_appointment_id BIGINT,
+    p_new_date DATE,
+    p_new_time TEXT
+)
+RETURNS void AS $$
+DECLARE
+    v_old_date DATE;
+    v_old_time TEXT;
+    v_name TEXT;
+    v_new_end_time TIME;
+BEGIN
+    -- Step 1: Get the old appointment details to find the matching unavailability
+    SELECT date, time, name
+    INTO v_old_date, v_old_time, v_name
+    FROM public.appointments
+    WHERE id = p_appointment_id;
+
+    -- Step 2: Delete the old unavailability block to free up the slot
+    DELETE FROM public.unavailabilities
+    WHERE unavailable_date = v_old_date
+      AND start_time = (v_old_time || ':00')::TIME
+      AND reason = (v_name || '''s appointment');
+
+    -- Step 3: Update the appointment with the new date and time
+    UPDATE public.appointments
+    SET date = p_new_date,
+        time = p_new_time
+    WHERE id = p_appointment_id;
+
+    -- Step 4: Create a new unavailability block for the new time
+    -- Calculate end time (30 mins after start)
+    v_new_end_time := (p_new_time || ':00')::TIME + interval '30 minutes';
+
+    INSERT INTO public.unavailabilities (unavailable_date, start_time, end_time, reason)
+    VALUES (p_new_date, (p_new_time || ':00')::TIME, v_new_end_time, (v_name || '''s appointment'));
+
+END;
+$$ LANGUAGE plpgsql;
 ```
 
 ### Step 2a: Create Storage Bucket & Policies
@@ -253,15 +294,15 @@ npx supabase link --project-ref YOUR_PROJECT_ID
 
 ## 4. Automating Emails with Database Webhooks
 
-This step connects your database to your function, automatically triggering it when new data is added. You will create **two separate webhooks** that both point to the **same function**.
+This step connects your database to your function, automatically triggering it when new data is added or changed. You will create **two separate webhooks** that both point to the **same function**.
 
-### Webhook for New Appointments
+### Webhook for New and Rescheduled Appointments
 
 1.  In your Supabase dashboard, go to **Database > Webhooks**.
 2.  Click **Create a new webhook**.
 3.  **Name:** `Send Appointment Emails`
 4.  **Table:** Choose the `appointments` table.
-5.  **Events:** Check only the **`INSERT`** box.
+5.  **Events:** Check **BOTH** the **`INSERT`** and **`UPDATE`** boxes. This is crucial for sending both new booking confirmations and rescheduling notifications.
 6.  **Webhook URL:** Go to **Edge Functions** in the Supabase dashboard, select your `send-notifications` function, and copy its URL. Paste that URL here.
 7.  Click **Create webhook**.
 
@@ -275,7 +316,7 @@ This step connects your database to your function, automatically triggering it w
 6.  Click **Create webhook**.
 
 ### Testing Your Webhooks
-After deploying your function and setting up the webhooks, you can test them by submitting the booking or contact forms on your live website.
+After deploying your function and setting up the webhooks, you can test them by submitting the booking or contact forms on your live website, or by rescheduling an appointment from the admin dashboard.
 
 > **Resend "From" Address for Testing**
 > The provided `send-notifications` function uses `onboarding@resend.dev` as the sender. This is a special address provided by Resend for testing purposes and does not require domain verification. You can use this for free while you develop your application.

@@ -11,6 +11,15 @@ export interface Course {
   file_url?: string;
 }
 
+export interface Appointment {
+    id: number;
+    created_at: string;
+    name: string;
+    email: string;
+    date: string; // YYYY-MM-DD
+    time: string; // HH:MM
+}
+
 export interface Testimonial {
   id: number;
   name: string;

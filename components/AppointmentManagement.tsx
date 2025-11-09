@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
-
-interface Appointment {
-    id: number;
-    created_at: string;
-    name: string;
-    email: string;
-    date: string; // YYYY-MM-DD
-    time: string; // HH:MM
-}
+import type { Appointment } from '../types';
+import RescheduleModal from './RescheduleModal';
 
 const AppointmentManagement: React.FC = () => {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -16,6 +9,10 @@ const AppointmentManagement: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error', message: string } | null>(null);
     const [cancellingId, setCancellingId] = useState<number | null>(null);
+
+    const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+
 
     const fetchAppointments = useCallback(async () => {
         // Don't show feedback from previous actions when reloading
@@ -82,14 +79,33 @@ const AppointmentManagement: React.FC = () => {
         }
     };
     
-    const getRescheduleLink = (appointment: Appointment): string => {
-        const subject = encodeURIComponent(`Rescheduling our Auralis session`);
-        const formattedDate = new Date(`${appointment.date}T${appointment.time}`).toLocaleString('default', {
-            weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    const handleOpenRescheduleModal = (appt: Appointment) => {
+        setSelectedAppointment(appt);
+        setIsRescheduleModalOpen(true);
+    };
+
+    const handleReschedule = async (appt: Appointment, newDate: Date, newTime: string) => {
+        setLoading(true);
+        setIsRescheduleModalOpen(false);
+        setFeedback(null);
+
+        const formattedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, '0')}-${String(newDate.getDate()).padStart(2, '0')}`;
+
+        const { error: rpcError } = await supabase.rpc('reschedule_appointment', {
+            p_appointment_id: appt.id,
+            p_new_date: formattedDate,
+            p_new_time: newTime
         });
-        const body = encodeURIComponent(`Hi ${appointment.name},\n\nI need to reschedule our appointment for ${formattedDate}.\n\nPlease let me know what other times might work for you.\n\nBest,\nAlice`);
-        return `mailto:${appointment.email}?subject=${subject}&body=${body}`;
-    }
+
+        if (rpcError) {
+            setFeedback({ type: 'error', message: `Reschedule failed: ${rpcError.message}` });
+             console.error("Reschedule RPC error:", rpcError);
+        } else {
+            setFeedback({ type: 'success', message: 'Appointment rescheduled successfully. The client has been notified.' });
+            fetchAppointments();
+        }
+        setLoading(false);
+    };
 
     if (loading && !appointments.length) return <div className="text-center p-4">Loading appointments...</div>;
     if (error) return <div className="text-red-500 text-center p-4">{error}</div>;
@@ -119,14 +135,12 @@ const AppointmentManagement: React.FC = () => {
                                     <p className="text-xs text-text-secondary/70">Booked on: {new Date(appt.created_at).toLocaleDateString()}</p>
                                 </div>
                                 <div className="flex items-center space-x-2 flex-shrink-0">
-                                    <a 
-                                      href={getRescheduleLink(appt)}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                                    <button 
+                                      onClick={() => handleOpenRescheduleModal(appt)}
                                       className="px-3 py-1.5 text-sm rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
                                     >
                                         Reschedule
-                                    </a>
+                                    </button>
                                     <button 
                                         onClick={() => handleCancel(appt)} 
                                         disabled={cancellingId === appt.id}
@@ -142,6 +156,13 @@ const AppointmentManagement: React.FC = () => {
                     <p className="text-text-secondary text-center py-8">No upcoming appointments found.</p>
                 )}
             </div>
+            {isRescheduleModalOpen && selectedAppointment && (
+                <RescheduleModal
+                    appointment={selectedAppointment}
+                    onClose={() => setIsRescheduleModalOpen(false)}
+                    onReschedule={handleReschedule}
+                />
+            )}
         </div>
     );
 };
