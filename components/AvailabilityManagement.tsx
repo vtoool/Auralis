@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
-import type { Unavailability } from '../types';
+import type { Unavailability, TimeSlot } from '../types';
 
 const AvailabilityManagement: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -97,6 +97,50 @@ const AvailabilityManagement: React.FC = () => {
         new Date(u.unavailable_date + 'T00:00:00').getFullYear() === selectedDate.getFullYear()
     );
 
+    const availabilityPreviewSlots = useMemo(() => {
+        const dayOfWeek = selectedDate.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+        const startHour = 9;
+        const endHour = (dayOfWeek === 5 || dayOfWeek === 6) ? 21 : 16;
+
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(selectedDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const todaysUnavailabilities = unavailabilities.filter(u => u.unavailable_date === formattedDate);
+        const isFullDayBlocked = todaysUnavailabilities.some(u => u.start_time === null);
+        if (isFullDayBlocked) return [];
+
+        const timeToMinutes = (timeStr: string): number => {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        };
+
+        const blockedRanges = todaysUnavailabilities
+            .filter(u => u.start_time && u.end_time)
+            .map(u => ({
+                start: timeToMinutes(u.start_time!),
+                end: timeToMinutes(u.end_time!),
+            }));
+
+        const slots: TimeSlot[] = [];
+
+        for (let hour = startHour; hour < endHour; hour++) {
+            for (const minute of [0, 30]) {
+                const slotTime = `${String(hour).padStart(2, '0')}:${minute === 0 ? '00' : '30'}`;
+                const slotTimeInMinutes = timeToMinutes(slotTime);
+
+                const isBlockedByOwner = blockedRanges.some(range => slotTimeInMinutes >= range.start && slotTimeInMinutes < range.end);
+
+                slots.push({
+                    time: slotTime,
+                    available: !isBlockedByOwner,
+                });
+            }
+        }
+        return slots.filter(slot => timeToMinutes(slot.time) < endHour * 60);
+    }, [selectedDate, unavailabilities]);
+
     if (pageLoading) {
         return <div>Loading availability...</div>
     }
@@ -160,11 +204,39 @@ const AvailabilityManagement: React.FC = () => {
                         {formLoading ? 'Blocking...' : 'Add Unavailability'}
                     </button>
                 </form>
+
+                <div className="mt-8 pt-6 border-t border-border-color">
+                    <h3 className="text-xl font-semibold text-primary mb-2">
+                        Availability Preview
+                    </h3>
+                     <p className="text-sm text-text-secondary mb-4">Showing real-time available slots for clients on {selectedDate.toLocaleDateString()}.</p>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-64 overflow-y-auto pr-2">
+                        {availabilityPreviewSlots.length > 0 ? (
+                            availabilityPreviewSlots.map(slot => (
+                                <div
+                                    key={slot.time}
+                                    className={`p-2 text-xs text-center rounded-md border ${
+                                        slot.available
+                                            ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border-green-200 dark:border-green-800'
+                                            : 'bg-red-100/50 dark:bg-red-900/20 text-text-secondary/70 border-border-color line-through'
+                                    }`}
+                                >
+                                    {slot.time}
+                                </div>
+                            ))
+                        ) : (
+                            <p className="col-span-3 sm:col-span-4 text-center text-text-secondary py-4">
+                                This day is fully blocked or outside working hours.
+                            </p>
+                        )}
+                    </div>
+                </div>
+
             </div>
             <div>
                  <h2 className="text-xl font-semibold text-primary mb-4">Current Unavailabilities</h2>
-                 {feedback && <div className={`mb-4 p-3 rounded-md text-sm ${feedback.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{feedback.message}</div>}
-                 <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
+                 {feedback && <div className={`mb-4 p-3 rounded-md text-sm ${feedback.type === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-200'}`}>{feedback.message}</div>}
+                 <div className="space-y-2 max-h-[80vh] overflow-y-auto pr-2">
                      {unavailabilities.length > 0 ? unavailabilities.sort((a,b) => new Date(a.unavailable_date).getTime() - new Date(b.unavailable_date).getTime()).map(u => (
                         <div key={u.id} className="flex justify-between items-center p-3 bg-primary-light rounded-lg">
                             <div>
