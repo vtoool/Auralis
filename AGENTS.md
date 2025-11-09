@@ -21,6 +21,7 @@ Auralis is a stylish and elegant spiritual wellness platform. The goal is to cre
 ## Development Log & Key Decisions
 
 -   **Backend:** Supabase was chosen for its integrated services (Postgres, Auth, Storage).
+-   **Backend Notifications:** Consolidated all email notification logic (for new appointments and new contact messages) into a single, unified Supabase Edge Function (`send-notifications`). This function is triggered by two separate database webhooks, promoting code reuse and simplifying maintenance.
 -   **Error Handling (Setup):** Initial implementation attempted to show a detailed setup guide (`SetupGuide.tsx`) in the UI if the database connection failed. This was revised based on user feedback.
 -   **Current Approach (Setup):** Setup errors are now handled by displaying a simple, non-technical error message to the user, while detailed error logs and warnings pointing to `DEVELOPER_GUIDE.md` are shown in the developer console. This maintains a clean UX while providing necessary information to the developer.
 -   **Credential Management:** Refactored from hardcoded placeholder credentials in `supabaseClient.ts` to using a standard `.env` file. This was later reverted to solve an immediate user setup issue.
@@ -28,6 +29,14 @@ Auralis is a stylish and elegant spiritual wellness platform. The goal is to cre
 ---
 
 ## Mistakes & Learnings
+
+### **Oversight:** Incomplete Database Setup Script
+
+-   **Incident:** The user followed the `DEVELOPER_GUIDE.md` to set up email notifications. When creating the webhook for the `contacts` table, they were unable to find the table in the dropdown list in the Supabase dashboard.
+-   **Why it was wrong:** My documentation was out of sync with the application's features. I had implemented the contact form on the frontend and the corresponding notification logic in the backend Edge Function, but I failed to include the necessary `CREATE TABLE public.contacts` statement in the main database setup script within the developer guide. This created a frustrating dead-end for the user during a critical setup step.
+-   **Learning & Corrective Action:**
+    -   **Rule:** A feature is not "done" until it is fully documented. When implementing any feature that requires a database schema change, the corresponding `CREATE`, `ALTER`, or `UPDATE` script **must** be added to the canonical setup guide (`DEVELOPER_GUIDE.md` in this case). The documentation must always reflect the complete state required to run the application.
+    -   **Correction:** I provided the user with the standalone SQL command to create the `contacts` table. I then immediately corrected the omission by updating the main database script in `DEVELOPER_GUIDE.md` to include the creation of the `contacts` table, ensuring future setups will be seamless.
 
 ### **Critical Mistake:** Embedding Developer Guides in the Frontend UI
 

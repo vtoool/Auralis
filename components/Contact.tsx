@@ -1,11 +1,13 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { supabase } from '../src/services/supabaseClient';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -22,11 +24,26 @@ const Contact: React.FC = () => {
   }, [formData.message]);
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Connect to backend service (e.g., Supabase function, Formspark)
-    console.log('Form data submitted:', formData);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError(null);
+    
+    // Save message to the 'contacts' table in Supabase.
+    // The DEVELOPER_GUIDE.md explains how you can set up a webhook
+    // to trigger an email notification from this database action.
+    const { error } = await supabase.from('contacts').insert([
+        { name: formData.name, email: formData.email, message: formData.message }
+    ]);
+
+    if (error) {
+        console.error('Contact form submission error:', error);
+        setSubmitError("Sorry, there was an issue sending your message. Please try again later.");
+        setIsSubmitting(false);
+    } else {
+        setIsSubmitted(true);
+        // No need to set isSubmitting to false, as the view will change.
+    }
   };
 
   if (isSubmitted) {
@@ -93,11 +110,13 @@ const Contact: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="w-full py-4 px-6 font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-md"
+                disabled={isSubmitting}
+                className="w-full py-4 px-6 font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-md disabled:opacity-60"
               >
-                {t('contact.sendMessage')}
+                {isSubmitting ? 'Sending...' : t('contact.sendMessage')}
               </button>
             </div>
+            {submitError && <p className="text-red-500 text-center pt-2">{submitError}</p>}
           </form>
         </div>
       </div>
