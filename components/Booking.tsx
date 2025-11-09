@@ -1,6 +1,6 @@
 
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { TimeSlot, Unavailability } from '../types';
 import AnimatedSection from './AnimatedSection';
@@ -20,21 +20,22 @@ const Booking: React.FC = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   
-  useEffect(() => {
-    const fetchUnavailabilities = async () => {
-        setLoading(true);
-        const { data, error } = await supabase.from('unavailabilities').select('*');
-        if (error) {
-            console.error("Error fetching unavailabilities:", error.message);
-            setSetupError(`Could not load schedule. Please try again later.`);
-        } else if (data) {
-            setUnavailabilities(data);
-            setSetupError(null);
-        }
-        setLoading(false);
-    };
-    fetchUnavailabilities();
+  const fetchUnavailabilities = useCallback(async () => {
+      setLoading(true);
+      const { data, error } = await supabase.from('unavailabilities').select('*');
+      if (error) {
+          console.error("Error fetching unavailabilities:", error.message);
+          setSetupError(`Could not load schedule. Please try again later.`);
+      } else if (data) {
+          setUnavailabilities(data);
+          setSetupError(null);
+      }
+      setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchUnavailabilities();
+  }, [fetchUnavailabilities]);
 
   const timeSlots = useMemo(() => {
     const dayOfWeek = selectedDate.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
@@ -122,7 +123,7 @@ const Booking: React.FC = () => {
     const day = String(selectedDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
     
-    const { error } = await supabase
+    const { error: appointmentError } = await supabase
       .from('appointments')
       .insert([{ 
         name, 
@@ -131,20 +132,51 @@ const Booking: React.FC = () => {
         time: selectedTime 
       }]);
 
-    if (error) {
-      setAlert({ type: 'error', message: `Booking failed: ${error.message}` });
-    } else {
-      const successMessage = t('booking.successAlert', {
-        name,
-        date: selectedDate.toLocaleDateString(locale),
-        time: selectedTime,
-        email,
-      });
-      setAlert({ type: 'success', message: successMessage });
-      setName('');
-      setEmail('');
-      setSelectedTime(null);
+    if (appointmentError) {
+      setAlert({ type: 'error', message: `Booking failed: ${appointmentError.message}` });
+      return;
     }
+
+    // If appointment booking is successful, block the time slot
+    const getEndTime = (startTime: string): string => {
+        const [hours, minutes] = startTime.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hours, minutes, 0, 0);
+        date.setMinutes(date.getMinutes() + 30);
+        const endHours = String(date.getHours()).padStart(2, '0');
+        const endMinutes = String(date.getMinutes()).padStart(2, '0');
+        return `${endHours}:${endMinutes}:00`;
+    }
+    
+    const endTime = getEndTime(selectedTime);
+
+    const { error: unavailabilityError } = await supabase
+      .from('unavailabilities')
+      .insert([{
+        unavailable_date: formattedDate,
+        start_time: `${selectedTime}:00`,
+        end_time: endTime,
+        reason: `${name}'s appointment`
+      }]);
+      
+    if (unavailabilityError) {
+      // Log for admin, but don't show a scary error to the user who thinks they've booked.
+      // The booking was successful. The system will recover.
+      console.error(`Critical: Failed to block time for appointment after booking. Please block manually. Details: ${unavailabilityError.message}`);
+    }
+
+
+    const successMessage = t('booking.successAlert', {
+      name,
+      date: selectedDate.toLocaleDateString(locale),
+      time: selectedTime,
+      email,
+    });
+    setAlert({ type: 'success', message: successMessage });
+    setName('');
+    setEmail('');
+    setSelectedTime(null);
+    fetchUnavailabilities();
   };
 
   const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

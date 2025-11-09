@@ -205,7 +205,7 @@ Your Supabase credentials are required to connect the application to the databas
 Resend is a modern email API for developers. We'll use it to send booking confirmations and contact form notifications.
 
 1.  **Create an Account:** Go to [resend.com](https://resend.com) and sign up for a free account.
-2.  **Add and Verify Your Domain:** To send emails that don't land in spam, you must send from a domain you own. Follow their guide to add your domain and verify the DNS records. **This is a critical step.**
+2.  **Add and Verify Your Domain:** To send emails that don't land in spam, you must send from a domain you own. Follow their guide to add your domain and verify the DNS records. **This is a critical step for production.** You can skip this for initial testing.
 3.  **Get API Key:** Go to the **API Keys** section and create a new key with full access. Copy it and keep it safe; you'll need it in the next step.
 
 ---
@@ -230,7 +230,7 @@ npx supabase link --project-ref YOUR_PROJECT_ID
 ### Step 3: Create and Deploy the Notification Function
 
 1.  **Create the Edge Function:**
-    The code for the function is already written for you. This command simply creates the necessary folder structure.
+    The code for the function is already written for you in `supabase/functions/send-notifications/index.ts`. If that directory doesn't exist, this command will create it.
     ```bash
     npx supabase functions new send-notifications
     ```
@@ -273,6 +273,17 @@ This step connects your database to your function, automatically triggering it w
 4.  **Events:** Check only the **`INSERT`** box.
 5.  **Webhook URL:** Paste the **exact same** function URL you used for appointments.
 6.  Click **Create webhook**.
+
+### Testing Your Webhooks
+After deploying your function and setting up the webhooks, you can test them by submitting the booking or contact forms on your live website.
+
+> **Resend "From" Address for Testing**
+> The provided `send-notifications` function uses `onboarding@resend.dev` as the sender. This is a special address provided by Resend for testing purposes and does not require domain verification. You can use this for free while you develop your application.
+> 
+> **For Production:** When you are ready to go live, you **must**:
+> 1.  Verify your own domain in Resend (e.g., `your-domain.com`).
+> 2.  Update the `RESEND_FROM_EMAIL` constant in your `supabase/functions/send-notifications/index.ts` file to use an email from your verified domain (e.g., `'Alice <hello@your-domain.com>'`).
+> 3.  Redeploy the function using the `npx supabase functions deploy...` command.
 
 Now, your email notification system is fully automated!
 

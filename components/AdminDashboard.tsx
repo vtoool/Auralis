@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import CourseManagement from './CourseManagement';
 import AvailabilityManagement from './AvailabilityManagement';
 import { useAuth } from '../context/AuthContext';
+import AppointmentManagement from './AppointmentManagement';
 
-type AdminTab = 'courses' | 'availability';
+type AdminTab = 'courses' | 'availability' | 'appointments';
 
 const AdminDashboard: React.FC = () => {
     const [activeTab, setActiveTab] = useState<AdminTab>('courses');
@@ -37,11 +38,15 @@ const AdminDashboard: React.FC = () => {
                     <button onClick={() => setActiveTab('availability')} className={`py-2 px-4 font-medium transition-colors ${activeTab === 'availability' ? 'border-b-2 border-primary text-primary' : 'text-text-secondary hover:text-primary'}`}>
                         Availability
                     </button>
+                    <button onClick={() => setActiveTab('appointments')} className={`py-2 px-4 font-medium transition-colors ${activeTab === 'appointments' ? 'border-b-2 border-primary text-primary' : 'text-text-secondary hover:text-primary'}`}>
+                        Appointments
+                    </button>
                 </div>
 
                 <main>
                     {activeTab === 'courses' && <CourseManagement />}
                     {activeTab === 'availability' && <AvailabilityManagement />}
+                    {activeTab === 'appointments' && <AppointmentManagement />}
                 </main>
             </div>
         </div>
