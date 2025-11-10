@@ -8,14 +8,15 @@ import Booking from './components/Booking';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AnimatedSection from './components/AnimatedSection';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import OasisThemeSite from './components/OasisThemeSite';
 
-const PublicSite: React.FC = () => (
+const OriginalThemeSite: React.FC = () => (
   <div className="bg-background text-text-primary font-sans transition-colors duration-300">
     <Header />
     <main>
@@ -35,6 +36,16 @@ const PublicSite: React.FC = () => (
     <Footer />
   </div>
 );
+
+const PublicSite: React.FC = () => {
+    const { themeName } = useTheme();
+
+    if (themeName === 'oasis') {
+        return <OasisThemeSite />;
+    }
+
+    return <OriginalThemeSite />;
+}
 
 
 const AppRoutes: React.FC = () => {

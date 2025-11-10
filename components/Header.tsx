@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const { t } = useLanguage();
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
   const { session, signOut } = useAuth();
 
   const handleLogout = async () => {
@@ -137,7 +137,7 @@ const Header: React.FC = () => {
             <Logo />
           </a>
 
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -151,10 +151,10 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="flex items-center space-x-2">
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
                {session ? (
                   <div className="flex items-center space-x-4">
-                    <a href="#/admin" className="px-5 py-2 text-sm font-semibold rounded-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <a href="#/admin" className="px-5 py-2 text-sm font-semibold rounded-full bg-accent text-accent-foreground hover:bg-accent/90 whitespace-nowrap">
                       Dashboard
                     </a>
                     <button onClick={handleLogout} className="text-sm font-medium text-text-secondary hover:text-primary">
@@ -165,7 +165,7 @@ const Header: React.FC = () => {
                   <a
                     href="#booking"
                     onClick={handleNavClick}
-                    className="px-5 py-2 text-sm font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-sm"
+                    className="px-5 py-2 text-sm font-semibold rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-300 shadow-sm whitespace-nowrap"
                   >
                     {t('header.getStarted')}
                   </a>
@@ -175,7 +175,7 @@ const Header: React.FC = () => {
             <ThemeToggle />
             <LanguageSwitcher />
 
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-md text-primary"
@@ -202,7 +202,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
+        <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
           <nav className="flex flex-col items-center space-y-4 py-4 border-t border-border-color">
             {navLinks.map((link) => (
               <a

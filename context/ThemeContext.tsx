@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type ThemeVariant = 'light' | 'dark';
-type ThemeName = 'serene' | 'vibrant' | 'ember';
+type ThemeName = 'serene' | 'vibrant' | 'ember' | 'oasis';
 
 interface ThemeContextType {
   themeName: ThemeName;
@@ -17,8 +17,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [themeVariant, setThemeVariant] = useState<ThemeVariant>('light');
 
   useEffect(() => {
-    const storedThemeName = localStorage.getItem('themeName') as ThemeName | null;
-    if (storedThemeName) {
+    const storedThemeName = localStorage.getItem('themeName');
+    if (storedThemeName === 'serene' || storedThemeName === 'vibrant' || storedThemeName === 'ember' || storedThemeName === 'oasis') {
       setThemeName(storedThemeName);
     }
 
@@ -36,7 +36,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const html = document.documentElement;
 
     // Remove old theme names to avoid conflicts
-    html.classList.remove('theme-serene', 'theme-vibrant', 'theme-ember');
+    html.classList.remove('theme-serene', 'theme-vibrant', 'theme-ember', 'theme-oasis');
     // Add current theme name
     html.classList.add(`theme-${themeName}`);
 
