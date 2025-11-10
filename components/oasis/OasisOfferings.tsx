@@ -1,37 +1,20 @@
 
 import React from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const OasisOfferings: React.FC = () => {
-
-    const offerings = [
-        {
-            src: 'https://picsum.photos/seed/incense/800/600',
-            alt: 'Incense sticks burning'
-        },
-        {
-            src: 'https://picsum.photos/seed/buddha/600/800',
-            alt: 'Buddha head statue'
-        },
-        {
-            src: 'https://picsum.photos/seed/statues/800/600',
-            alt: 'Buddha statues in a row'
-        },
-        {
-            src: 'https://picsum.photos/seed/praying/600/800',
-            alt: 'Woman praying'
-        }
-    ];
+    const { t } = useLanguage();
 
     return (
         <section className="py-24 bg-primary-light">
              <div className="container mx-auto px-6">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                     <div>
-                        <p className="text-accent font-semibold tracking-wider">OUR CURATED SHOP</p>
-                        <h2 className="font-display text-4xl font-bold text-primary mt-2 mb-6">Tools for Your Journey</h2>
-                        <p className="text-text-secondary mb-8">Complement your spiritual practice with our thoughtfully selected collection of wellness products. From handcrafted meditation cushions to purifying sage, each item is chosen to enhance your journey and bring a sense of peace and harmony to your sacred space.</p>
+                        <p className="text-accent font-semibold tracking-wider">{t('oasis.offerings.shop')}</p>
+                        <h2 className="font-display text-4xl font-bold text-primary mt-2 mb-6">{t('oasis.offerings.title')}</h2>
+                        <p className="text-text-secondary mb-8">{t('oasis.offerings.text')}</p>
                         <a href="#/shop" className="px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
-                            View Products
+                            {t('oasis.offerings.viewProducts')}
                         </a>
                     </div>
                      <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[28rem] md:h-[32rem]">

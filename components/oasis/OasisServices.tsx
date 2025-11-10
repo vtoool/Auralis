@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { HamsaIcon, YogaIcon, MeditationIcon, EventsIcon } from './OasisIcons';
+import { useLanguage } from '../../context/LanguageContext';
 
-const ServiceCard: React.FC<{icon: React.ReactNode, title: string, description: string, image: string, isLink?: boolean, href?: string}> = ({icon, title, description, image, isLink, href}) => {
+const ServiceCard: React.FC<{icon: React.ReactNode, title: string, description: string, image: string, isLink?: boolean, href?: string, bookNowText: string}> = ({icon, title, description, image, isLink, href, bookNowText}) => {
     const content = (
         <div className="bg-card-background border border-border-color shadow-sm transition-all duration-300 hover:shadow-elegant-lg group overflow-hidden rounded-sm h-full flex flex-col">
             <div className="h-48 overflow-hidden">
@@ -14,7 +15,7 @@ const ServiceCard: React.FC<{icon: React.ReactNode, title: string, description: 
                 <p className="text-text-secondary flex-grow">{description}</p>
                  {isLink && (
                     <span className="mt-4 font-semibold text-primary group-hover:text-accent transition-colors">
-                        Book Now &rarr;
+                        {bookNowText}
                     </span>
                  )}
             </div>
@@ -25,29 +26,31 @@ const ServiceCard: React.FC<{icon: React.ReactNode, title: string, description: 
 };
 
 const OasisServices: React.FC = () => {
+    const { t } = useLanguage();
+    
     const cards = [
         {
             icon: <HamsaIcon className="text-accent mx-auto" />,
-            title: 'Mindfulness Workshops',
-            description: 'Embrace the art of mindfulness to nurture a deeper and more meaningful connection with the present moment.',
+            title: t('oasis.services.mindfulnessTitle'),
+            description: t('oasis.services.mindfulnessText'),
             image: 'https://picsum.photos/seed/mindfulness-workshop/600/400'
         },
         {
             icon: <YogaIcon className="text-accent mx-auto" />,
-            title: 'Yoga for Inner Peace',
-            description: 'True harmony of mind and body is the essence of this practice, where your physical and mental conditions align.',
+            title: t('oasis.services.yogaTitle'),
+            description: t('oasis.services.yogaText'),
             image: 'https://picsum.photos/seed/yoga-peace/600/400'
         },
         {
             icon: <MeditationIcon className="text-accent mx-auto" />,
-            title: 'Meditation Sessions',
-            description: 'The ancient art of meditation is a powerful tool you can learn in our sessions to bring tranquility to your daily life.',
+            title: t('oasis.services.meditationTitle'),
+            description: t('oasis.services.meditationText'),
             image: 'https://picsum.photos/seed/meditation-session/600/400'
         },
         {
             icon: <EventsIcon className="text-accent mx-auto" />,
-            title: 'Book a Session',
-            description: 'Schedule a one-on-one session for personalized guidance and a deeper connection to your practice.',
+            title: t('oasis.services.bookingTitle'),
+            description: t('oasis.services.bookingText'),
             image: 'https://picsum.photos/seed/booking-service/600/400',
             isLink: true,
             href: '#/booking'
@@ -58,13 +61,13 @@ const OasisServices: React.FC = () => {
         <section className="py-24 bg-background">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
-                    <p className="text-accent font-semibold tracking-wider">OUR SERVICES</p>
-                    <h2 className="font-display text-4xl font-bold text-primary mt-2 mb-4">Mindfulness and Compassion</h2>
-                    <p className="text-text-secondary">Explore the ancient art of mindfulness and compassion to find the true balance of mind, body, and spirit. We provide a series of workshops designed to enhance self-awareness and inner peace, alongside our meditation sessions.</p>
+                    <p className="text-accent font-semibold tracking-wider">{t('oasis.services.services')}</p>
+                    <h2 className="font-display text-4xl font-bold text-primary mt-2 mb-4">{t('oasis.services.title')}</h2>
+                    <p className="text-text-secondary">{t('oasis.services.text')}</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {cards.map(card => <ServiceCard key={card.title} {...card} />)}
+                    {cards.map(card => <ServiceCard key={card.title} {...card} bookNowText={t('oasis.services.bookNow')} />)}
                 </div>
             </div>
         </section>

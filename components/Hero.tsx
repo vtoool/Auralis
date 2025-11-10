@@ -1,23 +1,13 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import LazyBackgroundImage from './LazyBackgroundImage';
 
-const themeBackgrounds = {
-  serene: 'https://images.unsplash.com/photo-1623172959921-630212f71058?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332',
-  vibrant: 'https://plus.unsplash.com/premium_photo-1676815865390-8e3a9336f64b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332',
-  ember: 'https://plus.unsplash.com/premium_photo-1680098056984-0c397d284e74?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687',
+const themeBackgrounds: { [key: string]: string } = {
+  serene: 'https://images.unsplash.com/photo-1623172959921-630212f71058?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1920',
+  vibrant: 'https://plus.unsplash.com/premium_photo-1676815865390-8e3a9336f64b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1920',
+  ember: 'https://images.unsplash.com/photo-1613068431228-8cb6a1e92573?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687',
 };
-
-const BackgroundImage: React.FC<{ src: string; active: boolean }> = ({ src, active }) => (
-  <div
-    className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ${
-      active ? 'opacity-100' : 'opacity-0'
-    }`}
-    style={{ backgroundImage: `url('${src}')` }}
-    aria-hidden="true"
-  />
-);
-
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
@@ -45,7 +35,7 @@ const Hero: React.FC = () => {
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Images with transitions */}
       {Object.entries(themeBackgrounds).map(([theme, src]) => (
-        <BackgroundImage key={theme} src={src} active={themeName === theme} />
+        <LazyBackgroundImage key={theme} src={src} active={themeName === theme} />
       ))}
 
       {/* Conditional overlay for vibrant theme to improve contrast */}

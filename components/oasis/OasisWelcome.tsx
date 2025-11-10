@@ -1,7 +1,11 @@
+
 import React from 'react';
 import { WorshipIcon, OutreachIcon } from './OasisIcons';
+import { useLanguage } from '../../context/LanguageContext';
 
 const OasisWelcome: React.FC = () => {
+    const { t } = useLanguage();
+
     return (
         <section className="py-24 bg-background">
             <div className="container mx-auto px-6">
@@ -20,26 +24,26 @@ const OasisWelcome: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <h2 className="font-display text-4xl font-bold text-primary mb-6">Invest in Your Well-Being and Spiritual Growth</h2>
-                        <p className="text-text-secondary mb-8">My own journey into spiritual wellness began from a place of seeking calm in a chaotic world. I discovered that true harmony isn't about escaping life's challenges, but about cultivating a deep, unshakable peace within. This realization transformed my life, and I felt a profound calling to share these practices with others.</p>
+                        <h2 className="font-display text-4xl font-bold text-primary mb-6">{t('oasis.welcome.title')}</h2>
+                        <p className="text-text-secondary mb-8">{t('oasis.welcome.text')}</p>
                         <div className="space-y-6">
                              <div className="flex items-start space-x-4">
                                 <WorshipIcon className="text-accent" />
                                 <div>
-                                    <h4 className="font-bold text-primary text-lg">Guided Meditations</h4>
-                                    <p className="text-text-secondary">Experience our heartwarming guided sessions every week.</p>
+                                    <h4 className="font-bold text-primary text-lg">{t('oasis.welcome.guidedMeditations')}</h4>
+                                    <p className="text-text-secondary">{t('oasis.welcome.guidedMeditationsText')}</p>
                                 </div>
                              </div>
                              <div className="flex items-start space-x-4">
                                 <OutreachIcon className="text-accent" />
                                 <div>
-                                    <h4 className="font-bold text-primary text-lg">Wellness Workshops</h4>
-                                    <p className="text-text-secondary">Join our community to make a difference in your life and others'.</p>
+                                    <h4 className="font-bold text-primary text-lg">{t('oasis.welcome.wellnessWorkshops')}</h4>
+                                    <p className="text-text-secondary">{t('oasis.welcome.wellnessWorkshopsText')}</p>
                                 </div>
                              </div>
                         </div>
                         <button className="mt-8 px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
-                            View Courses
+                            {t('oasis.welcome.viewCourses')}
                         </button>
                     </div>
                 </div>

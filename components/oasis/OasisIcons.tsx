@@ -61,11 +61,9 @@ export const YogaIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 export const MeditationIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M18 10h.01" />
-        <path d="M6 10h.01" />
-        <path d="M12 10h.01" />
-        <path d="M12 14h.01" />
-        <path d="M12 18h.01" />
-        <path d="M12 6h.01" />
+        <path d="M4 11.2422C4 11.2422 6 7.5 12 7.5C18 7.5 20 11.2422 20 11.2422"/>
+        <path d="M12 12V6"/>
+        <path d="M18 17C18 17 16.5 14.5 12 14.5C7.5 14.5 6 17 6 17"/>
+        <path d="M14.5 12C14.5 13.3807 13.3807 14.5 12 14.5C10.6193 14.5 9.5 13.3807 9.5 12C9.5 10.6193 10.6193 9.5 12 9.5C13.3807 9.5 14.5 10.6193 14.5 12Z"/>
     </svg>
 );

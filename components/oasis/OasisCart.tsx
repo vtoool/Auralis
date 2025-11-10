@@ -1,9 +1,11 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useCart } from '../../context/CartContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const OasisCart: React.FC = () => {
     const { isCartOpen, toggleCart, setCartOpen, cartItems, cartTotal, removeFromCart } = useCart();
+    const { t } = useLanguage();
     const cartRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -23,7 +25,7 @@ const OasisCart: React.FC = () => {
                 className={`fixed top-0 right-0 h-full w-full max-w-md bg-card-background shadow-elegant-lg transition-transform duration-300 flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
             >
                 <div className="flex justify-between items-center p-6 border-b border-border-color">
-                    <h2 className="font-display text-2xl text-primary font-semibold">Your Cart</h2>
+                    <h2 className="font-display text-2xl text-primary font-semibold">{t('oasis.cart.title')}</h2>
                     <button onClick={toggleCart} className="p-2 rounded-full text-text-secondary hover:bg-border-color">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
@@ -49,19 +51,19 @@ const OasisCart: React.FC = () => {
 
                         <div className="p-6 border-t border-border-color">
                             <div className="flex justify-between text-lg font-bold text-primary mb-4">
-                                <span>Subtotal</span>
+                                <span>{t('oasis.cart.subtotal')}</span>
                                 <span>${cartTotal.toFixed(2)}</span>
                             </div>
                             <a href="#/checkout" onClick={toggleCart} className="block w-full text-center p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
-                                Proceed to Checkout
+                                {t('oasis.cart.checkout')}
                             </a>
                         </div>
                     </>
                 ) : (
                     <div className="flex-grow flex flex-col items-center justify-center p-6 text-center">
-                        <p className="text-text-secondary text-lg">Your cart is empty.</p>
+                        <p className="text-text-secondary text-lg">{t('oasis.cart.empty')}</p>
                         <a href="#/shop" onClick={toggleCart} className="mt-4 px-6 py-2 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
-                           Start Shopping
+                           {t('oasis.cart.startShopping')}
                         </a>
                     </div>
                 )}

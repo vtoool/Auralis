@@ -1,7 +1,10 @@
+
 import React from 'react';
 import Logo from '../Logo';
+import { useLanguage } from '../../context/LanguageContext';
 
 const OasisFooter: React.FC = () => {
+    const { t } = useLanguage();
     const currentYear = new Date().getFullYear();
 
     const handleGoTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -16,11 +19,11 @@ const OasisFooter: React.FC = () => {
                      <a href="#" aria-label="Auralis homepage" onClick={handleGoTop}>
                         <Logo />
                     </a>
-                    <p className="text-white/70">&copy; {currentYear} Auralis. All Rights Reserved.</p>
+                    <p className="text-white/70">{t('footer.copyright', { year: currentYear.toString() })}</p>
                     <div className="flex space-x-4">
-                        <a href="#" className="text-white/70 hover:text-white">Facebook</a>
-                        <a href="#" className="text-white/70 hover:text-white">Instagram</a>
-                        <a href="#" className="text-white/70 hover:text-white">Twitter</a>
+                        <a href="#" className="text-white/70 hover:text-white">{t('oasis.footer.facebook')}</a>
+                        <a href="#" className="text-white/70 hover:text-white">{t('oasis.footer.instagram')}</a>
+                        <a href="#" className="text-white/70 hover:text-white">{t('oasis.footer.twitter')}</a>
                     </div>
                 </div>
             </div>

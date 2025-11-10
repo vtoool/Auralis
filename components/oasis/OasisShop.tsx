@@ -3,18 +3,30 @@ import React from 'react';
 import type { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import AnimatedSection from '../AnimatedSection';
+import { useLanguage } from '../../context/LanguageContext';
 
-const mockProducts: Product[] = [
-    { id: 101, name: 'Himalayan Salt Lamp', description: 'Natural crystal salt lamp to purify air and create a serene ambiance.', price: 34.99, imageUrl: 'https://picsum.photos/seed/saltlamp/400/400' },
-    { id: 102, name: 'Meditation Cushion', description: 'Ergonomic zafu cushion for comfortable and supportive meditation sessions.', price: 49.99, imageUrl: 'https://picsum.photos/seed/cushion/400/400' },
-    { id: 103, name: 'Tibetan Singing Bowl', description: 'Hand-hammered brass bowl that produces rich, resonant tones for healing.', price: 59.99, imageUrl: 'https://picsum.photos/seed/singingbowl/400/400' },
-    { id: 104, name: 'Essential Oil Diffuser', description: 'Ultrasonic diffuser to disperse calming essential oils into your space.', price: 39.99, imageUrl: 'https://picsum.photos/seed/diffuser/400/400' },
-    { id: 105, name: 'Chakra Stone Set', description: 'A set of seven polished gemstones to align and balance your body\'s energy centers.', price: 24.99, imageUrl: 'https://picsum.photos/seed/chakraset/400/400' },
-    { id: 106, name: 'Organic Sage Smudge Stick', description: 'For cleansing your space of negative energy and promoting a sense of peace.', price: 12.99, imageUrl: 'https://picsum.photos/seed/sage/400/400' },
-];
+// Static data that doesn't need translation
+const productIds = [101, 102, 103, 104, 105, 106];
+const mockProductImages: {[key: number]: string} = {
+    101: 'https://picsum.photos/seed/saltlamp/400/400',
+    102: 'https://picsum.photos/seed/cushion/400/400',
+    103: 'https://picsum.photos/seed/singingbowl/400/400',
+    104: 'https://picsum.photos/seed/diffuser/400/400',
+    105: 'https://picsum.photos/seed/chakraset/400/400',
+    106: 'https://picsum.photos/seed/sage/400/400'
+};
+const mockProductPrices: {[key: number]: number} = {
+    101: 34.99,
+    102: 49.99,
+    103: 59.99,
+    104: 39.99,
+    105: 24.99,
+    106: 12.99
+};
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     const { addToCart } = useCart();
+    const { t } = useLanguage();
     return (
         <div className="bg-card-background border border-border-color shadow-sm transition-all duration-300 hover:shadow-elegant-lg group overflow-hidden rounded-sm text-center flex flex-col">
             <div className="h-64 overflow-hidden">
@@ -28,7 +40,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                     onClick={() => addToCart(product)}
                     className="mt-auto w-full px-6 py-2 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
                 >
-                    Add to Cart
+                    {t('oasis.shop.addToCart')}
                 </button>
             </div>
         </div>
@@ -36,18 +48,28 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 };
 
 const OasisShop: React.FC = () => {
+    const { t } = useLanguage();
+
+    const products: Product[] = productIds.map(id => ({
+        id,
+        name: t(`oasis.shop.products.${id}.name`),
+        description: t(`oasis.shop.products.${id}.description`),
+        price: mockProductPrices[id],
+        imageUrl: mockProductImages[id]
+    }));
+    
     return (
         <div className="py-24 bg-background">
             <div className="container mx-auto px-6">
                  <AnimatedSection>
                     <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <p className="text-accent font-semibold tracking-wider">AURALIS SHOP</p>
-                        <h1 className="font-display text-5xl font-bold text-primary mt-2 mb-4">Tools for Your Journey</h1>
-                        <p className="text-text-secondary text-lg">Enhance your practice and bring harmony to your space with our curated collection of wellness products.</p>
+                        <p className="text-accent font-semibold tracking-wider">{t('oasis.shop.title')}</p>
+                        <h1 className="font-display text-5xl font-bold text-primary mt-2 mb-4">{t('oasis.shop.subtitle')}</h1>
+                        <p className="text-text-secondary text-lg">{t('oasis.shop.text')}</p>
                     </div>
                 </AnimatedSection>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {mockProducts.map((product, index) => (
+                    {products.map((product, index) => (
                         <AnimatedSection key={product.id} delay={index * 100}>
                             <ProductCard product={product} />
                         </AnimatedSection>

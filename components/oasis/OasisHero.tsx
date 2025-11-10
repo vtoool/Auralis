@@ -1,5 +1,8 @@
+
 import React from 'react';
 import { ConnectIcon, PhilosophyIcon, EventsIcon } from './OasisIcons';
+import LazyBackgroundImage from '../LazyBackgroundImage';
+import { useLanguage } from '../../context/LanguageContext';
 
 const InfoCard: React.FC<{icon: React.ReactNode, title: string, children: React.ReactNode, colorClass: string, buttonText?: string}> = ({icon, title, children, colorClass, buttonText}) => (
     <div className={`p-8 flex-1 ${colorClass}`}>
@@ -20,6 +23,8 @@ const InfoCard: React.FC<{icon: React.ReactNode, title: string, children: React.
 
 
 const OasisHero: React.FC = () => {
+    const { t } = useLanguage();
+    
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         const targetId = e.currentTarget.getAttribute('href')?.substring(1);
@@ -37,41 +42,44 @@ const OasisHero: React.FC = () => {
             }
         }
     };
+    
+    const heroImageSrc = 'https://picsum.photos/seed/oasis-hero/1920/1080';
 
     return (
         <section id="hero-oasis">
-             <div className="relative h-[60vh] md:h-[80vh] flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('https://picsum.photos/seed/oasis-hero/1920/1080')"}}>
+             <div className="relative h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
+                <LazyBackgroundImage src={heroImageSrc} active={true} />
                 <div className="absolute inset-0 bg-black/30"></div>
                 <div className="relative text-center text-white z-10">
-                    <p className="font-sans text-lg tracking-widest uppercase">Your Sanctuary for Inner Harmony</p>
+                    <p className="font-sans text-lg tracking-widest uppercase">{t('oasis.hero.sanctuary')}</p>
                     <h1 className="font-display text-6xl md:text-8xl font-bold tracking-wider">AURALIS</h1>
                 </div>
             </div>
 
             <div className="container mx-auto -mt-20 relative z-10 px-6">
                  <div className="flex flex-col md:flex-row shadow-elegant-lg rounded-sm overflow-hidden">
-                    <InfoCard icon={<ConnectIcon />} title="Connect With Alice" colorClass="bg-primary-light">
-                        <p>I’m here to listen, support, and guide you on your journey of faith and self-discovery. Let's walk this path together.</p>
+                    <InfoCard icon={<ConnectIcon />} title={t('oasis.hero.connectTitle')} colorClass="bg-primary-light">
+                        <p>{t('oasis.hero.connectText')}</p>
                         <p className="font-bold text-primary text-lg">+1 564 586 968</p>
                     </InfoCard>
 
                     <div className="p-8 flex-1 bg-card-background">
                         <div className="flex items-center space-x-4 mb-4">
                             <PhilosophyIcon />
-                            <h3 className="font-display text-2xl text-primary font-semibold">Our Philosophy</h3>
+                            <h3 className="font-display text-2xl text-primary font-semibold">{t('oasis.hero.philosophyTitle')}</h3>
                         </div>
                         <div className="text-text-secondary space-y-3">
-                            <p>We blend ancient meditative traditions with modern mindfulness, making spiritual wellness accessible and practical for today's world.</p>
+                            <p>{t('oasis.hero.philosophyText')}</p>
                         </div>
                         <a href="#about-oasis" onClick={handleNavClick} className="mt-4 inline-block px-6 py-2 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
-                           Learn More
+                           {t('oasis.hero.learnMore')}
                         </a>
                     </div>
                     
-                    <InfoCard icon={<EventsIcon />} title="Upcoming Events" colorClass="bg-accent text-accent-foreground">
+                    <InfoCard icon={<EventsIcon />} title={t('oasis.hero.eventsTitle')} colorClass="bg-accent text-accent-foreground">
                         <div className="text-white/90 space-y-2">
-                             <p className="flex justify-between"><span>Mindfulness Workshop:</span> <span>Mon, 11:00</span></p>
-                             <p className="flex justify-between"><span>Group Meditation:</span> <span>Sat, 11:00</span></p>
+                             <p className="flex justify-between"><span>{t('oasis.hero.workshop')}:</span> <span>Mon, 11:00</span></p>
+                             <p className="flex justify-between"><span>{t('oasis.hero.meditation')}:</span> <span>Sat, 11:00</span></p>
                         </div>
                     </InfoCard>
                  </div>

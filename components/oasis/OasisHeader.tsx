@@ -6,6 +6,7 @@ import LanguageSwitcher from '../LanguageSwitcher';
 import ThemePicker from '../ThemePicker';
 import { useCart } from '../../context/CartContext';
 import OasisCart from './OasisCart';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CartIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -13,14 +14,15 @@ const CartIcon = () => (
 
 const OasisHeader: React.FC = () => {
     const { cartCount, toggleCart } = useCart();
+    const { t } = useLanguage();
     
     const navLinks = [
-        { href: '#about-oasis', label: 'About', page: false },
-        { href: '#courses-oasis', label: 'Courses', page: false },
-        { href: '#/shop', label: 'Shop', page: true },
-        { href: '#/blog', label: 'Blog', page: true },
-        { href: '#/booking', label: 'Appointments', page: true },
-        { href: '#contact-oasis', label: 'Contact', page: false },
+        { href: '#about-oasis', label: t('oasis.header.about'), page: false },
+        { href: '#courses-oasis', label: t('oasis.header.courses'), page: false },
+        { href: '#/shop', label: t('oasis.header.shop'), page: true },
+        { href: '#/blog', label: t('oasis.header.blog'), page: true },
+        { href: '#/booking', label: t('oasis.header.appointments'), page: true },
+        { href: '#contact-oasis', label: t('oasis.header.contact'), page: false },
     ];
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
