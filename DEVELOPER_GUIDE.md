@@ -1,15 +1,17 @@
+
 # Developer Guide: Auralis Wellness Platform
 
 This guide provides instructions on how to set up the backend, integrate payments, and deploy the Auralis wellness platform application.
 
 ## Table of Contents
 1.  [Backend Setup with Supabase](#1-backend-setup-with-supabase)
-2.  [Email Notifications with Resend](#2-email-notifications-with-resend)
-3.  [Backend Logic with Supabase Edge Functions](#3-backend-logic-with-supabase-edge-functions)
-4.  [Automating Emails with Database Webhooks](#4-automating-emails-with-database-webhooks)
-5.  [Owner Dashboard & Management](#5-owner-dashboard--management)
-6.  [Payment Integration with Paddle](#6-payment-integration-with-paddle)
-7.  [Deployment](#7-deployment)
+2.  [Application Structure & Routing](#2-application-structure--routing)
+3.  [Email Notifications with Resend](#3-email-notifications-with-resend)
+4.  [Backend Logic with Supabase Edge Functions](#4-backend-logic-with-supabase-edge-functions)
+5.  [Automating Emails with Database Webhooks](#5-automating-emails-with-database-webhooks)
+6.  [Owner Dashboard & Management](#6-owner-dashboard--management)
+7.  [Payment Integration with Paddle](#7-payment-integration-with-paddle)
+8.  [Deployment](#8-deployment)
 
 ---
 
@@ -241,7 +243,103 @@ Your Supabase credentials are required to connect the application to the databas
 
 ---
 
-## 2. Email Notifications with Resend
+## 2. Application Structure & Routing
+
+This application is a **Single Page Application (SPA)**. This means that instead of the browser loading entirely new HTML files when you navigate, React dynamically changes the content on the screen. This provides a faster, smoother experience.
+
+### How Routing Works
+
+The app uses **hash-based routing**. You'll notice the URLs in your browser look like `.../#/shop` or `.../#/admin`. The part after the `#` is called the "hash". The application listens for changes to this hash and displays the correct component accordingly.
+
+The main routing logic is located in `App.tsx`, inside the `AppRoutes` and `PublicSite` components.
+
+-   **`AppRoutes`:** This is the top-level router. It first checks for special, high-priority routes like `/#/login` and `/#/admin`. If the URL doesn't match those, it delegates rendering to the `PublicSite` component.
+-   **`PublicSite`:** This component is the router for all public-facing pages. It checks the currently active `themeName` (e.g., 'oasis', 'ember') and the URL hash to decide what to show. This allows different themes to have unique pages. For example, `/#/shop` will render the `OasisShop` component only when the 'Oasis' theme is active.
+
+### How to Add a New Page (Example: A "Gallery" Page for the Oasis Theme)
+
+1.  **Create the Page Component:**
+    -   Create a new file, for example: `components/oasis/OasisGallery.tsx`.
+    -   Build your component's JSX and logic inside this file.
+    ```tsx
+    // components/oasis/OasisGallery.tsx
+    import React from 'react';
+
+    const OasisGallery: React.FC = () => {
+      return (
+        <div className="container mx-auto p-8">
+          <h1 className="font-display text-4xl">Our Gallery</h1>
+          {/* ... gallery content ... */}
+        </div>
+      );
+    };
+
+    export default OasisGallery;
+    ```
+
+2.  **Add the Route in `App.tsx`:**
+    -   Open `App.tsx`.
+    -   Find the `PublicSite` component.
+    -   Import your new `OasisGallery` component at the top.
+    -   Add a new `case` to the `switch` statement inside the `if (themeName === 'oasis')` block. The `OasisPageLayout` component wraps your page with the theme's standard header and footer.
+    ```tsx
+    // App.tsx
+
+    // ... other imports
+    import OasisGallery from './components/oasis/OasisGallery'; // 1. Import new component
+
+    // ...
+
+    const PublicSite: React.FC = () => {
+        // ... (hooks and useEffect)
+
+        if (themeName === 'oasis') {
+            switch(routePath) {
+                case '#/shop':
+                    return <OasisPageLayout><OasisShop /></OasisPageLayout>;
+                case '#/blog':
+                    return <OasisPageLayout><OasisBlog /></OasisPageLayout>;
+                case '#/booking':
+                     return <OasisPageLayout><OasisBookingPage /></OasisPageLayout>;
+                case '#/checkout':
+                     return <OasisPageLayout><OasisCheckoutPage /></OasisPageLayout>;
+                
+                // 2. Add the new route
+                case '#/gallery':
+                     return <OasisPageLayout><OasisGallery /></OasisPageLayout>;
+
+                default:
+                    return <OasisThemeSite />; // This is the landing page
+            }
+        }
+        
+        return <OriginalThemeSite />;
+    }
+    ```
+
+3.  **Add a Link to the Header:**
+    -   Open the header file for the theme, e.g., `components/oasis/OasisHeader.tsx`.
+    -   Add a new entry to the `navLinks` array.
+    ```tsx
+    // components/oasis/OasisHeader.tsx
+
+    const OasisHeader: React.FC = () => {
+        // ...
+        const navLinks = [
+            // ... existing links
+            { href: '#/blog', label: 'Blog', page: true },
+            { href: '#/gallery', label: 'Gallery', page: true }, // Add the new link
+            { href: '#/booking', label: 'Appointments', page: true },
+            // ...
+        ];
+        // ...
+    }
+    ```
+That's it! Your new page is now integrated into the application's navigation flow.
+
+---
+
+## 3. Email Notifications with Resend
 
 Resend is a modern email API for developers. We'll use it to send booking confirmations and contact form notifications.
 
@@ -251,7 +349,7 @@ Resend is a modern email API for developers. We'll use it to send booking confir
 
 ---
 
-## 3. Backend Logic with Supabase Edge Functions
+## 4. Backend Logic with Supabase Edge Functions
 
 We'll deploy a serverless function to handle the logic of sending emails for both new appointments and new contact messages.
 
@@ -292,7 +390,7 @@ npx supabase link --project-ref YOUR_PROJECT_ID
 
 ---
 
-## 4. Automating Emails with Database Webhooks
+## 5. Automating Emails with Database Webhooks
 
 This step connects your database to your function, automatically triggering it when new data is added or changed. You will create **two separate webhooks** that both point to the **same function**.
 
@@ -330,7 +428,7 @@ Now, your email notification system is fully automated!
 
 ---
 
-## 5. Owner Dashboard & Management
+## 6. Owner Dashboard & Management
 
 The application includes a complete admin dashboard for managing the platform.
 
@@ -365,7 +463,7 @@ The "Availability" tab allows you to block out times when you are not available 
 
 ---
 
-## 6. Payment Integration with Paddle
+## 7. Payment Integration with Paddle
 
 Paddle provides a complete payments infrastructure.
 
@@ -381,7 +479,7 @@ In `CourseCard.tsx`, update the `handleBuyNow` function to trigger the Paddle ch
 
 ---
 
-## 7. Deployment
+## 8. Deployment
 
 Deploying your frontend is straightforward with a service like Vercel or Netlify.
 

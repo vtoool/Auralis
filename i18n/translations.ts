@@ -1,3 +1,4 @@
+
 export const translations = {
   en: {
     header: {
@@ -12,6 +13,7 @@ export const translations = {
       serene: "Serene",
       vibrant: "Vibrant",
       ember: "Ember",
+      oasis: "Oasis",
       select: "Select Theme",
     },
     hero: {
@@ -85,6 +87,7 @@ export const translations = {
       serene: "Seren",
       vibrant: "Vibrant",
       ember: "Jăratec",
+      oasis: "Oază",
       select: "Selectează Tema",
     },
     hero: {
@@ -158,6 +161,7 @@ export const translations = {
       serene: "Безмятежность",
       vibrant: "Яркость",
       ember: "Эмбер",
+      oasis: "Оазис",
       select: "Выберите Тему",
     },
     hero: {

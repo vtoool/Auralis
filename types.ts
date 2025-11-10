@@ -40,3 +40,24 @@ export interface Unavailability {
     end_time: string | null; // HH:MM:SS
     reason: string | null;
 }
+
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  excerpt: string;
+  imageUrl: string;
+}

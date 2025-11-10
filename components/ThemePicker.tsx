@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -49,7 +50,7 @@ const ThemePicker: React.FC = () => {
         className={`w-full text-left block px-4 py-2 text-sm transition-colors duration-200 ${themeName === 'oasis' ? 'bg-primary-light font-semibold text-primary' : 'text-text-primary'} hover:bg-border-color`}
         role="menuitem"
       >
-        Oasis
+        {t('theme.oasis')}
       </button>
     </Dropdown>
   );
