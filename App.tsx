@@ -1,5 +1,6 @@
 
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Courses from './components/Courses';
@@ -23,6 +24,7 @@ import OasisShop from './components/oasis/OasisShop';
 import OasisBlog from './components/oasis/OasisBlog';
 import OasisBookingPage from './components/oasis/OasisBookingPage';
 import OasisCheckoutPage from './components/oasis/OasisCheckoutPage';
+import LoadingSpinner from './components/LoadingSpinner';
 
 
 const OriginalThemeSite: React.FC = () => (
@@ -115,15 +117,36 @@ const AppRoutes: React.FC = () => {
 
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Use a timeout to ensure the loading animation is visible for a pleasant duration,
+    // improving perceived performance while assets load in the background.
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); 
+
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <CartProvider>
-            <AppRoutes />
-          </CartProvider>
-        </AuthProvider>
-      </LanguageProvider>
+       <div 
+        className={`fixed inset-0 z-[200] transition-opacity duration-500 ease-in-out ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        aria-hidden={!isLoading}
+      >
+        <LoadingSpinner />
+      </div>
+      
+      <div className={`transition-opacity duration-700 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        <LanguageProvider>
+          <AuthProvider>
+            <CartProvider>
+              <AppRoutes />
+            </CartProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </div>
     </ThemeProvider>
   );
 }
