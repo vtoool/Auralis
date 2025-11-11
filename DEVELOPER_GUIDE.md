@@ -1,4 +1,3 @@
-
 # Developer Guide: Auralis Wellness Platform
 
 This guide provides instructions on how to set up the backend, integrate payments, and deploy the Auralis wellness platform application.
@@ -68,8 +67,14 @@ CREATE TABLE IF NOT EXISTS public.appointments (
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   date DATE NOT NULL,
-  time TEXT NOT NULL
+  time TEXT NOT NULL,
+  service TEXT -- To store the selected service for the appointment
 );
+
+-- This ensures the 'service' column exists for new appointment features.
+-- It's safe to run even if the column already exists.
+ALTER TABLE public.appointments ADD COLUMN IF NOT EXISTS service TEXT;
+
 
 ALTER TABLE public.appointments DISABLE ROW LEVEL SECURITY;
 

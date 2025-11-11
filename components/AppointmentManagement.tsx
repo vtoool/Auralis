@@ -132,6 +132,11 @@ const AppointmentManagement: React.FC = () => {
                                         })}
                                     </p>
                                     <p className="text-text-secondary">With: {appt.name} (<a href={`mailto:${appt.email}`} className="text-primary hover:underline">{appt.email}</a>)</p>
+                                    {appt.service && (
+                                        <p className="text-sm text-text-secondary mt-1">
+                                            <span className="font-semibold text-primary">Service:</span> {appt.service}
+                                        </p>
+                                    )}
                                     <p className="text-xs text-text-secondary/70">Booked on: {new Date(appt.created_at).toLocaleDateString()}</p>
                                 </div>
                                 <div className="flex items-center space-x-2 flex-shrink-0">

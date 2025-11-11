@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { WorshipIcon, OutreachIcon } from './OasisIcons';
+import { WorshipIcon, WellnessWorkshopIcon } from './OasisIcons';
 import { useLanguage } from '../../context/LanguageContext';
 
 const OasisWelcome: React.FC = () => {
@@ -35,7 +35,7 @@ const OasisWelcome: React.FC = () => {
                                 </div>
                              </div>
                              <div className="flex items-start space-x-4">
-                                <OutreachIcon className="text-accent" />
+                                <WellnessWorkshopIcon className="text-accent" />
                                 <div>
                                     <h4 className="font-bold text-primary text-lg">{t('oasis.welcome.wellnessWorkshops')}</h4>
                                     <p className="text-text-secondary">{t('oasis.welcome.wellnessWorkshopsText')}</p>

@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { TimeSlot, Unavailability } from '../../types';
@@ -11,6 +12,7 @@ const OasisBookingPage: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [service, setService] = useState('');
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [unavailabilities, setUnavailabilities] = useState<Unavailability[]>([]);
   const [loading, setLoading] = useState(true);
@@ -112,7 +114,7 @@ const OasisBookingPage: React.FC = () => {
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !selectedTime) {
+    if (!name || !email || !selectedTime || !service) {
       setAlert({ type: 'error', message: t('booking.formAlert') });
       return;
     }
@@ -128,7 +130,8 @@ const OasisBookingPage: React.FC = () => {
         name, 
         email, 
         date: formattedDate,
-        time: selectedTime 
+        time: selectedTime,
+        service,
       }]);
 
     if (appointmentError) {
@@ -170,6 +173,7 @@ const OasisBookingPage: React.FC = () => {
     setAlert({ type: 'success', message: successMessage });
     setName('');
     setEmail('');
+    setService('');
     setSelectedTime(null);
     fetchUnavailabilities();
   };
@@ -255,6 +259,13 @@ const OasisBookingPage: React.FC = () => {
             </div>
 
             <form onSubmit={handleBooking} className="space-y-4">
+              <select value={service} onChange={(e) => setService(e.target.value)} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" required>
+                  <option value="" disabled>Select a service...</option>
+                  <option value="Personalized Guidance Session">Personalized Guidance Session</option>
+                  <option value={t('oasis.services.mindfulnessTitle')}>{t('oasis.services.mindfulnessTitle')}</option>
+                  <option value={t('oasis.services.yogaTitle')}>{t('oasis.services.yogaTitle')}</option>
+                  <option value={t('oasis.services.meditationTitle')}>{t('oasis.services.meditationTitle')}</option>
+              </select>
               <input type="text" placeholder={t('booking.yourName')} value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" required />
               <input type="email" placeholder={t('booking.yourEmail')} value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" required />
               <button type="submit" className="w-full p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">

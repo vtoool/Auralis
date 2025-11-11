@@ -18,6 +18,7 @@ export interface Appointment {
     email: string;
     date: string; // YYYY-MM-DD
     time: string; // HH:MM
+    service?: string;
 }
 
 export interface Testimonial {

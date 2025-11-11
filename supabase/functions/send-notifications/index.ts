@@ -1,9 +1,11 @@
 // supabase/functions/send-notifications/index.ts
 
-// FIX: Updated the Deno types reference to a specific version of @supabase/functions-js.
-// This resolves issues with discovering the type definitions for the Deno runtime,
-// fixing "Cannot find name 'Deno'" and "Cannot find type definition file" errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: The remote type definitions for Supabase edge functions were failing to load,
+// causing "Cannot find name 'Deno'" errors. Replaced the problematic reference with
+// direct references to Deno's global types and the webworker library to ensure
+// the correct types are loaded for the edge function environment.
+/// <reference types="https://deno.land/x/deno/global.d.ts" />
+/// <reference lib="webworker" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.
@@ -45,23 +47,25 @@ serve(async (req) => {
 
     if (payload.table === 'appointments') {
         if (payload.type === 'INSERT') {
-            const { name, email, date, time } = payload.record;
+            const { name, email, date, time, service } = payload.record;
             const formattedDate = formatDate(date, time);
+            const serviceHtml = service ? `<li><strong>Service:</strong> ${service}</li>` : '';
 
             // 1. Send notification to the admin for new booking
             await resend.emails.send({
                 from: RESEND_FROM_EMAIL,
                 to: [adminEmail],
                 subject: `New Appointment Booking: ${name}`,
-                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Appointment Booking</h2><p>A new appointment has been scheduled through the Auralis website.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> ${email}</li><li><strong>Date & Time:</strong> ${formattedDate}</li></ul></div>`,
+                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Appointment Booking</h2><p>A new appointment has been scheduled through the Auralis website.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> ${email}</li><li><strong>Date & Time:</strong> ${formattedDate}</li>${serviceHtml}</ul></div>`,
             });
 
             // 2. Send confirmation to the customer
+            const customerServiceHtml = service ? `<p><strong>Service:</strong> ${service}</p>` : '';
             await resend.emails.send({
                 from: RESEND_FROM_EMAIL,
                 to: [email],
                 subject: `Your Auralis Appointment is Confirmed!`,
-                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Confirmed!</h2><p>Hello ${name},</p><p>Thank you for booking a session with Auralis. Your appointment is confirmed for:</p><p><strong>${formattedDate}</strong></p><p>If you need to reschedule, please reply to this email.</p><p>Warmly,<br>Alice at Auralis</p></div>`,
+                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Confirmed!</h2><p>Hello ${name},</p><p>Thank you for booking a session with Auralis. Your appointment is confirmed for:</p><p><strong>${formattedDate}</strong></p>${customerServiceHtml}<p>If you need to reschedule, please reply to this email.</p><p>Warmly,<br>Alice at Auralis</p></div>`,
             });
 
         } else if (payload.type === 'UPDATE') {

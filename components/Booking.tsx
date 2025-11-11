@@ -12,6 +12,7 @@ const Booking: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [service, setService] = useState('');
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [unavailabilities, setUnavailabilities] = useState<Unavailability[]>([]);
   const [loading, setLoading] = useState(true);
@@ -113,7 +114,7 @@ const Booking: React.FC = () => {
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !selectedTime) {
+    if (!name || !email || !selectedTime || !service) {
       setAlert({ type: 'error', message: t('booking.formAlert') });
       return;
     }
@@ -129,7 +130,8 @@ const Booking: React.FC = () => {
         name, 
         email, 
         date: formattedDate,
-        time: selectedTime 
+        time: selectedTime,
+        service,
       }]);
 
     if (appointmentError) {
@@ -176,6 +178,7 @@ const Booking: React.FC = () => {
     setName('');
     setEmail('');
     setSelectedTime(null);
+    setService('');
     fetchUnavailabilities();
   };
 
@@ -262,6 +265,19 @@ const Booking: React.FC = () => {
             </div>
 
             <form onSubmit={handleBooking} className="space-y-4">
+              <select
+                  name="service"
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
+                  required
+              >
+                  <option value="" disabled>Select a service...</option>
+                  <option value="Personalized Guidance Session">Personalized Guidance Session</option>
+                  <option value={t('oasis.services.mindfulnessTitle')}>{t('oasis.services.mindfulnessTitle')}</option>
+                  <option value={t('oasis.services.yogaTitle')}>{t('oasis.services.yogaTitle')}</option>
+                  <option value={t('oasis.services.meditationTitle')}>{t('oasis.services.meditationTitle')}</option>
+              </select>
               <input
                 type="text"
                 placeholder={t('booking.yourName')}
