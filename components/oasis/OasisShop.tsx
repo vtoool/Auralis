@@ -57,12 +57,23 @@ const OasisShop: React.FC = () => {
         price: mockProductPrices[id],
         imageUrl: mockProductImages[id]
     }));
+
+    const handleBack = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        // Use history.back() to return to the previous page with scroll position preserved.
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Fallback for direct navigation or new tabs
+            window.location.hash = '/';
+        }
+    };
     
     return (
         <div className="pt-16 pb-24 bg-background">
             <div className="container mx-auto px-6">
                 <div className="mb-8">
-                    <a href="/#" className="inline-flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors group">
+                    <a href="/#" onClick={handleBack} className="inline-flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors group">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:-translate-x-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                         </svg>

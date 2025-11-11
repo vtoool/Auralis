@@ -66,6 +66,14 @@ const PublicSite: React.FC = () => {
     }, []);
 
     const routePath = route.split('?')[0];
+    
+    React.useEffect(() => {
+        const pageRoutes = ['#/shop', '#/blog', '#/booking', '#/checkout'];
+        if (pageRoutes.includes(routePath)) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [routePath]);
+
 
     if (themeName === 'oasis') {
         switch(routePath) {
