@@ -186,6 +186,9 @@ export const translations = {
         emptyText: "Browse our shop to find tools for your journey.",
         goToShop: "Go to Shop",
       },
+      navigation: {
+        backToHome: "Back to Home",
+      },
       footer: {
           facebook: "Facebook",
           instagram: "Instagram",
@@ -379,6 +382,9 @@ export const translations = {
         emptyText: "Răsfoiește magazinul nostru pentru a găsi unelte pentru călătoria ta.",
         goToShop: "Mergi la Magazin",
       },
+       navigation: {
+        backToHome: "Înapoi la Acasă",
+      },
       footer: {
         facebook: "Facebook",
         instagram: "Instagram",
@@ -571,6 +577,9 @@ export const translations = {
         emptyTitle: "Ваша Корзина Пуста",
         emptyText: "Просмотрите наш магазин, чтобы найти инструменты для вашего путешествия.",
         goToShop: "Перейти в Магазин",
+      },
+      navigation: {
+        backToHome: "Вернуться на главную",
       },
       footer: {
         facebook: "Facebook",

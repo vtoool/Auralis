@@ -1,10 +1,9 @@
 // supabase/functions/send-notifications/index.ts
 
-// FIX: The remote type definitions for Supabase edge functions were failing to load,
-// causing "Cannot find name 'Deno'" errors. Replaced the problematic reference with
-// direct references to Deno's global types and the webworker library to ensure
-// the correct types are loaded for the edge function environment.
-/// <reference types="https://deno.land/x/deno/global.d.ts" />
+// FIX: The type reference for Deno's global types was pointing to an invalid URL,
+// causing "Cannot find name 'Deno'" errors. It has been updated to point to the
+// correct Supabase edge function type definitions.
+/// <reference types="https://esm.sh/@supabase/functions-js@2/src/edge-runtime.d.ts" />
 /// <reference lib="webworker" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
