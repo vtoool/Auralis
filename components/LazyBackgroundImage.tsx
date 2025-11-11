@@ -14,6 +14,7 @@ const LazyBackgroundImage: React.FC<LazyBackgroundImageProps> = ({ src, classNam
 
   useEffect(() => {
     const img = new Image();
+    img.crossOrigin = 'anonymous'; // Match the crossorigin attribute on the preload link
     img.src = src;
     img.onload = () => {
       setIsLoaded(true);
