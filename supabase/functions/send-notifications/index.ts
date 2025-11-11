@@ -3,8 +3,8 @@
 // FIX: The type reference for Deno's global types was causing "Cannot find name 'Deno'" errors.
 // It has been updated to point to a pinned version of the Supabase edge function type definitions
 // to ensure stable type resolution.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
-/// <reference lib="webworker" />
+// FIX: Corrected the type reference to an un-versioned URL to fix resolution issues and removed redundant 'webworker' lib reference.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.
