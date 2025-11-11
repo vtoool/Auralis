@@ -18,6 +18,11 @@ const OasisCart: React.FC = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [setCartOpen]);
     
+    const handleCheckoutClick = () => {
+        window.scrollTo(0, 0);
+        toggleCart();
+    };
+
     return (
         <div className={`fixed inset-0 z-[100] transition-all duration-300 ${isCartOpen ? 'bg-black/60 backdrop-blur-sm' : 'bg-transparent pointer-events-none'}`}>
             <div
@@ -54,7 +59,7 @@ const OasisCart: React.FC = () => {
                                 <span>{t('oasis.cart.subtotal')}</span>
                                 <span>${cartTotal.toFixed(2)}</span>
                             </div>
-                            <a href="#/checkout" onClick={toggleCart} className="block w-full text-center p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
+                            <a href="#/checkout" onClick={handleCheckoutClick} className="block w-full text-center p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
                                 {t('oasis.cart.checkout')}
                             </a>
                         </div>

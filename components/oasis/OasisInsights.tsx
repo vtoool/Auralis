@@ -15,7 +15,8 @@ const PostCard: React.FC<{image: string, date: string, title: string, author: st
 
 const OasisInsights: React.FC = () => {
     const { t } = useLanguage();
-    
+    const handlePageLinkClick = () => window.scrollTo(0, 0);
+
     const posts = [
         {
             image: 'https://picsum.photos/seed/serenity-post/600/400',
@@ -47,7 +48,7 @@ const OasisInsights: React.FC = () => {
                     {posts.map(post => <PostCard key={post.title} {...post} />)}
                 </div>
                 <div className="text-center mt-16">
-                    <a href="#/blog" className="px-8 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                    <a href="#/blog" onClick={handlePageLinkClick} className="px-8 py-3 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
                         {t('oasis.insights.viewAll')}
                     </a>
                 </div>

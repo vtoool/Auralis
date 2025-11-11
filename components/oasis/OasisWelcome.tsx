@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { WorshipIcon, WellnessWorkshopIcon } from './OasisIcons';
 import { useLanguage } from '../../context/LanguageContext';
@@ -11,16 +10,16 @@ const OasisWelcome: React.FC = () => {
             <div className="container mx-auto px-6">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="relative pt-12">
-                             <div className="relative w-full h-64 rounded-t-full overflow-hidden">
-                                <img src="https://picsum.photos/seed/temple-window/600/800" alt="Arched window of a temple" className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="relative">
+                             <div className="relative w-full h-52 rounded-t-full overflow-hidden">
+                                <img src="https://picsum.photos/seed/sky-arch/600/800" alt="View of a clear blue sky" className="absolute inset-0 w-full h-full object-cover" />
                              </div>
                              <div className="mt-4">
-                                <img src="https://picsum.photos/seed/monk-walking/600/400" alt="Monk walking" className="w-full h-48 object-cover" />
+                                <img src="https://picsum.photos/seed/vintage-car/800/600" alt="Sunlit interior of a vintage vehicle" className="w-full h-40 object-cover" />
                              </div>
                         </div>
                         <div className="relative">
-                            <img src="https://picsum.photos/seed/temple-roof/600/800" alt="Golden temple roof" className="w-full h-96 object-cover" />
+                            <img src="https://picsum.photos/seed/coyote-forest/600/900" alt="Coyote in a sun-dappled forest" className="w-full h-96 object-cover" />
                         </div>
                     </div>
                     <div>

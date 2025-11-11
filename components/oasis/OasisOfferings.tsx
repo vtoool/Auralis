@@ -4,6 +4,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const OasisOfferings: React.FC = () => {
     const { t } = useLanguage();
+    const handlePageLinkClick = () => window.scrollTo(0, 0);
 
     return (
         <section className="py-24 bg-primary-light">
@@ -13,7 +14,7 @@ const OasisOfferings: React.FC = () => {
                         <p className="text-accent font-semibold tracking-wider">{t('oasis.offerings.shop')}</p>
                         <h2 className="font-display text-4xl font-bold text-primary mt-2 mb-6">{t('oasis.offerings.title')}</h2>
                         <p className="text-text-secondary mb-8">{t('oasis.offerings.text')}</p>
-                        <a href="#/shop" className="px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
+                        <a href="#/shop" onClick={handlePageLinkClick} className="px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
                             {t('oasis.offerings.viewProducts')}
                         </a>
                     </div>

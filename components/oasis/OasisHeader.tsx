@@ -25,6 +25,10 @@ const OasisHeader: React.FC = () => {
         { href: '#contact-oasis', label: t('oasis.header.contact'), page: false },
     ];
 
+    const handlePageLinkClick = () => {
+        window.scrollTo(0, 0);
+    };
+    
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         const href = e.currentTarget.getAttribute('href');
         if (!href || href.startsWith('#/')) {
@@ -77,7 +81,7 @@ const OasisHeader: React.FC = () => {
                           <a
                             key={link.label}
                             href={link.href}
-                            onClick={link.page ? undefined : handleNavClick}
+                            onClick={link.page ? handlePageLinkClick : handleNavClick}
                             className="text-text-primary font-medium hover:text-accent transition-colors duration-300 text-lg"
                           >
                             {link.label}
