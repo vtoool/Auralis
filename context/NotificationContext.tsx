@@ -33,9 +33,10 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
   const typeClasses = {
     success: {
-      bg: 'bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800/50',
+      // A lighter, pastel green background with high-contrast text.
+      bg: 'bg-green-100 dark:bg-green-900/90',
       iconColor: 'text-green-600 dark:text-green-400',
-      titleColor: 'text-green-800 dark:text-green-200',
+      titleColor: 'text-gray-900 dark:text-gray-100',
     },
     // Add other types like 'info' or 'error' here if needed
   };
@@ -71,9 +72,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
       <div className="flex-grow">
         <p className={`font-semibold ${currentStyles.titleColor}`}>{notification.productName || 'Success'}</p>
-        <p className="text-sm text-text-secondary">{notification.message}</p>
+        <p className="text-sm text-gray-700 dark:text-gray-300">{notification.message}</p>
       </div>
-      <button onClick={handleDismiss} className="p-1 rounded-full text-text-secondary hover:bg-border-color flex-shrink-0">
+      <button onClick={handleDismiss} className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:bg-border-color flex-shrink-0">
          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
