@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../src/services/supabaseClient';
 import type { Course } from '../types';
@@ -109,7 +110,7 @@ const CourseManagement: React.FC = () => {
                 {courses.map(course => (
                     <div key={course.id} className="flex flex-wrap gap-4 items-center justify-between p-4 border border-border-color rounded-lg">
                         <div className="flex items-center space-x-4">
-                             <img src={course.imageUrl || 'https://via.placeholder.com/100'} alt={course.title} className="w-16 h-16 object-cover rounded-md" />
+                             <img src={course.imageUrl || 'https://via.placeholder.com/100'} alt={course.title} className="w-16 h-16 object-cover rounded-md" loading="lazy" />
                             <div>
                                 <p className="font-bold text-text-primary">{course.title}</p>
                                 <p className="text-sm text-text-secondary">{course.type} - ${course.price}</p>

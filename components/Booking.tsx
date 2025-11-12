@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { TimeSlot, Unavailability } from '../types';
@@ -239,13 +240,13 @@ const Booking: React.FC = () => {
             <h3 className="text-lg font-semibold text-primary mb-4">
               {selectedDate.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' })}
             </h3>
-            <div className="grid grid-cols-3 gap-2 mb-6 max-h-48 overflow-y-auto pr-2">
+            <div className="grid grid-cols-3 gap-2 mb-6 max-h-64 overflow-y-auto pr-2">
               {timeSlots.map(slot => (
                 <button
                   key={slot.time}
                   onClick={() => slot.available && setSelectedTime(slot.time)}
                   disabled={!slot.available}
-                  className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
+                  className={`py-2.5 px-3 text-base rounded-md border transition-colors duration-200 ${
                     slot.available
                       ? (selectedTime === slot.time
                         ? 'bg-primary text-primary-foreground border-primary'
@@ -265,35 +266,47 @@ const Booking: React.FC = () => {
             </div>
 
             <form onSubmit={handleBooking} className="space-y-4">
-              <select
-                  name="service"
-                  value={service}
-                  onChange={(e) => setService(e.target.value)}
+              <div>
+                <label htmlFor="booking-service" className="sr-only">Select a service</label>
+                <select
+                    id="booking-service"
+                    name="service"
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
+                    className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
+                    required
+                >
+                    <option value="" disabled>Select a service...</option>
+                    <option value="Personalized Guidance Session">Personalized Guidance Session</option>
+                    <option value={t('oasis.services.mindfulnessTitle')}>{t('oasis.services.mindfulnessTitle')}</option>
+                    <option value={t('oasis.services.yogaTitle')}>{t('oasis.services.yogaTitle')}</option>
+                    <option value={t('oasis.services.meditationTitle')}>{t('oasis.services.meditationTitle')}</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="booking-name" className="sr-only">{t('booking.yourName')}</label>
+                <input
+                  id="booking-name"
+                  type="text"
+                  placeholder={t('booking.yourName')}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
                   required
-              >
-                  <option value="" disabled>Select a service...</option>
-                  <option value="Personalized Guidance Session">Personalized Guidance Session</option>
-                  <option value={t('oasis.services.mindfulnessTitle')}>{t('oasis.services.mindfulnessTitle')}</option>
-                  <option value={t('oasis.services.yogaTitle')}>{t('oasis.services.yogaTitle')}</option>
-                  <option value={t('oasis.services.meditationTitle')}>{t('oasis.services.meditationTitle')}</option>
-              </select>
-              <input
-                type="text"
-                placeholder={t('booking.yourName')}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
-                required
-              />
-              <input
-                type="email"
-                placeholder={t('booking.yourEmail')}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
-                required
-              />
+                />
+              </div>
+              <div>
+                <label htmlFor="booking-email" className="sr-only">{t('booking.yourEmail')}</label>
+                <input
+                  id="booking-email"
+                  type="email"
+                  placeholder={t('booking.yourEmail')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary focus:border-primary"
+                  required
+                />
+              </div>
               <button type="submit" className="w-full p-3 font-semibold rounded-md bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
                 {t('booking.confirmBooking')}
               </button>

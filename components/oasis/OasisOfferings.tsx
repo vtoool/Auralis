@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -20,13 +21,13 @@ const OasisOfferings: React.FC = () => {
                     </div>
                      <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[28rem] md:h-[32rem]">
                         <div className="col-span-1 row-span-2">
-                             <img src={'https://picsum.photos/seed/singingbowl/600/800'} alt={'Singing bowl'} className="w-full h-full object-cover rounded-sm" />
+                             <img src={'https://picsum.photos/seed/singingbowl/600/800'} alt={'Singing bowl'} className="w-full h-full object-cover rounded-sm" loading="lazy" />
                         </div>
                         <div className="col-span-1 row-span-1">
-                            <img src={'https://picsum.photos/seed/saltlamp/800/600'} alt={'Himalayan salt lamp'} className="w-full h-full object-cover rounded-sm" />
+                            <img src={'https://picsum.photos/seed/saltlamp/800/600'} alt={'Himalayan salt lamp'} className="w-full h-full object-cover rounded-sm" loading="lazy" />
                         </div>
                         <div className="col-span-1 row-span-1">
-                            <img src={'https://picsum.photos/seed/chakraset/800/600'} alt={'Chakra stones'} className="w-full h-full object-cover rounded-sm" />
+                            <img src={'https://picsum.photos/seed/chakraset/800/600'} alt={'Chakra stones'} className="w-full h-full object-cover rounded-sm" loading="lazy" />
                         </div>
                     </div>
                 </div>

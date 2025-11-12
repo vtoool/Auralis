@@ -1,11 +1,12 @@
 
+
 import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 
 const PostCard: React.FC<{image: string, date: string, title: string, author: string}> = ({ image, date, title, author }) => (
     <div className="group">
         <div className="overflow-hidden mb-4">
-            <img src={image} alt={title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" />
+            <img src={image} alt={title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
         </div>
         <p className="text-sm text-text-secondary">{date} / by {author}</p>
         <h4 className="font-display text-xl font-bold text-primary mt-1 group-hover:text-accent transition-colors">{title}</h4>

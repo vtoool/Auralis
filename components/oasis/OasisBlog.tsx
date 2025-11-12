@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import type { BlogPost } from '../../types';
 import AnimatedSection from '../AnimatedSection';
@@ -20,7 +21,7 @@ const BlogPostCard: React.FC<{ post: BlogPost }> = ({ post }) => {
     return (
         <div className="bg-card-background border border-border-color shadow-sm transition-all duration-300 hover:shadow-elegant-lg group overflow-hidden rounded-sm flex flex-col">
             <a href="#!" className="block overflow-hidden h-56">
-                <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
             </a>
             <div className="p-6 flex flex-col flex-grow">
                 <p className="text-sm text-text-secondary mb-1">{post.date} / by {post.author}</p>

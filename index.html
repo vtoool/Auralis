@@ -204,7 +204,7 @@
         --color-accent: 217 125 84;  /* Terracotta Orange */
         --color-accent-foreground: 255 255 255;
         --color-text-primary: 74 57 51;
-        --color-text-secondary: 140 109 98;
+        --color-text-secondary: 117 87 76; /* Darker beige for better contrast */
         --color-border-color: 222 214 204;
         --color-shadow-primary: 74 57 51;
     }
@@ -224,6 +224,29 @@
         --color-shadow-primary: 227 151 116;
     }
     
+    /* Accessibility utility class */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    .sr-only:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+
     body {
       background-image:
         radial-gradient(circle at 1px 1px, rgb(var(--color-border-color) / 0.2) 1px, transparent 0);

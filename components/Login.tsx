@@ -30,22 +30,30 @@ const Login: React.FC = () => {
         <AuralisThemeLogo className="mb-8 justify-center" />
         <h1 className="text-2xl font-bold text-center text-primary mb-6">Admin Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
-          <input 
-            type="email" 
-            value={email} 
-            onChange={e => setEmail(e.target.value)} 
-            placeholder="Email" 
-            required 
-            className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary" 
-          />
-          <input 
-            type="password" 
-            value={password} 
-            onChange={e => setPassword(e.target.value)} 
-            placeholder="Password" 
-            required 
-            className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary" 
-          />
+          <div>
+            <label htmlFor="email-login" className="sr-only">Email</label>
+            <input 
+              type="email" 
+              id="email-login"
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+              placeholder="Email" 
+              required 
+              className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary" 
+            />
+          </div>
+          <div>
+            <label htmlFor="password-login" className="sr-only">Password</label>
+            <input 
+              type="password" 
+              id="password-login"
+              value={password} 
+              onChange={e => setPassword(e.target.value)} 
+              placeholder="Password" 
+              required 
+              className="w-full p-3 rounded-md bg-background border border-border-color focus:ring-2 focus:ring-primary" 
+            />
+          </div>
           <button 
             type="submit" 
             disabled={loading} 

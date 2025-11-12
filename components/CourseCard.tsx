@@ -21,6 +21,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           src={course.imageUrl}
           alt={course.title}
           className="h-48 w-full object-cover md:h-full transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
         />
       </div>
       <div className="p-6 flex flex-col justify-between md:w-2/3">

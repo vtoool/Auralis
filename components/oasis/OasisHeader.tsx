@@ -86,6 +86,9 @@ const OasisHeader: React.FC = () => {
 
     return (
         <>
+        <a href="#main-content" className="sr-only focus:bg-accent focus:text-accent-foreground focus:px-4 focus:py-2 focus:absolute focus:top-4 focus:left-4 z-[999] rounded-md">
+            {t('oasis.navigation.skip')}
+        </a>
         <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border-color/50">
             <div className="container mx-auto px-6">
                 <div className="flex justify-between items-center h-24">

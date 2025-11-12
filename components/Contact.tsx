@@ -68,11 +68,11 @@ const Contact: React.FC = () => {
         <div className="max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="sr-only">{t('contact.name')}</label>
+              <label htmlFor="contact-name" className="sr-only">{t('contact.name')}</label>
               <input
                 type="text"
                 name="name"
-                id="name"
+                id="contact-name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder={t('contact.name')}
@@ -81,11 +81,11 @@ const Contact: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="email" className="sr-only">{t('contact.email')}</label>
+              <label htmlFor="contact-email" className="sr-only">{t('contact.email')}</label>
               <input
                 type="email"
                 name="email"
-                id="email"
+                id="contact-email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder={t('contact.email')}
@@ -94,11 +94,11 @@ const Contact: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="message" className="sr-only">{t('contact.message')}</label>
+              <label htmlFor="contact-message" className="sr-only">{t('contact.message')}</label>
               <textarea
                 ref={textareaRef}
                 name="message"
-                id="message"
+                id="contact-message"
                 value={formData.message}
                 onChange={handleChange}
                 placeholder={t('contact.message')}

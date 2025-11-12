@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { supabase } from '../../src/services/supabaseClient';
 import { useLanguage } from '../../context/LanguageContext';
@@ -36,7 +37,7 @@ const OasisConnect: React.FC = () => {
             <div className="container mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     <div>
-                        <img src="https://picsum.photos/seed/praying-hands/800/900" alt="Praying hands of a monk" className="w-full h-auto object-cover" />
+                        <img src="https://picsum.photos/seed/praying-hands/800/900" alt="Praying hands of a monk" className="w-full h-auto object-cover" loading="lazy" />
                     </div>
                     <div className="bg-card-background p-12">
                          <div className="mb-8">
@@ -52,11 +53,23 @@ const OasisConnect: React.FC = () => {
                          ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <input type="text" name="name" placeholder={t('contact.name')} required value={formData.name} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
-                                    <input type="email" name="email" placeholder={t('contact.email')} required value={formData.email} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
+                                    <div>
+                                        <label htmlFor="oasis-connect-name" className="sr-only">{t('contact.name')}</label>
+                                        <input id="oasis-connect-name" type="text" name="name" placeholder={t('contact.name')} required value={formData.name} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="oasis-connect-email" className="sr-only">{t('contact.email')}</label>
+                                        <input id="oasis-connect-email" type="email" name="email" placeholder={t('contact.email')} required value={formData.email} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
+                                    </div>
                                 </div>
-                                 <input type="tel" name="phone" placeholder={t('oasis.connect.phone')} value={formData.phone} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
-                                <textarea name="message" placeholder={t('contact.message')} rows={4} value={formData.message} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition"></textarea>
+                                <div>
+                                    <label htmlFor="oasis-connect-phone" className="sr-only">{t('oasis.connect.phone')}</label>
+                                    <input id="oasis-connect-phone" type="tel" name="phone" placeholder={t('oasis.connect.phone')} value={formData.phone} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition" />
+                                </div>
+                                <div>
+                                    <label htmlFor="oasis-connect-message" className="sr-only">{t('contact.message')}</label>
+                                    <textarea id="oasis-connect-message" name="message" placeholder={t('contact.message')} rows={4} value={formData.message} onChange={handleChange} className="w-full p-3 bg-background border-b-2 border-border-color focus:border-accent outline-none transition"></textarea>
+                                </div>
                                 
                                 {submitError && <p className="text-red-500 text-sm">{submitError}</p>}
 

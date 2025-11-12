@@ -13,14 +13,14 @@ const OasisWelcome: React.FC = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="relative">
                              <div className="relative w-full h-52 rounded-t-full overflow-hidden">
-                                <img src="https://picsum.photos/seed/sky-arch/600/800" alt="View of a clear blue sky" className="absolute inset-0 w-full h-full object-cover" />
+                                <img src="https://picsum.photos/seed/sky-arch/600/800" alt="View of a clear blue sky" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
                              </div>
                              <div className="mt-4">
-                                <img src="https://picsum.photos/seed/vintage-car/800/600" alt="Sunlit interior of a vintage vehicle" className="w-full h-40 object-cover" />
+                                <img src="https://picsum.photos/seed/vintage-car/800/600" alt="Sunlit interior of a vintage vehicle" className="w-full h-40 object-cover" loading="lazy" />
                              </div>
                         </div>
                         <div className="relative">
-                            <img src="https://picsum.photos/seed/coyote-forest/600/900" alt="Coyote in a sun-dappled forest" className="w-full h-96 object-cover" />
+                            <img src="https://picsum.photos/seed/coyote-forest/600/900" alt="Coyote in a sun-dappled forest" className="w-full h-96 object-cover" loading="lazy" />
                         </div>
                     </div>
                     <div>

@@ -166,13 +166,13 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({ appointment, onClose,
                              <h3 className="text-lg font-semibold text-primary mb-4">
                                 Select a new time for {selectedDate.toLocaleDateString('default', { weekday: 'long', day: 'numeric' })}
                             </h3>
-                            <div className="grid grid-cols-3 gap-2 mb-6 max-h-48 overflow-y-auto pr-2">
+                            <div className="grid grid-cols-3 gap-2 mb-6 max-h-64 overflow-y-auto pr-2">
                             {timeSlots.map(slot => (
                                 <button
                                 key={slot.time}
                                 onClick={() => slot.available && setSelectedTime(slot.time)}
                                 disabled={!slot.available}
-                                className={`p-2 text-sm rounded-md border transition-colors duration-200 ${
+                                className={`py-2.5 px-3 text-base rounded-md border transition-colors duration-200 ${
                                     slot.available
                                     ? (selectedTime === slot.time
                                         ? 'bg-primary text-primary-foreground border-primary'

@@ -139,6 +139,7 @@ export const translations = {
         subtitle: "Tools for Your Journey",
         text: "Enhance your practice and bring harmony to your space with our curated collection of wellness products.",
         addToCart: "Added to cart",
+        addButton: "Add to Cart",
         products: {
           '101': { name: 'Himalayan Salt Lamp', description: 'Natural crystal salt lamp to purify air and create a serene ambiance.' },
           '102': { name: 'Meditation Cushion', description: 'Ergonomic zafu cushion for comfortable and supportive meditation sessions.' },
@@ -189,6 +190,7 @@ export const translations = {
       },
       navigation: {
         backToHome: "Back to Home",
+        skip: "Skip to main content",
       },
       footer: {
           facebook: "Facebook",
@@ -335,6 +337,7 @@ export const translations = {
         subtitle: "Instrumente pentru Călătoria Ta",
         text: "Îmbunătățește-ți practica și adu armonie în spațiul tău cu colecția noastră de produse pentru starea de bine.",
         addToCart: "Adăugat în coș",
+        addButton: "Adaugă în coș",
         products: {
           '101': { name: 'Lampă cu Sare de Himalaya', description: 'Lampă naturală din cristal de sare pentru a purifica aerul și a crea o ambianță senină.' },
           '102': { name: 'Pernă pentru Meditație', description: 'Pernă zafu ergonomică pentru sesiuni de meditație confortabile și care oferă susținere.' },
@@ -385,6 +388,7 @@ export const translations = {
       },
        navigation: {
         backToHome: "Înapoi la pagina principală",
+        skip: "Sari la conținutul principal",
       },
       footer: {
         facebook: "Facebook",
@@ -531,6 +535,7 @@ export const translations = {
         subtitle: "Инструменты для Вашего Пути",
         text: "Улучшите свою практику и принесите гармонию в свое пространство с нашей коллекцией товаров для благополучия.",
         addToCart: "Добавлено в корзину",
+        addButton: "Добавить в корзину",
         products: {
           '101': { name: 'Гималайская Соляная Лампа', description: 'Натуральная лампа из кристаллической соли для очищения воздуха и создания безмятежной атмосферы.' },
           '102': { name: 'Медитационная Подушка', description: 'Эргономичная подушка дзафу для комфортных и поддерживающих медитационных сессий.' },
@@ -581,6 +586,7 @@ export const translations = {
       },
       navigation: {
         backToHome: "Вернуться на главную",
+        skip: "Перейти к основному содержанию",
       },
       footer: {
         facebook: "Facebook",

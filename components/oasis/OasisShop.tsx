@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import type { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
@@ -30,7 +31,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     return (
         <div className="bg-card-background border border-border-color shadow-sm transition-all duration-300 hover:shadow-elegant-lg group overflow-hidden rounded-sm text-center flex flex-col">
             <div className="h-64 overflow-hidden">
-                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
             </div>
             <div className="p-6 flex flex-col flex-grow">
                 <h3 className="font-display text-xl text-primary font-semibold mb-2">{product.name}</h3>
@@ -40,7 +41,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                     onClick={() => addToCart(product)}
                     className="mt-auto w-full px-6 py-2 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
                 >
-                    {t('oasis.shop.addToCart')}
+                    {t('oasis.shop.addButton')}
                 </button>
             </div>
         </div>

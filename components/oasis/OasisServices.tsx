@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { HamsaIcon, YogaIcon, MeditationIcon } from './OasisIcons';
 import { useLanguage } from '../../context/LanguageContext';
@@ -11,7 +12,7 @@ const ServiceCard: React.FC<{icon: React.ReactNode, title: string, description: 
     return (
         <div className="bg-card-background border border-border-color shadow-sm transition-all duration-300 hover:shadow-elegant-lg group overflow-hidden rounded-sm h-full flex flex-col">
             <div className="h-48 overflow-hidden">
-                <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
             </div>
             <div className="p-6 text-center flex-grow flex flex-col">
                 {icon}

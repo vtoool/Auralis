@@ -55,7 +55,7 @@ const OriginalThemeSite: React.FC = () => (
 const OasisPageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="bg-background text-text-primary font-sans transition-colors duration-300 theme-oasis">
         <OasisHeader />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <OasisFooter />
     </div>
 );

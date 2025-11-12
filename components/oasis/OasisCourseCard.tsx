@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import type { Course } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
@@ -22,6 +23,7 @@ const OasisCourseCard: React.FC<OasisCourseCardProps> = ({ course }) => {
           src={course.imageUrl}
           alt={course.title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
         />
       </div>
       <div className="p-6 flex flex-col justify-between flex-grow">
