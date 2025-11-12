@@ -4,6 +4,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const OasisWelcome: React.FC = () => {
     const { t } = useLanguage();
+    const handlePageLinkClick = () => window.scrollTo(0, 0);
 
     return (
         <section className="py-24 bg-background">
@@ -41,9 +42,13 @@ const OasisWelcome: React.FC = () => {
                                 </div>
                              </div>
                         </div>
-                        <button className="mt-8 px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors">
+                        <a 
+                            href="#/courses" 
+                            onClick={handlePageLinkClick}
+                            className="mt-8 inline-block px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+                        >
                             {t('oasis.welcome.viewCourses')}
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

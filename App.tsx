@@ -1,6 +1,7 @@
 
 
 
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -26,6 +27,7 @@ import OasisShop from './components/oasis/OasisShop';
 import OasisBlog from './components/oasis/OasisBlog';
 import OasisBookingPage from './components/oasis/OasisBookingPage';
 import OasisCheckoutPage from './components/oasis/OasisCheckoutPage';
+import OasisCoursesPage from './components/oasis/OasisCoursesPage';
 import LoadingSpinner from './components/LoadingSpinner';
 
 
@@ -81,6 +83,8 @@ const PublicSite: React.FC = () => {
                  return <OasisPageLayout><OasisBookingPage /></OasisPageLayout>;
             case '#/checkout':
                  return <OasisPageLayout><OasisCheckoutPage /></OasisPageLayout>;
+            case '#/courses':
+                 return <OasisPageLayout><OasisCoursesPage /></OasisPageLayout>;
             default:
                 return <OasisThemeSite />;
         }

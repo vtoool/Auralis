@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../Logo';
 import ThemeToggle from '../ThemeToggle';
@@ -33,7 +35,7 @@ const OasisHeader: React.FC = () => {
     
     const navLinks = [
         { href: '#about-oasis', label: t('oasis.header.about'), page: false },
-        { href: '#courses-oasis', label: t('oasis.header.courses'), page: false },
+        { href: '#/courses', label: t('oasis.header.courses'), page: true },
         { href: '#/shop', label: t('oasis.header.shop'), page: true },
         { href: '#/blog', label: t('oasis.header.blog'), page: true },
         { href: '#/booking', label: t('oasis.header.appointments'), page: true },
