@@ -3,15 +3,10 @@ import React from 'react';
 // Exported for reuse
 export const UniversalLogoIcon: React.FC<{ className?: string }> = ({ className }) => (
     <div className={`relative text-accent ${className || 'h-10 w-10'}`} style={{ filter: 'drop-shadow(0 0 6px rgb(var(--color-accent) / 0.6))' }}>
-       <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-           <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin='round' fill="none">
-                {/* Arc */}
-                <path d="M44 26C44 15.5066 35.4934 7 25 7C14.5066 7 6 15.5066 6 26" />
-                
-                {/* Flame/Lotus */}
-                <path d="M25 45 C 18 35, 18 25, 25 19 C 32,25, 32,35, 25 45 Z" />
-                <path d="M25 24 C 20 28, 17 45, 17 45" />
-                <path d="M25 24 C 30 28, 33 45, 33 45" />
+       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+           <g stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 14.07c1.015 0 2.431-.302 3.32.35l1.762 1.29c.655.48 1.364.322 2.095.208c.962-.151 1.823.67 1.823 1.738c0 .292-2.073 1.035-2.372 1.176a1.75 1.75 0 0 1-1.798-.182l-1.988-1.457"/>
+                <path d="m13 17l4.091-1.89a1.98 1.98 0 0 1 2.089.515l.67.701c.24.25.184.672-.113.844l-7.854 4.561a1.96 1.96 0 0 1-1.552.187L4 20.027M12.002 12s2.1-2.239 2.1-5s-2.1-5-2.1-5s-2.1 2.239-2.1 5s2.1 5 2.1 5m0 0s3.067-.068 5-2.04c1.933-1.973 2-5.103 2-5.103s-1.27.028-2.69.574M12.002 12s-3.067-.068-5-2.04c-1.933-1.973-2-5.103-2-5.103s1.27.028 2.69.574"/>
            </g>
        </svg>
    </div>
