@@ -2,7 +2,8 @@
 
 // FIX: Use a version-pinned Supabase Edge Function type reference for stability. The un-versioned URL can sometimes fail to resolve.
 // This resolves the "Cannot find type definition file" and "Cannot find name 'Deno'" errors.
-/// <reference types="https://esm.sh/v135/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// Fix: Switched to unpkg.com CDN for type definitions as the esm.sh URL was unresolvable.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.

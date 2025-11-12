@@ -33,17 +33,18 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
   const typeClasses = {
     success: {
-      // A lighter, less saturated, and fully opaque pastel green background with high-contrast text.
-      bg: 'bg-emerald-50 dark:bg-emerald-900',
-      iconColor: 'text-emerald-600 dark:text-emerald-400',
-      titleColor: 'text-gray-900 dark:text-gray-100',
+      // A light, less saturated teal/green background with high-contrast text.
+      bg: 'bg-teal-50 dark:bg-teal-800',
+      iconColor: 'text-teal-600 dark:text-teal-300',
+      titleColor: 'text-gray-900 dark:text-white',
+      messageColor: 'text-gray-700 dark:text-gray-300',
     },
     // Add other types like 'info' or 'error' here if needed
   };
 
   const currentStyles = notification.type === 'success' 
     ? typeClasses.success 
-    : { bg: 'bg-card-background', iconColor: 'text-accent', titleColor: 'text-primary' };
+    : { bg: 'bg-card-background', iconColor: 'text-accent', titleColor: 'text-primary', messageColor: 'text-text-secondary' };
   
   const SuccessIcon = () => (
       <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${currentStyles.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -72,7 +73,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
       <div className="flex-grow">
         <p className={`font-semibold ${currentStyles.titleColor}`}>{notification.productName || 'Success'}</p>
-        <p className="text-sm text-gray-700 dark:text-gray-300">{notification.message}</p>
+        <p className={`text-sm ${currentStyles.messageColor}`}>{notification.message}</p>
       </div>
       <button onClick={handleDismiss} className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:bg-border-color flex-shrink-0">
          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
