@@ -2,7 +2,8 @@
 
 // Fix: Using a stable, versioned URL for Supabase functions type definitions
 // to resolve issues with finding the file and the subsequent 'Deno' is not defined errors.
-/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// Corrected path from 'src' to 'dist' to match package structure.
+/// <reference types="https://unpkg.com/@supabase/functions-js@2.4.1/dist/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.

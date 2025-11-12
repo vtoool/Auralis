@@ -21,7 +21,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
     const timer = setTimeout(() => {
       setIsExiting(true);
       setTimeout(() => onDismiss(notification.id), 300); // Wait for animation to finish
-    }, 5000); // 5 seconds
+    }, 3000); // 3 seconds
 
     return () => clearTimeout(timer);
   }, [notification.id, onDismiss]);
@@ -30,9 +30,22 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
     setIsExiting(true);
     setTimeout(() => onDismiss(notification.id), 300); // Match animation duration
   };
+
+  const typeClasses = {
+    success: {
+      bg: 'bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800/50',
+      iconColor: 'text-green-600 dark:text-green-400',
+      titleColor: 'text-green-800 dark:text-green-200',
+    },
+    // Add other types like 'info' or 'error' here if needed
+  };
+
+  const currentStyles = notification.type === 'success' 
+    ? typeClasses.success 
+    : { bg: 'bg-card-background', iconColor: 'text-accent', titleColor: 'text-primary' };
   
   const SuccessIcon = () => (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${currentStyles.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
   );
@@ -40,9 +53,10 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
   return (
     <div
       className={`
-        bg-card-background rounded-lg shadow-elegant-lg p-4 flex items-start space-x-4
+        rounded-lg shadow-elegant-lg p-4 flex items-start space-x-4
         transition-all duration-300 ease-in-out transform
         animate-fade-in
+        ${currentStyles.bg}
         ${isExiting ? 'opacity-0 translate-x-full' : 'opacity-100 translate-x-0'}
       `}
       role="alert"
@@ -56,7 +70,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
         )}
 
       <div className="flex-grow">
-        <p className="font-semibold text-primary">{notification.productName || 'Success'}</p>
+        <p className={`font-semibold ${currentStyles.titleColor}`}>{notification.productName || 'Success'}</p>
         <p className="text-sm text-text-secondary">{notification.message}</p>
       </div>
       <button onClick={handleDismiss} className="p-1 rounded-full text-text-secondary hover:bg-border-color flex-shrink-0">
