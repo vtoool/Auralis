@@ -33,11 +33,11 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
   const typeClasses = {
     success: {
-      // Using the user-provided color palette: #80EF80
-      bg: 'bg-[#80EF80] dark:bg-[#1e4620]',
-      iconColor: 'text-[#1e4620] dark:text-[#80EF80]',
-      titleColor: 'text-gray-900 dark:text-white',
-      messageColor: 'text-gray-800 dark:text-gray-300',
+      // New vibrant green from user reference image
+      bg: 'bg-[#87FF87] dark:bg-green-900',
+      iconColor: 'text-green-900 dark:text-[#87FF87]',
+      titleColor: 'text-green-950 dark:text-white',
+      messageColor: 'text-green-800 dark:text-green-200',
     },
     // Add other types like 'info' or 'error' here if needed
   };
