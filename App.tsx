@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -14,6 +15,7 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { NotificationProvider } from './context/NotificationContext';
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -141,9 +143,11 @@ function App() {
       <div className={`transition-opacity duration-700 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
         <LanguageProvider>
           <AuthProvider>
-            <CartProvider>
-              <AppRoutes />
-            </CartProvider>
+            <NotificationProvider>
+              <CartProvider>
+                <AppRoutes />
+              </CartProvider>
+            </NotificationProvider>
           </AuthProvider>
         </LanguageProvider>
       </div>

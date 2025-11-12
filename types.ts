@@ -62,3 +62,11 @@ export interface BlogPost {
   excerpt: string;
   imageUrl: string;
 }
+
+export interface Notification {
+  id: number;
+  message: string;
+  type: 'success' | 'info' | 'error';
+  productName?: string;
+  productImage?: string;
+}

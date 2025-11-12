@@ -1,7 +1,10 @@
 
 
+
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import type { Product, CartItem } from '../types';
+import { useNotification } from './NotificationContext';
+import { useLanguage } from './LanguageContext';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -20,6 +23,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { addNotification } = useNotification();
+  const { t } = useLanguage();
 
   const addToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -30,6 +35,13 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         );
       }
       return [...prevItems, { ...product, quantity: 1 }];
+    });
+    
+    // Trigger notification with product details
+    addNotification(t('oasis.shop.addToCart'), { 
+        productName: product.name,
+        productImage: product.imageUrl,
+        type: 'success',
     });
   };
 
