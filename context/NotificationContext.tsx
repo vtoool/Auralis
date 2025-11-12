@@ -33,9 +33,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
   const typeClasses = {
     success: {
-      // A lighter, pastel green background with high-contrast text.
-      bg: 'bg-green-100 dark:bg-green-900/90',
-      iconColor: 'text-green-600 dark:text-green-400',
+      // A lighter, less saturated, and fully opaque pastel green background with high-contrast text.
+      bg: 'bg-emerald-50 dark:bg-emerald-900',
+      iconColor: 'text-emerald-600 dark:text-emerald-400',
       titleColor: 'text-gray-900 dark:text-gray-100',
     },
     // Add other types like 'info' or 'error' here if needed
