@@ -31,7 +31,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
       return [...prevItems, { ...product, quantity: 1 }];
     });
-    setIsCartOpen(true);
   };
 
   const removeFromCart = (productId: number) => {

@@ -1,5 +1,6 @@
 
-import React from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../Logo';
 import ThemeToggle from '../ThemeToggle';
 import LanguageSwitcher from '../LanguageSwitcher';
@@ -15,6 +16,20 @@ const CartIcon = () => (
 const OasisHeader: React.FC = () => {
     const { cartCount, toggleCart } = useCart();
     const { t } = useLanguage();
+    const [animateCart, setAnimateCart] = useState(false);
+    const prevCartCountRef = useRef(cartCount);
+
+    useEffect(() => {
+        // Animate only when items are added, not on initial load or removal
+        if (cartCount > prevCartCountRef.current) {
+            setAnimateCart(true);
+            const timer = setTimeout(() => {
+                setAnimateCart(false);
+            }, 400); // Animation duration
+            return () => clearTimeout(timer);
+        }
+        prevCartCountRef.current = cartCount;
+    }, [cartCount]);
     
     const navLinks = [
         { href: '#about-oasis', label: t('oasis.header.about'), page: false },
@@ -92,7 +107,10 @@ const OasisHeader: React.FC = () => {
                         <ThemePicker />
                         <ThemeToggle />
                         <LanguageSwitcher />
-                        <button onClick={toggleCart} className="p-2 relative rounded-full text-primary hover:bg-primary/10 transition-colors">
+                        <button 
+                            onClick={toggleCart} 
+                            className={`p-2 relative rounded-full text-primary hover:bg-primary/10 transition-colors ${animateCart ? 'animate-cart-pop' : ''}`}
+                        >
                             <CartIcon />
                             {cartCount > 0 && (
                                 <span className="absolute top-0 right-0 block h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center transform translate-x-1/3 -translate-y-1/3">
