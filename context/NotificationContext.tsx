@@ -33,11 +33,11 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onDis
 
   const typeClasses = {
     success: {
-      // A light, less saturated teal/green background with high-contrast text.
-      bg: 'bg-teal-50 dark:bg-teal-800',
-      iconColor: 'text-teal-600 dark:text-teal-300',
-      titleColor: 'text-gray-900 dark:text-white',
-      messageColor: 'text-gray-700 dark:text-gray-300',
+      // Using the user-provided "Leaf" green color palette: #77af37
+      bg: 'bg-[#f0f7e8] dark:bg-[#2c3e1c]', // Light green background in light mode, dark green in dark mode
+      iconColor: 'text-[#5a8629] dark:text-[#a2d869]', // Darker green icon in light mode, lighter in dark mode
+      titleColor: 'text-gray-900 dark:text-white', // Standard high-contrast title
+      messageColor: 'text-gray-700 dark:text-gray-300', // Standard high-contrast message
     },
     // Add other types like 'info' or 'error' here if needed
   };
