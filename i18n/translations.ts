@@ -1,4 +1,5 @@
 
+
 export const translations = {
   en: {
     header: {
@@ -137,7 +138,7 @@ export const translations = {
         title: "AURALIS SHOP",
         subtitle: "Tools for Your Journey",
         text: "Enhance your practice and bring harmony to your space with our curated collection of wellness products.",
-        addToCart: "Add to Cart",
+        addToCart: "Added to cart",
         products: {
           '101': { name: 'Himalayan Salt Lamp', description: 'Natural crystal salt lamp to purify air and create a serene ambiance.' },
           '102': { name: 'Meditation Cushion', description: 'Ergonomic zafu cushion for comfortable and supportive meditation sessions.' },
@@ -333,7 +334,7 @@ export const translations = {
         title: "MAGAZIN AURALIS",
         subtitle: "Instrumente pentru Călătoria Ta",
         text: "Îmbunătățește-ți practica și adu armonie în spațiul tău cu colecția noastră de produse pentru starea de bine.",
-        addToCart: "Adaugă în Coș",
+        addToCart: "Adăugat în coș",
         products: {
           '101': { name: 'Lampă cu Sare de Himalaya', description: 'Lampă naturală din cristal de sare pentru a purifica aerul și a crea o ambianță senină.' },
           '102': { name: 'Pernă pentru Meditație', description: 'Pernă zafu ergonomică pentru sesiuni de meditație confortabile și care oferă susținere.' },
@@ -529,7 +530,7 @@ export const translations = {
         title: "МАГАЗИН AURALIS",
         subtitle: "Инструменты для Вашего Пути",
         text: "Улучшите свою практику и принесите гармонию в свое пространство с нашей коллекцией товаров для благополучия.",
-        addToCart: "Добавить в Корзину",
+        addToCart: "Добавлено в корзину",
         products: {
           '101': { name: 'Гималайская Соляная Лампа', description: 'Натуральная лампа из кристаллической соли для очищения воздуха и создания безмятежной атмосферы.' },
           '102': { name: 'Медитационная Подушка', description: 'Эргономичная подушка дзафу для комфортных и поддерживающих медитационных сессий.' },

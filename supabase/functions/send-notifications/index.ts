@@ -1,8 +1,8 @@
 // supabase/functions/send-notifications/index.ts
 
-// Fix: Replaced the incorrect type definition URL with the recommended Supabase Edge Function reference.
-// This ensures the Deno runtime types are available and resolves "Cannot find name 'Deno'" errors.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
+// FIX: Use the un-versioned Supabase Edge Function type reference recommended by the official documentation.
+// This resolves the "Cannot find type definition file" and "Cannot find name 'Deno'" errors.
+/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.
