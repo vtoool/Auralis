@@ -6,6 +6,9 @@ const OasisWelcome: React.FC = () => {
     const { t } = useLanguage();
     const handlePageLinkClick = () => window.scrollTo(0, 0);
 
+    // Split the text block from translations into paragraphs
+    const welcomeTextParagraphs = t('oasis.welcome.text').split('\n');
+
     return (
         <section className="py-24 bg-background">
             <div className="container mx-auto px-6">
@@ -25,7 +28,11 @@ const OasisWelcome: React.FC = () => {
                     </div>
                     <div>
                         <h2 className="font-display text-4xl font-bold text-primary mb-6">{t('oasis.welcome.title')}</h2>
-                        <p className="text-text-secondary mb-8">{t('oasis.welcome.text')}</p>
+                        <div className="text-text-secondary mb-8 space-y-4 leading-relaxed">
+                            {welcomeTextParagraphs.map((paragraph, index) => (
+                                <p key={index}>{paragraph}</p>
+                            ))}
+                        </div>
                         <div className="space-y-6">
                              <div className="flex items-start space-x-4">
                                 <WorshipIcon className="text-accent" />

@@ -1,7 +1,7 @@
 // supabase/functions/send-notifications/index.ts
 
-// FIX: Corrected the Supabase Edge Functions type reference to ensure Deno types are properly loaded.
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
+// FIX: Added Deno namespace types to resolve errors with the Deno global object.
+/// <reference types="https://deno.land/x/supafuncs/dev/deno.ns.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.

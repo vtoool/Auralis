@@ -63,8 +63,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [cartItems]);
 
   return (
-    // FIX: Pass `setIsCartOpen` as the value for `setCartOpen` to match the context type.
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, cartCount, cartTotal, isCartOpen, toggleCart, setCartOpen: setIsCartOpen }}>
+    // FIX: The type of `setIsCartOpen` is `React.Dispatch<React.SetStateAction<boolean>>`, which is not directly assignable
+    // to the `(isOpen: boolean) => void` type defined in `CartContextType`.
+    // This wrapper ensures the provided function matches the required signature.
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, cartCount, cartTotal, isCartOpen, toggleCart, setCartOpen: (isOpen) => setIsCartOpen(isOpen) }}>
       {children}
     </CartContext.Provider>
   );
