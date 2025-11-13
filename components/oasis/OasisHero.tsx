@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ConnectIcon, PhilosophyIcon, EventsIcon } from './OasisIcons';
 import LazyBackgroundImage from '../LazyBackgroundImage';
 import { useLanguage } from '../../context/LanguageContext';
@@ -25,6 +25,7 @@ const InfoCard: React.FC<{icon: React.ReactNode, title: string, children: React.
 
 const OasisHero: React.FC = () => {
     const { t } = useLanguage();
+    const [imageLoaded, setImageLoaded] = useState(false);
     
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -53,8 +54,8 @@ const OasisHero: React.FC = () => {
                 <div aria-hidden="true" className="absolute -top-40 -left-40 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl opacity-50"></div>
                 <div aria-hidden="true" className="absolute -bottom-40 -right-20 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl opacity-70"></div>
                 
-                <LazyBackgroundImage src={heroImageSrc} active={true} />
-                <div className="absolute inset-0 bg-black/30"></div>
+                <LazyBackgroundImage src={heroImageSrc} active={true} onLoad={() => setImageLoaded(true)} />
+                <div className={`absolute inset-0 bg-black/30 transition-opacity duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
                 <div className="relative text-center text-white z-10">
                     <p className="font-sans text-lg tracking-widest uppercase">{t('oasis.hero.sanctuary')}</p>
                     <h1 className="font-display text-6xl md:text-8xl font-bold tracking-wider">AURALIS</h1>

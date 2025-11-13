@@ -4,9 +4,10 @@ interface LazyBackgroundImageProps {
   src: string;
   className?: string;
   active: boolean;
+  onLoad?: () => void;
 }
 
-const LazyBackgroundImage: React.FC<LazyBackgroundImageProps> = ({ src, className, active }) => {
+const LazyBackgroundImage: React.FC<LazyBackgroundImageProps> = ({ src, className, active, onLoad }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const lowQualitySrc = src.includes('unsplash') 
     ? `${src}&w=20&q=10` 
@@ -18,8 +19,11 @@ const LazyBackgroundImage: React.FC<LazyBackgroundImageProps> = ({ src, classNam
     img.src = src;
     img.onload = () => {
       setIsLoaded(true);
+      if (onLoad) {
+        onLoad();
+      }
     };
-  }, [src]);
+  }, [src, onLoad]);
 
   return (
     <div
