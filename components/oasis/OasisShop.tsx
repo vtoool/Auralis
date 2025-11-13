@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import type { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import AnimatedSection from '../AnimatedSection';
@@ -27,6 +26,12 @@ const mockProductImages: {[key: number]: string} = {
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     const { addToCart } = useCart();
     const { t } = useLanguage();
+    const [quantity, setQuantity] = useState(1);
+
+    const handleQuantityChange = (amount: number) => {
+        setQuantity(prev => Math.max(1, prev + amount));
+    };
+
     return (
         <div className="bg-card-background shadow-elegant transition-all duration-300 hover:shadow-elegant-lg group rounded-2xl text-left flex flex-col overflow-hidden">
             <div className="h-64 overflow-hidden">
@@ -36,12 +41,36 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 <h3 className="font-sans text-xl font-bold text-primary mb-1">{product.name}</h3>
                 <p className="text-text-secondary text-sm mb-2">{product.description}</p>
                 <p className="text-lg font-sans font-bold text-primary my-2">${product.price.toFixed(2)}</p>
-                <button 
-                    onClick={() => addToCart(product)}
-                    className="mt-auto w-full py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors rounded-lg text-sm uppercase tracking-wider"
-                >
-                    {t('oasis.shop.addButton')}
-                </button>
+                <div className="mt-auto flex items-stretch space-x-2">
+                    {/* Quantity Selector */}
+                    <div className="flex items-center border border-border-color rounded-lg">
+                        <button
+                            onClick={() => handleQuantityChange(-1)}
+                            className="px-3 py-2 text-primary hover:bg-primary-light rounded-l-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            aria-label="Decrease quantity"
+                            disabled={quantity <= 1}
+                        >
+                            &ndash;
+                        </button>
+                        <span className="px-3 text-text-primary font-semibold text-center w-10 flex items-center justify-center border-x border-border-color" aria-live="polite">
+                            {quantity}
+                        </span>
+                        <button
+                            onClick={() => handleQuantityChange(1)}
+                            className="px-3 py-2 text-primary hover:bg-primary-light rounded-r-lg transition-colors"
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
+                    </div>
+                    {/* Add to Cart Button */}
+                    <button 
+                        onClick={() => addToCart(product, quantity)}
+                        className="flex-grow py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors rounded-lg text-sm uppercase tracking-wider"
+                    >
+                        {t('oasis.shop.addButton')}
+                    </button>
+                </div>
             </div>
         </div>
     );
