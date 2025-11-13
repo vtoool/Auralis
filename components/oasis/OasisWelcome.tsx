@@ -19,8 +19,8 @@ const OasisWelcome: React.FC = () => {
                             {/* Main Framed Image */}
                             <div className="relative w-full rounded-sm shadow-elegant-lg border-8 border-primary-light aspect-[3/4]">
                                 <img
-                                    src="https://images.unsplash.com/photo-1473992368551-0a3e20986536?q=80&w=800&auto=format&fit=crop"
-                                    alt="Woman meditating peacefully on a rock by the sea"
+                                    src="https://images.unsplash.com/photo-1536007164800-b7f11331f35c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="A woman in a red dress walking through a misty, green forest."
                                     className="w-full h-full object-cover rounded-sm"
                                     loading="lazy"
                                 />
@@ -28,8 +28,8 @@ const OasisWelcome: React.FC = () => {
                             {/* Overlapping Image Top Right */}
                             <div className="absolute top-0 right-0 w-1/2 transform translate-x-1/4 -translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
                                 <img
-                                    src="https://images.unsplash.com/photo-1528659425838-51f698943419?q=80&w=600&auto=format&fit=crop"
-                                    alt="A tranquil stack of zen stones on a blurred background"
+                                    src="https://images.unsplash.com/photo-1488875482628-eee706cbfad5?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Sunlight shining through silhouetted tree branches."
                                     className="w-full h-full object-cover rounded-sm"
                                     loading="lazy"
                                 />
@@ -37,8 +37,8 @@ const OasisWelcome: React.FC = () => {
                             {/* Overlapping Image Bottom Left */}
                             <div className="absolute bottom-0 left-0 w-1/2 transform -translate-x-1/4 translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
                                 <img
-                                    src="https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=800&auto-format&fit=crop"
-                                    alt="Close-up of a vibrant green monstera leaf with soft light"
+                                    src="https://images.unsplash.com/photo-1762068320601-a5aeb23050d9?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Dew drops on wildflowers in the morning sun."
                                     className="w-full h-full object-cover rounded-sm"
                                     loading="lazy"
                                 />
