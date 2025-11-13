@@ -12,6 +12,22 @@ const CartIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
 );
 
+const MenuIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+    </svg>
+);
+
+const CloseIcon = () => (
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+);
+
+
 const OasisHeader: React.FC = () => {
     const { cartCount, toggleCart } = useCart();
     const { t } = useLanguage();
@@ -20,8 +36,10 @@ const OasisHeader: React.FC = () => {
     
     const [isVisible, setIsVisible] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const lastScrollY = useRef(0);
 
+    // Effect to handle hiding header on scroll
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -29,8 +47,9 @@ const OasisHeader: React.FC = () => {
 
             const scrollingDown = currentScrollY > lastScrollY.current;
 
-            // Hide if scrolling down and past the header. Show if scrolling up or near the top.
-            if (scrollingDown && currentScrollY > headerHeight) {
+            if (isMenuOpen) {
+                setIsVisible(true);
+            } else if (scrollingDown && currentScrollY > headerHeight) {
                 setIsVisible(false);
             } else {
                 setIsVisible(true);
@@ -42,7 +61,19 @@ const OasisHeader: React.FC = () => {
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isMenuOpen]);
+
+    // Effect to prevent body scrolling when mobile menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isMenuOpen]);
 
 
     useEffect(() => {
@@ -139,12 +170,15 @@ const OasisHeader: React.FC = () => {
                         ))}
                     </nav>
                      <div className="flex items-center space-x-1">
-                        <ThemePicker />
-                        <ThemeToggle />
-                        <LanguageSwitcher />
+                        <div className="hidden lg:flex items-center space-x-1">
+                            <ThemePicker />
+                            <ThemeToggle />
+                            <LanguageSwitcher />
+                        </div>
                         <button 
                             onClick={toggleCart} 
                             className={`p-2 relative rounded-full text-primary hover:bg-primary/10 transition-colors ${animateCart ? 'animate-cart-pop' : ''}`}
+                            aria-label="Open cart"
                         >
                             <CartIcon />
                             {cartCount > 0 && (
@@ -153,11 +187,70 @@ const OasisHeader: React.FC = () => {
                                 </span>
                             )}
                         </button>
+                        <div className="lg:hidden">
+                            <button
+                                onClick={() => setIsMenuOpen(true)}
+                                className="p-2 rounded-full text-primary"
+                                aria-label="Open menu"
+                            >
+                                <MenuIcon />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
         <OasisCart />
+        
+        {/* Mobile Menu Drawer */}
+        <div 
+            className={`fixed inset-0 z-[100] transition-opacity duration-300 ${isMenuOpen ? 'bg-black/60 backdrop-blur-sm' : 'bg-transparent pointer-events-none'}`}
+            onClick={() => setIsMenuOpen(false)}
+            aria-hidden={!isMenuOpen}
+        >
+            <div
+                className={`fixed top-0 right-0 h-full w-full max-w-sm bg-card-background shadow-elegant-lg transition-transform duration-300 flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+            >
+                <div className="flex justify-between items-center p-6 border-b border-border-color">
+                    <a href="/#" aria-label="Auralis homepage" onClick={() => setIsMenuOpen(false)}>
+                        <Logo />
+                    </a>
+                    <button onClick={() => setIsMenuOpen(false)} className="p-2 rounded-full text-text-secondary hover:bg-border-color" aria-label="Close menu">
+                        <CloseIcon />
+                    </button>
+                </div>
+                <nav className="flex-grow p-8">
+                    <ul className="space-y-6">
+                        {navLinks.map((link) => (
+                            <li key={link.label}>
+                                <a
+                                    href={link.href}
+                                    onClick={(e) => {
+                                        if (link.page) {
+                                            handlePageLinkClick();
+                                        } else {
+                                            handleNavClick(e);
+                                        }
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className="text-2xl text-text-primary font-medium hover:text-accent transition-colors duration-300"
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <div className="p-6 border-t border-border-color flex items-center justify-center space-x-2">
+                    <ThemePicker />
+                    <ThemeToggle />
+                    <LanguageSwitcher />
+                </div>
+            </div>
+        </div>
         </>
     );
 };
