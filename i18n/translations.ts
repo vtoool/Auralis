@@ -135,8 +135,8 @@ export const translations = {
         send: "Send",
       },
       shop: {
-        title: "AURALIS SHOP",
-        subtitle: "Tools for Your Journey",
+        title: "Tools for Your Journey",
+        subtitle: "Curated essentials for mind, body & soul",
         text: "Enhance your practice and bring harmony to your space with our curated collection of wellness products.",
         addToCart: "Added to cart",
         addButton: "Add to Cart",
@@ -333,8 +333,8 @@ export const translations = {
         send: "Trimite",
       },
       shop: {
-        title: "MAGAZIN AURALIS",
-        subtitle: "Instrumente pentru Călătoria Ta",
+        title: "Instrumente pentru Călătoria Ta",
+        subtitle: "Esențiale atent selecționate pentru minte, trup și suflet",
         text: "Îmbunătățește-ți practica și adu armonie în spațiul tău cu colecția noastră de produse pentru starea de bine.",
         addToCart: "Adăugat în coș",
         addButton: "Adaugă în coș",
@@ -531,8 +531,8 @@ export const translations = {
         send: "Отправить",
       },
       shop: {
-        title: "МАГАЗИН AURALIS",
-        subtitle: "Инструменты для Вашего Пути",
+        title: "Инструменты для Вашего Пути",
+        subtitle: "Тщательно подобранные предметы для ума, тела и души",
         text: "Улучшите свою практику и принесите гармонию в свое пространство с нашей коллекцией товаров для благополучия.",
         addToCart: "Добавлено в корзину",
         addButton: "Добавить в корзину",
