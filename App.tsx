@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -55,7 +52,7 @@ const OriginalThemeSite: React.FC = () => (
 const OasisPageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="bg-background text-text-primary font-sans transition-colors duration-300 theme-oasis">
         <OasisHeader />
-        <main id="main-content">{children}</main>
+        <main id="main-content" className="pt-24">{children}</main>
         <OasisFooter />
     </div>
 );

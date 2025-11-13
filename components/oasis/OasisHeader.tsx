@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../Logo';
 import ThemeToggle from '../ThemeToggle';
@@ -12,7 +9,7 @@ import OasisCart from './OasisCart';
 import { useLanguage } from '../../context/LanguageContext';
 
 const CartIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
 );
 
 const OasisHeader: React.FC = () => {
@@ -20,6 +17,33 @@ const OasisHeader: React.FC = () => {
     const { t } = useLanguage();
     const [animateCart, setAnimateCart] = useState(false);
     const prevCartCountRef = useRef(cartCount);
+    
+    const [isVisible, setIsVisible] = useState(true);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const lastScrollY = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const headerHeight = 96; // h-24 from TailwindCSS.
+
+            const scrollingDown = currentScrollY > lastScrollY.current;
+
+            // Hide if scrolling down and past the header. Show if scrolling up or near the top.
+            if (scrollingDown && currentScrollY > headerHeight) {
+                setIsVisible(false);
+            } else {
+                setIsVisible(true);
+            }
+            
+            lastScrollY.current = currentScrollY <= 0 ? 0 : currentScrollY;
+            setIsScrolled(currentScrollY > 10);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
 
     useEffect(() => {
         // Animate only when items are added, not on initial load or removal
@@ -89,7 +113,13 @@ const OasisHeader: React.FC = () => {
         <a href="#main-content" className="sr-only focus:bg-accent focus:text-accent-foreground focus:px-4 focus:py-2 focus:absolute focus:top-4 focus:left-4 z-[999] rounded-md">
             {t('oasis.navigation.skip')}
         </a>
-        <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border-color/50">
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+            !isVisible ? '-translate-y-full' : 'translate-y-0'
+        } ${
+            isScrolled
+                ? 'bg-background/95 shadow-md border-border-color'
+                : 'bg-background/80 backdrop-blur-sm border-border-color/50'
+        }`}>
             <div className="container mx-auto px-6">
                 <div className="flex justify-between items-center h-24">
                     <a href="/#" aria-label="Auralis homepage">

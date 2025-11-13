@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { TimeSlot, Unavailability } from '../../types';
@@ -288,10 +286,10 @@ const OasisBookingPage: React.FC = () => {
   };
 
   return (
-    <section id="booking-page" className="py-20 bg-primary-light">
+    <section id="booking-page" className="pb-20 bg-primary-light">
       <div className="container mx-auto px-6">
         <AnimatedSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 pt-12">
             <h2 className="text-4xl font-display font-bold text-primary">{t('booking.title')}</h2>
             <p className="text-lg text-text-secondary mt-2 max-w-2xl mx-auto">{t('booking.subtitle')}</p>
           </div>

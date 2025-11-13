@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import type { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
@@ -63,10 +62,10 @@ const OasisShop: React.FC = () => {
     const categories = ['All', 'Home', 'Crystals', 'Accessories', 'Rituals'];
     
     return (
-        <div className="py-20 bg-background">
+        <div className="pb-20 bg-background">
             <div className="container mx-auto px-6">
                  <AnimatedSection>
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-12 pt-12">
                         <h1 className="font-sans text-4xl font-bold text-primary tracking-widest uppercase">Tools for Your Journey</h1>
                         <p className="text-text-secondary text-lg mt-2">Curated essentials for mind, body & soul</p>
                     </div>
