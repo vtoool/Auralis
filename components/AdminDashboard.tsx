@@ -17,7 +17,7 @@ const AdminDashboard: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-background text-text-primary p-4 sm:p-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 <header className="flex flex-wrap gap-4 justify-between items-center mb-8 pb-4 border-b border-border-color">
                     <div>
                         <h1 className="text-3xl font-bold text-primary">Admin Dashboard</h1>
