@@ -18,7 +18,7 @@ const OasisCart: React.FC = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [setCartOpen]);
     
-    const handleCheckoutClick = () => {
+    const handlePageLinkClick = () => {
         window.scrollTo(0, 0);
         toggleCart();
     };
@@ -59,7 +59,7 @@ const OasisCart: React.FC = () => {
                                 <span>{t('oasis.cart.subtotal')}</span>
                                 <span>${cartTotal.toFixed(2)}</span>
                             </div>
-                            <a href="#/checkout" onClick={handleCheckoutClick} className="block w-full text-center p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
+                            <a href="#/checkout" onClick={handlePageLinkClick} className="block w-full text-center p-3 font-semibold rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors duration-300">
                                 {t('oasis.cart.checkout')}
                             </a>
                         </div>
@@ -67,7 +67,7 @@ const OasisCart: React.FC = () => {
                 ) : (
                     <div className="flex-grow flex flex-col items-center justify-center p-6 text-center">
                         <p className="text-text-secondary text-lg">{t('oasis.cart.empty')}</p>
-                        <a href="#/shop" onClick={toggleCart} className="mt-4 px-6 py-2 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        <a href="#/shop" onClick={handlePageLinkClick} className="mt-4 px-6 py-2 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
                            {t('oasis.cart.startShopping')}
                         </a>
                     </div>
