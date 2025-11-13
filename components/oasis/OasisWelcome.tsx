@@ -10,23 +10,44 @@ const OasisWelcome: React.FC = () => {
     const welcomeTextParagraphs = t('oasis.welcome.text').split('\n');
 
     return (
-        <section className="py-24 bg-background">
+        <section className="py-24 bg-background overflow-hidden">
             <div className="container mx-auto px-6">
-                <div className="grid md:grid-cols-2 gap-16 items-center">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="relative">
-                             <div className="relative w-full h-52 rounded-t-full overflow-hidden">
-                                <img src="https://picsum.photos/seed/sky-arch/600/800" alt="View of a clear blue sky" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-                             </div>
-                             <div className="mt-4">
-                                <img src="https://picsum.photos/seed/vintage-car/800/600" alt="Sunlit interior of a vintage vehicle" className="w-full h-40 object-cover" loading="lazy" />
-                             </div>
-                        </div>
-                        <div className="relative">
-                            <img src="https://picsum.photos/seed/coyote-forest/600/900" alt="Coyote in a sun-dappled forest" className="w-full h-96 object-cover" loading="lazy" />
+                <div className="grid lg:grid-cols-5 gap-12 lg:gap-24 items-start">
+                    {/* New Framed Image Collage */}
+                    <div className="lg:col-span-2">
+                        <div className="relative p-8">
+                            {/* Main Framed Image */}
+                            <div className="relative w-full rounded-sm shadow-elegant-lg border-8 border-primary-light aspect-[3/4]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1473992368551-0a3e20986536?q=80&w=800&auto=format&fit=crop"
+                                    alt="Woman meditating peacefully on a rock by the sea"
+                                    className="w-full h-full object-cover rounded-sm"
+                                    loading="lazy"
+                                />
+                            </div>
+                            {/* Overlapping Image Top Right */}
+                            <div className="absolute top-0 right-0 w-1/2 transform translate-x-1/4 -translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
+                                <img
+                                    src="https://images.unsplash.com/photo-1528659425838-51f698943419?q=80&w=600&auto=format&fit=crop"
+                                    alt="A tranquil stack of zen stones on a blurred background"
+                                    className="w-full h-full object-cover rounded-sm"
+                                    loading="lazy"
+                                />
+                            </div>
+                            {/* Overlapping Image Bottom Left */}
+                            <div className="absolute bottom-0 left-0 w-1/2 transform -translate-x-1/4 translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
+                                <img
+                                    src="https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=800&auto-format&fit=crop"
+                                    alt="Close-up of a vibrant green monstera leaf with soft light"
+                                    className="w-full h-full object-cover rounded-sm"
+                                    loading="lazy"
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div>
+
+                    {/* Text Column */}
+                    <div className="lg:col-span-3">
                         <h2 className="font-display text-4xl font-bold text-primary mb-6">{t('oasis.welcome.title')}</h2>
                         <div className="text-text-secondary mb-8 space-y-4 leading-relaxed">
                             {welcomeTextParagraphs.map((paragraph, index) => (
@@ -49,8 +70,8 @@ const OasisWelcome: React.FC = () => {
                                 </div>
                              </div>
                         </div>
-                        <a 
-                            href="#/courses" 
+                        <a
+                            href="#/courses"
                             onClick={handlePageLinkClick}
                             className="mt-8 inline-block px-8 py-3 font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
                         >
