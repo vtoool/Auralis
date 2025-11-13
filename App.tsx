@@ -1,15 +1,7 @@
 
+
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Courses from './components/Courses';
-import About from './components/About';
-import Testimonials from './components/Testimonials';
-import Booking from './components/Booking';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import AnimatedSection from './components/AnimatedSection';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -27,28 +19,6 @@ import OasisCheckoutPage from './components/oasis/OasisCheckoutPage';
 import OasisCoursesPage from './components/oasis/OasisCoursesPage';
 import LoadingSpinner from './components/LoadingSpinner';
 
-
-const OriginalThemeSite: React.FC = () => (
-  <div className="bg-background text-text-primary font-sans transition-colors duration-300">
-    <Header />
-    <main>
-      <Hero />
-      <Courses />
-      <AnimatedSection>
-        <About />
-      </AnimatedSection>
-      <AnimatedSection>
-        <Testimonials />
-      </AnimatedSection>
-      <Booking />
-      <AnimatedSection>
-        <Contact />
-      </AnimatedSection>
-    </main>
-    <Footer />
-  </div>
-);
-
 const OasisPageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="bg-background text-text-primary font-sans transition-colors duration-300 theme-oasis">
         <OasisHeader />
@@ -57,9 +27,7 @@ const OasisPageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
     </div>
 );
 
-
 const PublicSite: React.FC = () => {
-    const { themeName } = useTheme();
     const [route, setRoute] = React.useState(window.location.hash || '#/');
 
     React.useEffect(() => {
@@ -70,25 +38,20 @@ const PublicSite: React.FC = () => {
 
     const routePath = route.split('?')[0];
 
-    if (themeName === 'oasis') {
-        switch(routePath) {
-            case '#/shop':
-                return <OasisPageLayout><OasisShop /></OasisPageLayout>;
-            case '#/blog':
-                return <OasisPageLayout><OasisBlog /></OasisPageLayout>;
-            case '#/booking':
-                 return <OasisPageLayout><OasisBookingPage /></OasisPageLayout>;
-            case '#/checkout':
-                 return <OasisPageLayout><OasisCheckoutPage /></OasisPageLayout>;
-            case '#/courses':
-                 return <OasisPageLayout><OasisCoursesPage /></OasisPageLayout>;
-            default:
-                return <OasisThemeSite />;
-        }
+    switch(routePath) {
+        case '#/shop':
+            return <OasisPageLayout><OasisShop /></OasisPageLayout>;
+        case '#/blog':
+            return <OasisPageLayout><OasisBlog /></OasisPageLayout>;
+        case '#/booking':
+             return <OasisPageLayout><OasisBookingPage /></OasisPageLayout>;
+        case '#/checkout':
+             return <OasisPageLayout><OasisCheckoutPage /></OasisPageLayout>;
+        case '#/courses':
+             return <OasisPageLayout><OasisCoursesPage /></OasisPageLayout>;
+        default:
+            return <OasisThemeSite />;
     }
-    
-    // Fallback for other themes or if no specific oasis route matches
-    return <OriginalThemeSite />;
 }
 
 

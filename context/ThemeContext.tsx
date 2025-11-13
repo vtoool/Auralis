@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, ReactNode } from 'react';
 
 type ThemeVariant = 'light' | 'dark';
 type ThemeName = 'serene' | 'vibrant' | 'ember' | 'oasis';
@@ -13,49 +13,20 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [themeName, setThemeName] = useState<ThemeName>('oasis');
-  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('light');
-
+  // Set theme class on mount and never change it
   useEffect(() => {
-    const storedThemeName = localStorage.getItem('themeName');
-    if (storedThemeName === 'serene' || storedThemeName === 'vibrant' || storedThemeName === 'ember' || storedThemeName === 'oasis') {
-      setThemeName(storedThemeName);
-    }
-
-    const storedThemeVariant = localStorage.getItem('themeVariant') as ThemeVariant | null;
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (storedThemeVariant) {
-      setThemeVariant(storedThemeVariant);
-    } else if (prefersDark) {
-      setThemeVariant('dark');
-    }
+    document.documentElement.className = 'theme-oasis';
   }, []);
 
-  useEffect(() => {
-    const html = document.documentElement;
-
-    // Remove old theme names to avoid conflicts
-    html.classList.remove('theme-serene', 'theme-vibrant', 'theme-ember', 'theme-oasis');
-    // Add current theme name
-    html.classList.add(`theme-${themeName}`);
-
-    if (themeVariant === 'dark') {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-
-    localStorage.setItem('themeName', themeName);
-    localStorage.setItem('themeVariant', themeVariant);
-  }, [themeName, themeVariant]);
-
-  const toggleThemeVariant = () => {
-    setThemeVariant(prev => (prev === 'light' ? 'dark' : 'light'));
+  const value = {
+    themeName: 'oasis' as ThemeName,
+    setThemeName: () => {}, // No-op
+    themeVariant: 'light' as ThemeVariant,
+    toggleThemeVariant: () => {}, // No-op
   };
 
   return (
-    <ThemeContext.Provider value={{ themeName, setThemeName, themeVariant, toggleThemeVariant }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

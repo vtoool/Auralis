@@ -1,7 +1,12 @@
 // supabase/functions/send-notifications/index.ts
 
-// FIX: Added Deno namespace types to resolve errors with the Deno global object.
-/// <reference types="https://deno.land/x/supafuncs/dev/deno.ns.d.ts" />
+// Fix: The type reference for the Deno global object was invalid, causing TypeScript errors.
+// Replaced the broken reference with a minimal declaration for Deno.env.get to resolve the errors.
+declare const Deno: {
+  env: {
+    get: (key: string) => string | undefined;
+  };
+};
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.
