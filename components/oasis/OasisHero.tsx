@@ -49,10 +49,10 @@ const OasisHero: React.FC = () => {
 
     return (
         <section id="hero-oasis">
-             <div className="relative h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary-light to-background">
+             <div className="relative h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-accent/10 to-background">
                 {/* Abstract background shapes */}
-                <div aria-hidden="true" className="absolute -top-40 -left-40 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl opacity-50"></div>
-                <div aria-hidden="true" className="absolute -bottom-40 -right-20 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl opacity-70"></div>
+                <div aria-hidden="true" className="absolute -top-40 -left-40 w-96 h-96 bg-accent/20 rounded-full filter blur-3xl opacity-50"></div>
+                <div aria-hidden="true" className="absolute -bottom-40 -right-20 w-80 h-80 bg-primary/10 rounded-full filter blur-3xl opacity-70"></div>
                 
                 <LazyBackgroundImage src={heroImageSrc} active={true} onLoad={() => setImageLoaded(true)} />
                 <div className={`absolute inset-0 bg-black/30 transition-opacity duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
