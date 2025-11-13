@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import type { Product } from '../../types';
 import { useCart } from '../../context/CartContext';
 import AnimatedSection from '../AnimatedSection';
@@ -49,7 +49,6 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
 const OasisShop: React.FC = () => {
     const { t } = useLanguage();
-    const [activeCategory, setActiveCategory] = useState('All');
 
     const products: Product[] = productIds.map(id => ({
         id,
@@ -58,8 +57,6 @@ const OasisShop: React.FC = () => {
         price: mockProductPrices[id],
         imageUrl: mockProductImages[id]
     }));
-    
-    const categories = ['All', 'Home', 'Crystals', 'Accessories', 'Rituals'];
     
     return (
         <div className="pb-20 bg-background">
@@ -70,41 +67,10 @@ const OasisShop: React.FC = () => {
                         <p className="text-text-secondary text-lg mt-2">Curated essentials for mind, body & soul</p>
                     </div>
                 </AnimatedSection>
-
-                <AnimatedSection delay={100}>
-                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-6 mb-12">
-                        <div className="flex items-center gap-2 flex-wrap justify-center">
-                            {categories.map(category => (
-                                <button
-                                    key={category}
-                                    onClick={() => setActiveCategory(category)}
-                                    className={`px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 border ${
-                                        activeCategory === category
-                                            ? 'bg-accent text-accent-foreground border-accent'
-                                            : 'bg-card-background text-primary border-border-color hover:bg-primary-light'
-                                    }`}
-                                >
-                                    {category}
-                                </button>
-                            ))}
-                        </div>
-                        <div className="relative">
-                            <select className="appearance-none bg-card-background border border-border-color rounded-full py-2 px-5 pr-10 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent">
-                                <option>Sort by: Popularity</option>
-                                <option>Sort by: Price (Low to High)</option>
-                                <option>Sort by: Price (High to Low)</option>
-                                <option>Sort by: Newest</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                </AnimatedSection>
                 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {products.map((product, index) => (
-                        <AnimatedSection key={product.id} delay={200 + index * 100}>
+                        <AnimatedSection key={product.id} delay={100 + index * 100}>
                             <ProductCard product={product} />
                         </AnimatedSection>
                     ))}
