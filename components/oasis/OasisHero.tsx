@@ -55,9 +55,9 @@ const OasisHero: React.FC = () => {
                 
                 <LazyBackgroundImage src={heroImageSrc} active={true} onLoad={() => setImageLoaded(true)} />
                 <div className={`absolute inset-0 bg-black/30 transition-opacity duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
-                <div className="relative text-center text-white z-10">
-                    <p className="font-sans text-lg tracking-widest uppercase">{t('oasis.hero.sanctuary')}</p>
-                    <h1 className="font-display text-6xl md:text-8xl font-bold tracking-wider">AURALIS</h1>
+                <div className="relative text-center text-white z-10 px-4">
+                    <p className="font-sans text-base sm:text-lg tracking-widest uppercase">{t('oasis.hero.sanctuary')}</p>
+                    <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-wider">AURALIS</h1>
                 </div>
             </div>
 
