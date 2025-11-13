@@ -1,7 +1,9 @@
 // supabase/functions/send-notifications/index.ts
 
-// FIX: The `npm:` specifier for types was not being resolved correctly, leading to errors where the `Deno` global was not recognized. This is updated to a full URL reference to the type definition file on esm.sh, which allows the TypeScript language server to correctly load the Supabase Edge Function types.
-/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/dist/edge-runtime.d.ts" />
+// FIX: The reference to Supabase's Edge Function types was incorrect, which prevented
+// the Deno global types from being loaded and caused 'Cannot find name Deno' errors.
+// The URL has been updated to the correct path as per official examples.
+/// <reference types="https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts" />
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // Fix: Use a Deno-compatible URL import for the 'resend' library.

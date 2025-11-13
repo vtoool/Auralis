@@ -141,12 +141,12 @@ export const translations = {
         addToCart: "Added to cart",
         addButton: "Add to Cart",
         products: {
-          '101': { name: 'Himalayan Salt Lamp', description: 'Natural crystal salt lamp to purify air and create a serene ambiance.' },
-          '102': { name: 'Meditation Cushion', description: 'Ergonomic zafu cushion for comfortable and supportive meditation sessions.' },
-          '103': { name: 'Tibetan Singing Bowl', description: 'Hand-hammered brass bowl that produces rich, resonant tones for healing.' },
-          '104': { name: 'Essential Oil Diffuser', description: 'Ultrasonic diffuser to disperse calming essential oils into your space.' },
-          '105': { name: 'Chakra Stone Set', description: 'A set of seven polished gemstones to align and balance your body\'s energy centers.' },
-          '106': { name: 'Organic Sage Smudge Stick', description: 'For cleansing your space of negative energy and promoting a sense of peace.' },
+          '101': { name: 'Dream Weaver Set', description: 'Promotes restful sleep & clarity' },
+          '102': { name: 'Serenity Diffuser', description: 'Calming aroma for any space' },
+          '103': { name: 'Grounding Mala', description: 'Hand-knotted natural wood beads' },
+          '104': { name: 'Cleansing Smoke Kit', description: 'Purify your space & spirit' },
+          '105': { name: 'Vitality Elixir', description: 'Daily herbal immune support' },
+          '106': { name: 'Cozy Comfort Throw', description: 'Organic cotton, warm beig tones' },
         }
       },
       blog: {
@@ -339,12 +339,12 @@ export const translations = {
         addToCart: "Adăugat în coș",
         addButton: "Adaugă în coș",
         products: {
-          '101': { name: 'Lampă cu Sare de Himalaya', description: 'Lampă naturală din cristal de sare pentru a purifica aerul și a crea o ambianță senină.' },
-          '102': { name: 'Pernă pentru Meditație', description: 'Pernă zafu ergonomică pentru sesiuni de meditație confortabile și care oferă susținere.' },
-          '103': { name: 'Bol Cântător Tibetan', description: 'Bol de alamă prelucrat manual ce produce tonuri bogate și rezonante pentru vindecare.' },
-          '104': { name: 'Difuzor de Uleiuri Esențiale', description: 'Difuzor ultrasonic pentru a dispersa uleiuri esențiale calmante în spațiul tău.' },
-          '105': { name: 'Set de Pietre pentru Chakre', description: 'Un set de șapte pietre semiprețioase șlefuite pentru a alinia și echilibra centrii energetici ai corpului.' },
-          '106': { name: 'Mănunchi de Salvie Organică', description: 'Pentru purificarea spațiului de energii negative și inducerea unei stări de pace.' },
+          '101': { name: 'Set Țesător de Vise', description: 'Promovează somnul odihnitor și claritatea' },
+          '102': { name: 'Difuzor Serenitate', description: 'Aromă calmantă pentru orice spațiu' },
+          '103': { name: 'Mala de Împământare', description: 'Mărgele din lemn natural, înnodate manual' },
+          '104': { name: 'Kit de Purificare cu Fum', description: 'Purifică-ți spațiul și spiritul' },
+          '105': { name: 'Elixir de Vitalitate', description: 'Suport imunitar zilnic pe bază de plante' },
+          '106': { name: 'Pătură Confortabilă', description: 'Bumbac organic, tonuri calde de bej' },
         }
       },
       blog: {
@@ -537,12 +537,12 @@ export const translations = {
         addToCart: "Добавлено в корзину",
         addButton: "Добавить в корзину",
         products: {
-          '101': { name: 'Гималайская Соляная Лампа', description: 'Натуральная лампа из кристаллической соли для очищения воздуха и создания безмятежной атмосферы.' },
-          '102': { name: 'Медитационная Подушка', description: 'Эргономичная подушка дзафу для комфортных и поддерживающих медитационных сессий.' },
-          '103': { name: 'Тибетская Поющая Чаша', description: 'Чаша из кованой латуни, издающая богатые, резонансные тона для исцеления.' },
-          '104': { name: 'Диффузор Эфирных Масел', description: 'Ультразвуковой диффузор для распыления успокаивающих эфирных масел в вашем пространстве.' },
-          '105': { name: 'Набор Камней для Чакр', description: 'Набор из семи отполированных драгоценных камней для выравнивания и балансировки энергетических центров вашего тела.' },
-          '106': { name: 'Органический Пучок Шалфея', description: 'Для очищения вашего пространства от негативной энергии и содействия чувству мира.' },
+          '101': { name: 'Набор Ткач Снов', description: 'Способствует спокойному сну и ясности' },
+          '102': { name: 'Диффузор Безмятежность', description: 'Успокаивающий аромат для любого пространства' },
+          '103': { name: 'Мала для Заземления', description: 'Натуральные деревянные бусины ручной вязки' },
+          '104': { name: 'Набор для Очищения Дымом', description: 'Очистите свое пространство и дух' },
+          '105': { name: 'Эликсир Жизненной Силы', description: 'Ежедневная травяная поддержка иммунитета' },
+          '106': { name: 'Уютный Плед', description: 'Органический хлопок, теплые бежевые тона' },
         }
       },
       blog: {
