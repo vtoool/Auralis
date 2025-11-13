@@ -13,32 +13,13 @@ const OasisWelcome: React.FC = () => {
         <section className="py-24 bg-background overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="grid lg:grid-cols-5 gap-12 lg:gap-24 items-center">
-                    {/* New Framed Image Collage */}
+                    {/* Image */}
                     <div className="lg:col-span-2">
-                        <div className="relative p-8">
-                            {/* Main Framed Image */}
-                            <div className="relative w-full rounded-sm shadow-elegant-lg border-8 border-primary-light aspect-[3/4]">
+                        <div className="relative h-[44rem] max-w-md mx-auto lg:mx-0 lg:max-w-none -translate-y-16">
+                            <div className="absolute inset-0 rounded-sm shadow-elegant-lg border-8 border-card-background">
                                 <img
-                                    src="https://picsum.photos/seed/dune-woman/600/800"
-                                    alt="A woman in a blue sweater sits peacefully on a vast sand dune, seen from behind."
-                                    className="w-full h-full object-cover rounded-sm"
-                                    loading="lazy"
-                                />
-                            </div>
-                            {/* Overlapping Image Top Right */}
-                            <div className="absolute top-0 right-0 w-1/2 transform translate-x-1/4 -translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
-                                <img
-                                    src="https://picsum.photos/seed/lotus-pond/600/600"
-                                    alt="A single, vibrant purple lotus flower floating on dark, calm water."
-                                    className="w-full h-full object-cover rounded-sm"
-                                    loading="lazy"
-                                />
-                            </div>
-                            {/* Overlapping Image Bottom Left */}
-                            <div className="absolute bottom-0 left-0 w-1/2 transform -translate-x-1/4 translate-y-1/4 rounded-sm shadow-elegant-lg border-4 border-card-background aspect-square">
-                                <img
-                                    src="https://picsum.photos/seed/stone-cairn/600/600"
-                                    alt="A stack of balanced, weathered stones on a beach with the ocean in the background."
+                                    src="https://picsum.photos/seed/pisa-tower-main/600/900"
+                                    alt="The leaning tower of Pisa against a cloudy sky."
                                     className="w-full h-full object-cover rounded-sm"
                                     loading="lazy"
                                 />
