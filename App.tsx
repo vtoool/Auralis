@@ -120,38 +120,17 @@ const AppRoutes: React.FC = () => {
 
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Use a timeout to ensure the loading animation is visible for a pleasant duration,
-    // improving perceived performance while assets load in the background.
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); 
-
-    return () => clearTimeout(timer);
-  }, []);
-  
   return (
     <ThemeProvider>
-       <div 
-        className={`fixed inset-0 z-[200] transition-opacity duration-500 ease-in-out ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        aria-hidden={!isLoading}
-      >
-        <LoadingSpinner />
-      </div>
-      
-      <div className={`transition-opacity duration-700 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-        <LanguageProvider>
-          <AuthProvider>
-            <NotificationProvider>
-              <CartProvider>
-                <AppRoutes />
-              </CartProvider>
-            </NotificationProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </div>
+      <LanguageProvider>
+        <AuthProvider>
+          <NotificationProvider>
+            <CartProvider>
+              <AppRoutes />
+            </CartProvider>
+          </NotificationProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
