@@ -18,7 +18,7 @@ const Logo: React.FC<{ variant?: 'default' | 'on-dark' }> = ({ variant = 'defaul
         <div className="flex items-center space-x-3">
             <UniversalLogoIcon />
             <div>
-                <span className={`block font-serif text-2xl font-bold tracking-widest leading-none ${isDark ? 'text-primary-foreground' : 'text-primary'}`}>AURALIS</span>
+                <span className={`block font-serif text-xl font-bold tracking-wider leading-none ${isDark ? 'text-primary-foreground' : 'text-primary'}`}>SPIRITUL NOSTRU</span>
                 <span className={`block font-sans text-[10px] tracking-[0.2em] -mt-0.5 ${isDark ? 'text-primary-foreground/80' : 'text-text-secondary'}`}>by Alice</span>
             </div>
         </div>

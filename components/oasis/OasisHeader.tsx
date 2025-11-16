@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../Logo';
 import ThemeToggle from '../ThemeToggle';
@@ -153,7 +154,7 @@ const OasisHeader: React.FC = () => {
         }`}>
             <div className="container mx-auto px-6">
                 <div className="flex justify-between items-center h-24">
-                    <a href="/#" aria-label="Auralis homepage">
+                    <a href="/#" aria-label="Spiritul Nostru homepage">
                        <Logo />
                     </a>
 
@@ -215,7 +216,7 @@ const OasisHeader: React.FC = () => {
                 aria-modal="true"
             >
                 <div className="flex justify-between items-center p-6 border-b border-border-color">
-                    <a href="/#" aria-label="Auralis homepage" onClick={() => setIsMenuOpen(false)}>
+                    <a href="/#" aria-label="Spiritul Nostru homepage" onClick={() => setIsMenuOpen(false)}>
                         <Logo />
                     </a>
                     <button onClick={() => setIsMenuOpen(false)} className="p-2 rounded-full text-text-secondary hover:bg-border-color" aria-label="Close menu">

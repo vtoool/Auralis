@@ -10,12 +10,12 @@ const OasisWelcome: React.FC = () => {
     const welcomeTextParagraphs = t('oasis.welcome.text').split('\n');
 
     return (
-        <section className="py-24 bg-background overflow-hidden">
+        <section className="py-16 lg:py-24 bg-background overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="grid lg:grid-cols-5 gap-12 lg:gap-24 items-center">
                     {/* Image */}
                     <div className="lg:col-span-2">
-                        <div className="relative h-[44rem] max-w-md mx-auto lg:mx-0 lg:max-w-none -translate-y-16">
+                        <div className="relative h-96 lg:h-[44rem] max-w-md mx-auto lg:mx-0 lg:max-w-none lg:-translate-y-16">
                             <div className="absolute inset-0 rounded-sm shadow-elegant-lg border-8 border-card-background">
                                 <img
                                     src="https://picsum.photos/seed/pisa-tower-main/600/900"

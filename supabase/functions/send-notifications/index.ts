@@ -22,7 +22,7 @@ const corsHeaders = {
 // To send emails from your own domain in production, you must:
 // 1. Verify your domain on resend.com
 // 2. Replace this address with something like 'notifications@your-verified-domain.com'
-const RESEND_FROM_EMAIL = 'Auralis <onboarding@resend.dev>';
+const RESEND_FROM_EMAIL = 'Spiritul Nostru <onboarding@resend.dev>';
 
 
 serve(async (req) => {
@@ -57,7 +57,7 @@ serve(async (req) => {
                 from: RESEND_FROM_EMAIL,
                 to: [adminEmail],
                 subject: `New Appointment Booking: ${name}`,
-                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Appointment Booking</h2><p>A new appointment has been scheduled through the Auralis website.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> ${email}</li><li><strong>Date & Time:</strong> ${formattedDate}</li>${serviceHtml}</ul></div>`,
+                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Appointment Booking</h2><p>A new appointment has been scheduled through the Spiritul Nostru website.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> ${email}</li><li><strong>Date & Time:</strong> ${formattedDate}</li>${serviceHtml}</ul></div>`,
             });
 
             // 2. Send confirmation to the customer
@@ -65,8 +65,8 @@ serve(async (req) => {
             await resend.emails.send({
                 from: RESEND_FROM_EMAIL,
                 to: [email],
-                subject: `Your Auralis Appointment is Confirmed!`,
-                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Confirmed!</h2><p>Hello ${name},</p><p>Thank you for booking a session with Auralis. Your appointment is confirmed for:</p><p><strong>${formattedDate}</strong></p>${customerServiceHtml}<p>If you need to reschedule, please reply to this email.</p><p>Warmly,<br>Alice at Auralis</p></div>`,
+                subject: `Your Spiritul Nostru Appointment is Confirmed!`,
+                html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Confirmed!</h2><p>Hello ${name},</p><p>Thank you for booking a session with Spiritul Nostru. Your appointment is confirmed for:</p><p><strong>${formattedDate}</strong></p>${customerServiceHtml}<p>If you need to reschedule, please reply to this email.</p><p>Warmly,<br>Alice at Spiritul Nostru</p></div>`,
             });
 
         } else if (payload.type === 'UPDATE') {
@@ -82,8 +82,8 @@ serve(async (req) => {
                 await resend.emails.send({
                     from: RESEND_FROM_EMAIL,
                     to: [email],
-                    subject: `Update: Your Auralis Appointment has been Rescheduled`,
-                    html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Rescheduled</h2><p>Hello ${name},</p><p>This is a notification that your appointment with Auralis has been rescheduled by your instructor.</p><p><strong>Previous Time:</strong> ${oldFormattedDate}</p><p><strong>New Time:</strong> ${newFormattedDate}</p><p>If you have any questions, please reply to this email.</p><p>Warmly,<br>Alice at Auralis</p></div>`,
+                    subject: `Update: Your Spiritul Nostru Appointment has been Rescheduled`,
+                    html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>Appointment Rescheduled</h2><p>Hello ${name},</p><p>This is a notification that your appointment with Spiritul Nostru has been rescheduled by your instructor.</p><p><strong>Previous Time:</strong> ${oldFormattedDate}</p><p><strong>New Time:</strong> ${newFormattedDate}</p><p>If you have any questions, please reply to this email.</p><p>Warmly,<br>Alice at Spiritul Nostru</p></div>`,
                 });
             }
         }
@@ -95,7 +95,7 @@ serve(async (req) => {
             from: RESEND_FROM_EMAIL,
             to: [adminEmail],
             subject: `New Contact Message from ${name}`,
-            html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Contact Form Message</h2><p>You have received a new message from the Auralis website contact form.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> <a href="mailto:${email}">${email}</a></li></ul><hr><p><strong>Message:</strong></p><p>${message}</p></div>`,
+            html: `<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6;"><h2>New Contact Form Message</h2><p>You have received a new message from the Spiritul Nostru website contact form.</p><ul><li><strong>Name:</strong> ${name}</li><li><strong>Email:</strong> <a href="mailto:${email}">${email}</a></li></ul><hr><p><strong>Message:</strong></p><p>${message}</p></div>`,
         });
     }
 

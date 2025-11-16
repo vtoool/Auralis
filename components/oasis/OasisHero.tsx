@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { ConnectIcon, PhilosophyIcon, EventsIcon } from './OasisIcons';
 import LazyBackgroundImage from '../LazyBackgroundImage';
@@ -57,7 +58,7 @@ const OasisHero: React.FC = () => {
                 <div className={`absolute inset-0 bg-black/30 transition-opacity duration-1000 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}></div>
                 <div className="relative text-center text-white z-10 px-4">
                     <p className="font-sans text-base sm:text-lg tracking-widest uppercase">{t('oasis.hero.sanctuary')}</p>
-                    <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-wider">AURALIS</h1>
+                    <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold tracking-wider">SPIRITUL NOSTRU</h1>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { AuralisThemeLogo } from './AuralisThemeLogo';
+import { SpiritulNostruLogo } from './AuralisThemeLogo';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md bg-card-background p-8 rounded-xl shadow-elegant-lg animate-scale-up">
-        <AuralisThemeLogo className="mb-8 justify-center" />
+        <SpiritulNostruLogo className="mb-8 justify-center" />
         <h1 className="text-2xl font-bold text-center text-primary mb-6">Admin Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>

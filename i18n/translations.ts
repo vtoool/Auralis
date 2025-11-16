@@ -32,7 +32,7 @@ export const translations = {
       title: "Meet Alice, Your Guide",
       subtitle: "A passionate advocate for mindfulness and spiritual well-being, dedicated to helping you find your inner light.",
       paragraph1: "My own journey into spiritual wellness began from a place of seeking calm in a chaotic world. I discovered that true harmony isn't about escaping life's challenges, but about cultivating a deep, unshakable peace within. This realization transformed my life, and I felt a profound calling to share these practices with others.",
-      paragraph2: "Auralis was born from this calling. It's more than just a platform; it's a sanctuary I've created to share the tools and wisdom that have guided me. My approach combines ancient meditative traditions with modern mindfulness techniques, making them accessible and practical for today's world. I'm here to walk alongside you, offering guidance and support as you unlock your own potential for a more conscious, joyful, and fulfilling life.",
+      paragraph2: "Spiritul Nostru was born from this calling. It's more than just a platform; it's a sanctuary I've created to share the tools and wisdom that have guided me. My approach combines ancient meditative traditions with modern mindfulness techniques, making them accessible and practical for today's world. I'm here to walk alongside you, offering guidance and support as you unlock your own potential for a more conscious, joyful, and fulfilling life.",
     },
     testimonials: {
       title: "Hear Their Stories",
@@ -72,7 +72,7 @@ export const translations = {
       courses: "Courses",
       about: "About",
       contact: "Contact",
-      copyright: "© {year} Auralis Wellness. All rights reserved.",
+      copyright: "© {year} Spiritul Nostru. All rights reserved.",
     },
     oasis: {
       header: {
@@ -150,7 +150,7 @@ export const translations = {
         }
       },
       blog: {
-        insights: "AURALIS INSIGHTS",
+        insights: "SPIRITUL NOSTRU INSIGHTS",
         title: "Wisdom for the Path",
         subtitle: "A collection of articles and reflections to support and inspire your journey of spiritual wellness and self-discovery.",
         readMore: "Read More &rarr;",
@@ -230,7 +230,7 @@ export const translations = {
       title: "Despre Alice, ghidul tău",
       subtitle: "O susținătoare pasionată a stării de prezență conștientă și a bunăstării spirituale, dedicată să te ajute să-ți regăsești lumina interioară.",
       paragraph1: "Călătoria mea în universul stării de bine spirituale a început din dorința de a găsi calm într-o lume agitată. Am descoperit că adevărata armonie nu înseamnă evadarea de provocările vieții, ci cultivarea unei păci interioare profunde, de nezdruncinat. Această revelație mi-a transformat viața și am simțit o chemare profundă de a împărtăși aceste practici cu ceilalți.",
-      paragraph2: "Auralis s-a născut din această chemare. Este mai mult decât o platformă; este un sanctuar pe care l-am creat pentru a împărtăși instrumentele și înțelepciunea care m-au ghidat. Abordarea mea combină tradițiile meditative antice cu tehnicile moderne de prezență conștientă, făcându-le accesibile și practice pentru lumea de astăzi. Sunt aici să te însoțesc pe acest drum, oferind îndrumare și sprijin pe măsură ce îți deblochezi propriul potențial pentru o viață mai conștientă, plină de bucurie și împlinire.",
+      paragraph2: "Spiritul Nostru s-a născut din această chemare. Este mai mult decât o platformă; este un sanctuar pe care l-am creat pentru a împărtăși instrumentele și înțelepciunea care m-au ghidat. Abordarea mea combină tradițiile meditative antice cu tehnicile moderne de prezență conștientă, făcându-le accesibile și practice pentru lumea de astăzi. Sunt aici să te însoțesc pe acest drum, oferind îndrumare și sprijin pe măsură ce îți deblochezi propriul potențial pentru o viață mai conștientă, plină de bucurie și împlinire.",
     },
     testimonials: {
       title: "Poveștile Comunității Noastre",
@@ -270,7 +270,7 @@ export const translations = {
       courses: "Cursuri",
       about: "Despre noi",
       contact: "Contact",
-      copyright: "© {year} Auralis Wellness. Toate drepturile rezervate.",
+      copyright: "© {year} Spiritul Nostru. Toate drepturile rezervate.",
     },
     oasis: {
       header: {
@@ -348,7 +348,7 @@ export const translations = {
         }
       },
       blog: {
-        insights: "ARTICOLE AURALIS",
+        insights: "PERSPECTIVE SPIRITUL NOSTRU",
         title: "Înțelepciune pentru Călătoria Ta",
         subtitle: "O colecție de articole și reflecții pentru a sprijini și inspira călătoria ta de evoluție spirituală și autocunoaștere.",
         readMore: "Citește Mai Mult &rarr;",
@@ -428,7 +428,7 @@ export const translations = {
       title: "Познакомьтесь с Алисой, вашим проводником",
       subtitle: "Страстный сторонник осознанности и духовного благополучия, посвятивший себя помощи вам в поиске вашего внутреннего света.",
       paragraph1: "Мой собственный путь в духовное благополучие начался с поиска спокойствия в хаотичном мире. Я обнаружила, что истинная гармония — это не бегство от жизненных трудностей, а культивирование глубокого, непоколебимого мира внутри. Это осознание преобразило мою жизнь, и я почувствовала глубокое призвание поделиться этими практиками с другими.",
-      paragraph2: "Auralis родился из этого призвания. Это больше, чем просто платформа; это святилище, которое я создала, чтобы делиться инструментами и мудростью, которые вели меня. Мой подход сочетает в себе древние медитативные традиции с современными техниками осознанности, делая их доступными и практичными для современного мира. Я здесь, чтобы идти рядом с вами, предлагая руководство и поддержку, пока вы раскрываете свой собственный потенциал для более осознанной, радостной и полноценной жизни.",
+      paragraph2: "Spiritul Nostru родился из этого призвания. Это больше, чем просто платформа; это святилище, которое я создала, чтобы делиться инструментами и мудростью, которые вели меня. Мой подход сочетает в себе древние медитативные традиции с современными техниками осознанности, делая их доступными и практичными для современного мира. Я здесь, чтобы идти рядом с вами, предлагая руководство и поддержку, пока вы раскрываете свой собственный потенциал для более осознанной, радостной и полноценной жизни.",
     },
     testimonials: {
         title: "Услышьте Их Истории",
@@ -468,7 +468,7 @@ export const translations = {
       courses: "Курсы",
       about: "О нас",
       contact: "Контакт",
-      copyright: "© {year} Auralis Wellness. Все права защищены.",
+      copyright: "© {year} Spiritul Nostru. Все права защищены.",
     },
     oasis: {
       header: {
@@ -546,7 +546,7 @@ export const translations = {
         }
       },
       blog: {
-        insights: "ПРОЗРЕНИЯ AURALIS",
+        insights: "ПРОЗРЕНИЯ SPIRITUL NOSTRU",
         title: "Мудрость на Пути",
         subtitle: "Сборник статей и размышлений для поддержки и вдохновения вашего пути духовного благополучия и самопознания.",
         readMore: "Читать Далее &rarr;",

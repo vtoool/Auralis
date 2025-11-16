@@ -133,7 +133,7 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-20">
-          <a href="#" aria-label="Auralis homepage">
+          <a href="#" aria-label="Spiritul Nostru homepage">
             <Logo />
           </a>
 
